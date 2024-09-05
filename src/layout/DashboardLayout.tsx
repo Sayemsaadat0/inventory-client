@@ -1,5 +1,4 @@
 import { Outlet } from "react-router-dom";
-import useGetDailyRandomBackground from "../components/hooks/useGetRandomBackground";
 import Sidebar from "../components/shared/sidebar/Sidebar";
 import { useBackground } from "../components/context/BackgroundContext";
 

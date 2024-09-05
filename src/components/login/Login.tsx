@@ -1,12 +1,13 @@
 import { useState } from "react";
 // import backgroundImage from "../../assets/backgrounds/background.png";
 import BAMSLogo from "../../assets/BAMSLogo.svg";
-import useGetDailyRandomBackground from "../hooks/useGetRandomBackground";
+import { useBackground } from "../context/BackgroundContext";
+
 // import useAxios from "../hooks/useAxios";
 // import { useNavigate } from "react-router-dom";
 
 const Login: React.FC = () => {
-  const dailyBackground = useGetDailyRandomBackground();
+  const { displayedBackground } = useBackground();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   //   const axiosPost = useAxios();
@@ -41,14 +42,14 @@ const Login: React.FC = () => {
     <div
       className="h-screen w-screen "
       style={{
-        backgroundImage: `url("${dailyBackground}")`,
+        backgroundImage: `url("${displayedBackground}")`,
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
       }}
     >
       <div className="grid grid-cols-8 text-white">
         <div className="col-span-6">
-          <div className="flex items-center gap-3 ps-2.5 w-60 py-8 ms-6 ">
+          <div className="flex items-center gap-3 ps-2.5 w-72 py-8 ms-6 ">
             <div className="">
               <img className="mr-5 h-14" src={BAMSLogo} alt="Logo" />
             </div>

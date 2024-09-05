@@ -1,10 +1,12 @@
 import { useState } from "react";
-import backgroundImage from "../../assets/background.png";
+// import backgroundImage from "../../assets/backgrounds/background.png";
 import BAMSLogo from "../../assets/BAMSLogo.svg";
+import useGetDailyRandomBackground from "../hooks/useGetRandomBackground";
 // import useAxios from "../hooks/useAxios";
 // import { useNavigate } from "react-router-dom";
 
 const Login: React.FC = () => {
+  const dailyBackground = useGetDailyRandomBackground();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   //   const axiosPost = useAxios();
@@ -39,7 +41,7 @@ const Login: React.FC = () => {
     <div
       className="h-screen w-screen "
       style={{
-        backgroundImage: `url("${backgroundImage}")`,
+        backgroundImage: `url("${dailyBackground}")`,
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
       }}

@@ -1,5 +1,5 @@
 import useGetDailyRandomBackground from "../components/hooks/useGetRandomBackground";
-import { Button } from "../components/ui/button";
+import Sidebar from "../components/shared/sidebar/Sidebar";
 
 const DashboardLayout: React.FC = () => {
   const dailyBackground = useGetDailyRandomBackground();
@@ -12,8 +12,12 @@ const DashboardLayout: React.FC = () => {
         backgroundRepeat: "no-repeat",
       }}
     >
-      <p>Navbar</p>
-      <Button variant="outline">Button</Button>
+      <div className="grid grid-cols-12 h-full">
+        <div className="col-span-2">
+          <Sidebar />
+        </div>
+        <div className="col-span-10"></div>
+      </div>
     </div>
   );
 };

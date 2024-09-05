@@ -1,13 +1,16 @@
+import { Outlet } from "react-router-dom";
 import useGetDailyRandomBackground from "../components/hooks/useGetRandomBackground";
 import Sidebar from "../components/shared/sidebar/Sidebar";
+import { useBackground } from "../components/context/BackgroundContext";
 
 const DashboardLayout: React.FC = () => {
-  const dailyBackground = useGetDailyRandomBackground();
+  const { displayedBackground } = useBackground();
+  // const dailyBackground = useGetDailyRandomBackground();
   return (
     <div
       className="min-h-screen w-screen"
       style={{
-        backgroundImage: `url("${dailyBackground}")`,
+        backgroundImage: `url("${displayedBackground}")`,
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
       }}
@@ -16,7 +19,9 @@ const DashboardLayout: React.FC = () => {
         <div className="col-span-2">
           <Sidebar />
         </div>
-        <div className="col-span-10"></div>
+        <div className="col-span-10 p-4">
+          <Outlet />
+        </div>
       </div>
     </div>
   );

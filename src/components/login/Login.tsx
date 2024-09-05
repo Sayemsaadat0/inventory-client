@@ -18,7 +18,7 @@ const Login: React.FC = () => {
     setPassword(event.target.value);
   };
 
-  const handleLogin = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     // try {
@@ -34,6 +34,7 @@ const Login: React.FC = () => {
     //   console.error("Error logging in:", error.message);
     // }
   };
+
   return (
     <div
       className="h-screen w-screen "

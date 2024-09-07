@@ -12,6 +12,7 @@ const DashboardLayout: React.FC = () => {
         backgroundImage: `url("${displayedBackground}")`,
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
+        backgroundPosition: "center",
       }}
     >
       <div className="grid grid-cols-12 h-full">

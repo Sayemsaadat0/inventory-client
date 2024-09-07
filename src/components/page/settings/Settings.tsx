@@ -10,12 +10,16 @@ const Settings: React.FC = () => {
         <div className="col-span-4"></div>
         <div className="col-span-3"></div>
         <div className="col-span-2">
-          <div className="h-full bg-black/35 backdrop-blur-[180px] p-6 rounded-md h-[96vh] overflow-y-auto">
+          <div className=" bg-black/35 backdrop-blur-[180px] p-6 rounded-md h-[96vh] overflow-y-auto custom-scroll">
             <div className="mb-4">
-              <p className="text-sm pb-1">Selected Background</p>
-              <img src={displayedBackground} className="w-full h-32" alt="" />
+              <p className="text-xs pb-1">Selected Background</p>
+              <img
+                src={displayedBackground}
+                className="w-full h-32 rounded-md"
+                alt=""
+              />
             </div>
-            <p className="text-sm pb-1">Choose Background</p>
+            <p className="text-xs pb-1">Choose Background</p>
             <div className="grid grid-cols-2 gap-2.5">
               {backgrounds.map((bg, index) => (
                 <img

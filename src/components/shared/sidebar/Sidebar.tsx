@@ -101,7 +101,7 @@ const Sidebar = () => {
         </div>
         <div className="mx-2">
           <button
-            className={`w-full flex py-3 mb-0.5 px-6  hover: hover:bg-black/35 rounded-[6px]  text-sm mt-3.5 `}
+            className={`w-full flex py-3 mb-0.5 px-6  hover: hover:bg-red-900/55 rounded-[6px]  text-sm mt-3.5 `}
           >
             <span className="flex gap-3.5 items-center w-full">
               <LogOutIcon height="26" width="26" className="" /> Log Out

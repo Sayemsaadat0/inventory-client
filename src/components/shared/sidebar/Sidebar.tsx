@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import logo from "../../../assets/BAMSLogo.svg";
 import AccountsIcon from "../icons/AccountsIcon";
 import DashboardIcon from "../icons/DashboardIcon";
@@ -9,6 +9,7 @@ import SettingsIcon from "../icons/SeetingIcon";
 import LogOutIcon from "../icons/LogOutIcon";
 
 const Sidebar = () => {
+  const location = useLocation();
   const menuItems = [
     {
       path: "/",

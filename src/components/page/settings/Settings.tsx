@@ -15,7 +15,7 @@ const Settings: React.FC = () => {
               <p className="text-xs pb-1">Selected Background</p>
               <img
                 src={displayedBackground}
-                className="w-full h-32 rounded-md"
+                className="w-full h-36 rounded-md"
                 alt=""
               />
             </div>

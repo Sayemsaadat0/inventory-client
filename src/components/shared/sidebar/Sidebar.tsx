@@ -45,7 +45,7 @@ const Sidebar = () => {
     },
   ];
   return (
-    <div className=" h-screen backdrop-blur-[180px] bg-black/35 w-full py-6 px-4 flex flex-col justify-between">
+    <div className=" h-screen backdrop-blur-[5px] bg-black/35 w-full py-6 px-4 flex flex-col justify-between">
       <div className="">
         <div className="flex items-center gap-3 ps-2.5 mt-0.5">
           <div>
@@ -60,17 +60,14 @@ const Sidebar = () => {
             {menuItems.map((item, index) => (
               <div
                 key={index}
-                className={`w-full flex py-3 mb-0.5 px-6  hover: hover:bg-black/35 rounded-[6px]  text-sm ${
-                  location.pathname === item.path &&
-                  " bg-black/35  font-semibold"
-                }`}
               >
                 <Link
                   to={item.path}
-                  className="flex gap-3.5 items-center w-full"
+                  className={`flex gap-3.5 items-center w-full py-3 mb-0.5 px-6  hover: hover:bg-black/35 rounded-[6px]  text-sm ${location.pathname === item.path &&
+                    " bg-black/35  font-semibold"
+                    }`}
                 >
                   {item?.icon}
-                  {/* <img src={item.icon} className="w-5 h-5" alt="" /> */}
                   {item.label}
                 </Link>
               </div>

@@ -4,22 +4,22 @@ import { useBackground } from "../components/context/BackgroundContext";
 
 const DashboardLayout: React.FC = () => {
   const { displayedBackground } = useBackground();
-  // const dailyBackground = useGetDailyRandomBackground();
   return (
     <div
-      className="min-h-screen w-screen"
+      className="min-h-screen"
       style={{
         backgroundImage: `url("${displayedBackground}")`,
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",
+        backgroundAttachment: 'fixed'
       }}
     >
-      <div className="grid grid-cols-12 h-full">
-        <div className="col-span-2">
+      <div className=" flex">
+        <div className="fixed w-[320px]">
           <Sidebar />
         </div>
-        <div className="col-span-10 p-4">
+        <div className="flex-1 p-4 ml-[320px] overflow-x-hidden ">
           <Outlet />
         </div>
       </div>

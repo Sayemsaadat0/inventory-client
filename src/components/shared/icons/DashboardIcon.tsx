@@ -1,7 +1,7 @@
 interface DashboardIconProps {
-  width: string;
-  height: string;
-  className: string;
+  width?: string;
+  height?: string;
+  className?: string;
 }
 
 const DashboardIcon: React.FC<DashboardIconProps> = ({

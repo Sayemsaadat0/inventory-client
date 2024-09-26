@@ -1,80 +1,140 @@
 import { Link, useLocation } from "react-router-dom";
 import logo from "../../../assets/BAMSLogo.svg";
-import AccountsIcon from "../icons/AccountsIcon";
 import DashboardIcon from "../icons/DashboardIcon";
+import AccountsIcon from "../icons/AccountsIcon";
 import InventoryIcon from "../icons/InventoryIcon";
-import ReportsIcon from "../icons/ReportsIcon";
 import SalesIcon from "../icons/SalesIcon";
+import ReportsIcon from "../icons/ReportsIcon";
 import SettingsIcon from "../icons/SeetingIcon";
-import LogOutIcon from "../icons/LogOutIcon";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "../../ui/accordion"
+
 
 const Sidebar = () => {
   const location = useLocation();
+
   const menuItems = [
     {
       path: "/",
       label: "Dashboard",
-      icon: <DashboardIcon height="21" width="21" className="" />,
+      icon: <DashboardIcon  />,
     },
-
     {
       path: "/accounts",
       label: "Accounts",
-      icon: <AccountsIcon height="22" width="22" className="" />,
+      icon: <AccountsIcon  />,
     },
-
     {
-      path: "/inventory",
       label: "Inventory",
-      icon: <InventoryIcon height="22" width="22" className="" />,
+      icon: <InventoryIcon  />,
+      subRoutes: [
+        { path: "/inventory/unit-warehouse", label: "Units & Warehouses" },
+        { path: "/inventory", label: "Product Inventory" },
+      ],
     },
     {
-      path: "/sales",
       label: "Sales",
-      icon: <SalesIcon height="23" width="23" className="" />,
+      icon: <SalesIcon />,
+      subRoutes: [
+        { path: "/sales/generate-sale", label: "Sale Generate" },
+        { path: "/sales/create-chalan", label: "Chalan" },
+      ],
     },
     {
       path: "/reports",
       label: "Reports",
-      icon: <ReportsIcon height="22" width="22" className="" />,
+      icon: <ReportsIcon />,
     },
     {
       path: "/setting",
       label: "Setting",
-      icon: <SettingsIcon height="22" width="22" className="" />,
+      icon: <SettingsIcon />,
     },
   ];
+
   return (
-    <div className=" h-screen backdrop-blur-[5px] bg-black/35 w-full py-6 px-4 flex flex-col justify-between">
-      <div className="">
+    <div className="h-screen backdrop-blur-[5px] bg-black/35 w-full py-6  flex flex-col justify-between">
+      <div>
         <div className="flex items-center gap-3 ps-2.5 mt-0.5">
-          <div>
-            <img className="mr-5 h-10" src={logo} alt="Logo" />
-          </div>
-          <h1 className="capitalize text-sm leading-[1rem] font- pb-1">
+          <img className="mr-5 h-10" src={logo} alt="Logo" />
+          <h1 className="capitalize text-xs leading-[1rem]  pb-1">
             Business Account Management Solution
           </h1>
         </div>
         <div className="mt-16 px-2.5">
           <div>
             {menuItems.map((item, index) => (
-              <div
-                key={index}
-              >
-                <Link
-                  to={item.path}
-                  className={`flex gap-3.5 items-center w-full py-3 mb-0.5 px-6  hover: hover:bg-black/35 rounded-[6px]  text-sm ${location.pathname === item.path &&
-                    " bg-black/35  font-semibold"
-                    }`}
-                >
-                  {item?.icon}
-                  {item.label}
-                </Link>
+              <div key={index}>
+                {item.subRoutes ? (
+                  <Accordion type="single" collapsible>
+                    <AccordionItem value={`item-${index}`}>
+                      <AccordionTrigger className=" w-full py-3 mb-0.5 px-6 hover:bg-black/35 rounded-[6px] text-xs">
+                        <span className="flex items-center gap-3">  {item.icon}
+                          {item.label}</span>
+                      </AccordionTrigger>
+                      <AccordionContent>
+                        <div className="ml-4">
+                          {item.subRoutes.map((subItem, subIndex) => (
+                            <Link
+                              key={subIndex}
+                              to={subItem.path}
+                              className={`flex my-1 items-center w-full py-2  text-xs px-6 hover:bg-black/25 rounded-[6px]  ${location.pathname === subItem.path && "bg-black/25 font-semibold"
+                                }`}
+                            >
+                              {subItem.label}
+                            </Link>
+                          ))}
+                        </div>
+                      </AccordionContent>
+                    </AccordionItem>
+                  </Accordion>
+                ) : (
+                  <Link
+                    to={item.path}
+                    className={`flex gap-3.5 items-center w-full  text-xs py-3 mb-0.5 px-6 hover:bg-black/35 rounded-[6px] ${location.pathname === item.path && "bg-black/35 font-semibold"
+                      }`}
+                  >
+                    {item.icon}
+                    {item.label}
+                  </Link>
+                )}
               </div>
             ))}
           </div>
         </div>
       </div>
+    </div>
+  );
+};
+
+export default Sidebar;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 
       <div className="">
         <div className="border-t opacity-15 mx-6"></div>
         <div className="flex gap-2 items-center ps-2.5 pt-8">
@@ -107,8 +167,4 @@ const Sidebar = () => {
           </button>
         </div>
       </div>
-    </div>
-  );
-};
-
-export default Sidebar;
+*/

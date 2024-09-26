@@ -16,10 +16,10 @@ const DashboardLayout: React.FC = () => {
       }}
     >
       <div className=" flex">
-        <div className="fixed w-[320px]">
+        <div className="fixed w-[230px] ">
           <Sidebar />
         </div>
-        <div className="flex-1 p-4 ml-[320px] overflow-x-hidden ">
+        <div className="flex-1 p-4 ml-[230px] ">
           <Outlet />
         </div>
       </div>

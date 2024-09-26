@@ -1,57 +1,65 @@
 import * as React from "react"
-import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
+import { cn } from "../../lib/utils";
+import { IconType } from "../shared/icons/icons";
 
-import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
+  "leading-none text-white transition-all disabled:bg-slate-300  disabled:text-slate-600",
   {
     variants: {
       variant: {
-        default:
-          "bg-primary text-primary-foreground shadow hover:bg-primary/90",
-        destructive:
-          "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
-        outline:
-          "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
-        secondary:
-          "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
-      },
-      size: {
-        default: "h-9 px-4 py-2",
-        sm: "h-8 rounded-md px-3 text-xs",
-        lg: "h-10 rounded-md px-8",
-        icon: "h-9 w-9",
+        roundedBtn:
+          'rounded-[200px] text-xs px-[18px]  py-[12px] md:text-[15px] bg-black/40 md:px-6 md:py-2.5 xl:px-8 xl:py-3 xl:text-[16px]',
+        roundedOutlinedBtn:
+          'rounded-[200px] text-xs text-black px-[18px] py-[12px] md:text-[15px] border border-green-500 md:px-6 md:py-2.5 xl:px-8 xl:py-3 xl:text-[16px] ',
+        regulerBtn:
+          'rounded-[10px] text-black bg-green-200 text-xs px-[18px] py-[12px] md:text-[15px]  md:px-6 md:py-2.5 xl:px-8 xl:py-3 xl:text-[16px]',
+        regulerOutlineBtn:
+          'rounded-[10px] bg-white text-xstext-black border border-green-500 px-[18px] py-[12px] font-semibold ',
+        iconBtn: 'text-14-regular  p-2 bg-green-500 ',
+        profileCardbtn:
+          'rounded-[200px] text-xs px-4 py-1.5 bg-green-200',
+        smallBtn:
+          'rounded-[200px] text-xs px-4 py-1 bg-green-200 ',
       },
     },
     defaultVariants: {
-      variant: "default",
-      size: "default",
+      variant: "roundedBtn",
     },
   }
 )
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
-  asChild?: boolean
+  VariantProps<typeof buttonVariants> {
+  label?: string;
+  icon?: IconType;
+  reverse?: boolean;
 }
 
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
-    const Comp = asChild ? Slot : "button"
-    return (
-      <Comp
-        className={cn(buttonVariants({ variant, size, className }))}
-        ref={ref}
-        {...props}
-      />
-    )
-  }
-)
-Button.displayName = "Button"
 
-export { Button, buttonVariants }
+const Button: React.FC<ButtonProps> = ({
+  variant,
+  className,
+  label,
+  icon,
+  reverse,
+  ...props
+}: ButtonProps) => {
+  return (
+    <button className={`${cn(buttonVariants({ variant, className }))} `} {...props}>
+      <div
+        className={
+          icon &&
+          `flex justify-center items-center gap-2  ${reverse ? 'flex-row-reverse justify-center items-center gap-2' : 'flex-row'}`
+        }
+      >
+        <span>{icon && <>{icon}</>}</span>
+        <span className="min-w-fit">{label}</span>
+      </div>
+    </button>
+  );
+};
+
+export default Button;

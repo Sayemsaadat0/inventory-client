@@ -23,11 +23,19 @@ body {
   border-radius: 5px;
 }
 
+.tableAction:nth-last-child(1) {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
 
 .marquee {
-  width: 100%;  /* Full width of the container */
-  overflow: hidden;  /* Hide the overflowing content */
-  white-space: nowrap;  /* Prevent line breaks */
+  width: 100%;
+  /* Full width of the container */
+  overflow: hidden;
+  /* Hide the overflowing content */
+  white-space: nowrap;
+  /* Prevent line breaks */
 }
 
 .marquee-content {
@@ -37,13 +45,15 @@ body {
 
 .marquee-item {
   display: inline-block;
-  padding: 0 10px;  /* Optional spacing between images */
+  padding: 0 10px;
+  /* Optional spacing between images */
 }
 
 @keyframes marquee {
   0% {
     transform: translateX(100%);
   }
+
   100% {
     transform: translateX(-100%);
   }

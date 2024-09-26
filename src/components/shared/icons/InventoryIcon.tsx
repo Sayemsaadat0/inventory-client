@@ -1,7 +1,7 @@
 interface InventoryIconProps {
-  width: string;
-  height: string;
-  className: string;
+  width?: string;
+  height?: string;
+  className?: string;
 }
 
 const InventoryIcon: React.FC<InventoryIconProps> = ({

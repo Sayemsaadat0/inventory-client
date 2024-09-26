@@ -1,7 +1,7 @@
 interface LogOutIconProps {
   width: string;
   height: string;
-  className: string;
+  className?: string;
 }
 
 const LogOutIcon: React.FC<LogOutIconProps> = ({

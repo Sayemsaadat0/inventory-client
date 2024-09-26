@@ -1,7 +1,7 @@
 interface ReportsIconProps {
-  width: string;
-  height: string;
-  className: string;
+  width?: string;
+  height?: string;
+  className?: string;
 }
 
 const ReportsIcon: React.FC<ReportsIconProps> = ({

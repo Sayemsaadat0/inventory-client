@@ -1,7 +1,7 @@
 interface AccountsIconProps {
-  width: string;
-  height: string;
-  className: string;
+  width?: string;
+  height?: string;
+  className?: string;
 }
 
 const AccountsIcon: React.FC<AccountsIconProps> = ({

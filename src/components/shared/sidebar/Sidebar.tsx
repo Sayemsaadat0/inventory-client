@@ -41,7 +41,7 @@ const Sidebar = () => {
       icon: <SalesIcon />,
       subRoutes: [
         { path: "/sales/generate-sale", label: "Sale Generate" },
-        { path: "/sales/create-chalan", label: "Chalan" },
+        { path: "/sales/chalan", label: "Create Chalan" },
       ],
     },
     {

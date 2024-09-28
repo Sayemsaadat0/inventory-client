@@ -6,6 +6,7 @@ import Dashboard from "../components/page/dashboard/Dashboard";
 import UnitsWarehouses from "../components/page/inventory/unit-warehouse/UnitsWarehouses";
 import Inventory from "../components/page/inventory/Inventory";
 import GenerateSales from "../components/page/sales/generate-sales/GenerateSales";
+import Chalan from "../components/page/sales/chalan/Chalan";
 
 const router = createBrowserRouter([
   {
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
       {
         path: "/sales/generate-sale",
         element: <GenerateSales />,
+      },
+      {
+        path: "/sales/chalan",
+        element: <Chalan />,
       },
       {
         path: "/setting",

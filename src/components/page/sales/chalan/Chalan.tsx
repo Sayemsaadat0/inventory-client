@@ -1,6 +1,43 @@
 
-const Chalan = () => {
-    const chalanData = [
+
+import React, { useRef, useState } from 'react';
+import Select, { SingleValue } from 'react-select';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
+
+// Define types for customer and product
+interface Customer {
+    customer_name: string;
+    customer_phone_no: string;
+    customer_id: string;
+}
+
+interface Product {
+    product_name: string;
+    quantity: number;
+    price: number;
+}
+
+// Define type for invoice data
+interface Invoice {
+    invoice_id: string;
+    customer: Customer;
+    products: Product[];
+    warehouse: string;
+    date: string;
+    created_at: string;
+    total_price: number;
+    isPaid: boolean;
+}
+
+// Define type for Select options
+interface OptionType {
+    value: string;
+    label: string;
+}
+
+const Chalan: React.FC = () => {
+    const chalanData: Invoice[] = [
         {
             invoice_id: 'INV001',
             customer: {
@@ -10,55 +47,81 @@ const Chalan = () => {
             },
             products: [
                 { product_name: 'Product A', quantity: 2, price: 50 },
-                { product_name: 'Product B', quantity: 1, price: 30 }
+                { product_name: 'Product B', quantity: 1, price: 30 },
             ],
             warehouse: 'Warehouse 1',
             date: '2024-09-25',
             created_at: new Date().toISOString().split('T')[0],
+            
             total_price: 130,
             isPaid: false,
         },
-        {
-            invoice_id: 'INV002',
-            customer: {
-                customer_name: 'Jane Smith',
-                customer_phone_no: '987-654-3210',
-                customer_id: 'CUST002',
-            },
-            products: [
-                { product_name: 'Product C', quantity: 3, price: 40 },
-                { product_name: 'Product D', quantity: 5, price: 20 }
-            ],
-            warehouse: 'Warehouse 2',
-            date: '2024-09-26',
-            created_at: new Date().toISOString().split('T')[0],
-            total_price: 220,
-            isPaid: false,
-        },
-        {
-            invoice_id: 'INV003',
-            customer: {
-                customer_name: 'Michael Johnson',
-                customer_phone_no: '555-123-4567',
-                customer_id: 'CUST003',
-            },
-            products: [
-                { product_name: 'Product E', quantity: 1, price: 100 },
-                { product_name: 'Product F', quantity: 2, price: 75 }
-            ],
-            warehouse: 'Warehouse 3',
-            date: '2024-09-27',
-            created_at: new Date().toISOString().split('T')[0],
-            total_price: 250,
-            isPaid: false,
-        }
+        // Add more invoices as needed...
     ];
 
-    console.log(chalanData)
+    const [selectedInvoice, setSelectedInvoice] = useState<OptionType | null>(null);
+    const contentRef = useRef<HTMLDivElement | null>(null);
+
+    const invoiceOptions: OptionType[] = chalanData.map((i) => ({
+        value: i.invoice_id,
+        label: i.invoice_id,
+    }));
+
+    const handleInvoiceChange = (selectedOption: SingleValue<OptionType>) => {
+        setSelectedInvoice(selectedOption);
+    };
+
+    const handleDownload = async () => {
+        const content = contentRef.current;
+
+        if (content) {
+            const canvas = await html2canvas(content);
+            const imgData = canvas.toDataURL("image/png");
+            const pdf = new jsPDF();
+            const imgWidth = 210; // A4 width in mm
+            const imgHeight = (canvas.height * imgWidth) / canvas.width; // Maintain aspect ratio
+
+            pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+            pdf.save("chalan.pdf");
+        } else {
+            console.error("Content is null. Make sure the ref is assigned to a valid DOM element.");
+        }
+    };
 
     return (
-        <div>Chalan</div>
-    )
-}
+        <div>
+            <Select
+                name="invoices"
+                menuPlacement="top"
+                options={invoiceOptions}
+                className="text-black"
+                classNamePrefix="select"
+                onChange={handleInvoiceChange}
+            />
+            {selectedInvoice && (
+                <section>
+                    <div ref={contentRef} id="pdf-content" className='bg- text-black py-10 border'>
+                        <h3>Selected Invoice Details</h3>
+                        <p>Invoice ID: {selectedInvoice.value}</p>
+                        <p>Customer Name: {chalanData.find(i => i.invoice_id === selectedInvoice.value)?.customer.customer_name}</p>
+                        <p>Warehouse: {chalanData.find(i => i.invoice_id === selectedInvoice.value)?.warehouse}</p>
+                        <p>Total Price: ${chalanData.find(i => i.invoice_id === selectedInvoice.value)?.total_price}</p>
+                        <h4>Products:</h4>
+                        <ul>
+                            {chalanData.find(i => i.invoice_id === selectedInvoice.value)?.products.map((product, index) => (
+                                <li key={index}>
+                                    {product.product_name} - Quantity: {product.quantity}, Price: ${product.price}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                    <button onClick={handleDownload} style={{ marginTop: '20px' }}>
+                        Download PDF
+                    </button>
+                </section>
+            )}
+        </div>
+    );
+};
 
-export default Chalan
+export default Chalan;

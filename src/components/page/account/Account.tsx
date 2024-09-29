@@ -80,7 +80,9 @@ const Account = () => {
   ];
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-5"
+    
+    >
       <div className="flex justify-between">
         <p className="text-xl w-fit p-2 text-black bg-white">Accounts List</p>
         <Button label="Add Invoice" />

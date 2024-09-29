@@ -1,5 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
-import logo from "../../../assets/BAMSLogo.svg";
+// import logo from "../../../assets/BAMSLogo.svg";
+import logo1 from '/Logo.png'
 import DashboardIcon from "../icons/DashboardIcon";
 import AccountsIcon from "../icons/AccountsIcon";
 import InventoryIcon from "../icons/InventoryIcon";
@@ -21,16 +22,16 @@ const Sidebar = () => {
     {
       path: "/",
       label: "Dashboard",
-      icon: <DashboardIcon  />,
+      icon: <DashboardIcon />,
     },
     {
       path: "/accounts",
       label: "Accounts",
-      icon: <AccountsIcon  />,
+      icon: <AccountsIcon />,
     },
     {
       label: "Inventory",
-      icon: <InventoryIcon  />,
+      icon: <InventoryIcon />,
       subRoutes: [
         { path: "/inventory/unit-warehouse", label: "Units & Warehouses" },
         { path: "/inventory", label: "Product Inventory" },
@@ -60,9 +61,9 @@ const Sidebar = () => {
     <div className="h-screen backdrop-blur-[5px] bg-black/35 w-full py-6  flex flex-col justify-between">
       <div>
         <div className="flex items-center gap-3 ps-2.5 mt-0.5">
-          <img className="mr-5 h-10" src={logo} alt="Logo" />
+          <img className="h-12" src={logo1} alt="Logo" />
           <h1 className="capitalize text-xs leading-[1rem]  pb-1">
-            Business Account Management Solution
+            BAITS Inventory Management Solution
           </h1>
         </div>
         <div className="mt-16 px-2.5">

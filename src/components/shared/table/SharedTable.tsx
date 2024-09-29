@@ -15,7 +15,7 @@ export type SharedTableProps = {
 
 const SharedTable: FC<SharedTableProps> = ({ columns, data, isLoading }) => {
     return (
-        <div className="overflow-x-auto max-w-full   rounded-[20px]">
+        <div className="overflow-x-auto max-w-full ">
             <div className="w-full">
                 <table className="w-full text-left ">
                     <thead className="sticky  z-10 top-0 w-full h-fit  bg-white text-black ">

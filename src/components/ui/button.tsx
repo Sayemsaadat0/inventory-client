@@ -14,7 +14,7 @@ const buttonVariants = cva(
         roundedOutlinedBtn:
           'rounded-[200px] text-xs text-black px-[18px] py-[12px] md:text-[15px] border border-green-500 md:px-6 md:py-2.5 xl:px-8 xl:py-3 xl:text-[16px] ',
         regulerBtn:
-          'rounded-[10px] text-black bg-green-200 text-xs px-[18px] py-[12px] md:text-[15px]  md:px-6 md:py-2.5 xl:px-8 xl:py-3 xl:text-[16px]',
+          'rounded-[1px] text-xs px-[18px]  py-[12px] md:text-[15px] bg-black/40 md:px-6 md:py-2.5 xl:px-8 xl:py-3 xl:text-[16px]',
         regulerOutlineBtn:
           'rounded-[10px] bg-white text-xstext-black border border-green-500 px-[18px] py-[12px] font-semibold ',
         iconBtn: 'text-14-regular  p-2 bg-green-500 ',
@@ -25,7 +25,7 @@ const buttonVariants = cva(
       },
     },
     defaultVariants: {
-      variant: "roundedBtn",
+      variant: "regulerBtn",
     },
   }
 )

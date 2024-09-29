@@ -383,77 +383,123 @@ export const inventoryFakeData = [
 
 export const salesData = [
     {
-      id: "lampsSales26092024aa01",
-      customer: {
-        name: "John Doe",
-        id: "cust2024092601",
-        phone_no: "+1-555-1234-567"
-      },
-      date: "2024-09-26",
-      product: [
-        {
-          product_name: "Desk Lamp",
-          product_id: "lampsSep24aa01",
-          quantity: 5,
-          unit_price: 25.00,
-          note: "For office use"
+        id: "lampsSales26092024aa01",
+        customer: {
+            name: "John Doe",
+            id: "cust2024092601",
+            phone_no: "+1-555-1234-567"
         },
-        {
-          product_name: "Table Lamp",
-          product_id: "lampsSep24cc03",
-          quantity: 2,
-          unit_price: 30.00,
-          note: "For reading purposes"
-        }
-      ],
-      warehouse: "Main Warehouse",
-      sales_note: "Customer requested for express delivery.",
-      created_at: "2024-09-26T14:00:00Z",
-      isPaid: false
+        date: "2024-09-26",
+        product: [
+            {
+                product_name: "Desk Lamp",
+                product_id: "lampsSep24aa01",
+                quantity: 5,
+                unit_price: 25.00,
+                note: "For office use"
+            },
+            {
+                product_name: "Table Lamp",
+                product_id: "lampsSep24cc03",
+                quantity: 2,
+                unit_price: 30.00,
+                note: "For reading purposes"
+            }
+        ],
+        warehouse: "Main Warehouse",
+        sales_note: "Customer requested for express delivery.",
+        created_at: "2024-09-26T14:00:00Z",
+        isPaid: false
     },
     {
-      id: "lampsSales26092024aa02",
-      customer: {
-        name: "Jane Smith",
-        id: "cust2024092602",
-        phone_no: "+1-555-9876-543"
-      },
-      date: "2024-09-26",
-      product: [
-        {
-          product_name: "Floor Lamp",
-          product_id: "lampsSep24bb02",
-          quantity: 1,
-          unit_price: 45.00,
-          note: "Living room lighting"
-        }
-      ],
-      warehouse: "Secondary Warehouse",
-      sales_note: "Requested gift wrapping.",
-      created_at: "2024-09-26T16:00:00Z",
-      isPaid: false
+        id: "lampsSales26092024aa02",
+        customer: {
+            name: "Jane Smith",
+            id: "cust2024092602",
+            phone_no: "+1-555-9876-543"
+        },
+        date: "2024-09-26",
+        product: [
+            {
+                product_name: "Floor Lamp",
+                product_id: "lampsSep24bb02",
+                quantity: 1,
+                unit_price: 45.00,
+                note: "Living room lighting"
+            }
+        ],
+        warehouse: "Secondary Warehouse",
+        sales_note: "Requested gift wrapping.",
+        created_at: "2024-09-26T16:00:00Z",
+        isPaid: false
     },
     {
-      id: "lampsSales26092024aa03",
-      customer: {
-        name: "Alice Brown",
-        id: "cust2024092603",
-        phone_no: "+1-555-2468-135"
-      },
-      date: "2024-09-25",
-      product: [
-        {
-          product_name: "Desk Lamp",
-          product_id: "lampsSep24aa01",
-          quantity: 3,
-          unit_price: 25.00,
-          note: "For kids' study desk"
-        }
-      ],
-      warehouse: "Main Warehouse",
-      sales_note: "Delivery to be scheduled next week.",
-      created_at: "2024-09-25T10:30:00Z",
-      isPaid: false
+        id: "lampsSales26092024aa03",
+        customer: {
+            name: "Alice Brown",
+            id: "cust2024092603",
+            phone_no: "+1-555-2468-135"
+        },
+        date: "2024-09-25",
+        product: [
+            {
+                product_name: "Desk Lamp",
+                product_id: "lampsSep24aa01",
+                quantity: 3,
+                unit_price: 25.00,
+                note: "For kids' study desk"
+            }
+        ],
+        warehouse: "Main Warehouse",
+        sales_note: "Delivery to be scheduled next week.",
+        created_at: "2024-09-25T10:30:00Z",
+        isPaid: false
     }
-  ];
-  
+];
+
+
+export  const chalanDataFake = [
+    {
+        invoice_id: 'INV001',
+        customer: {
+            customer_name: 'John Doe',
+            customer_phone_no: '123-456-7890',
+            customer_id: 'CUST001',
+        },
+        products: [
+            { product_name: 'Product A', quantity: 2, price: 50 },
+            { product_name: 'Product B', quantity: 1, price: 30 },
+            { product_name: 'Product A', quantity: 2, price: 50 },
+            { product_name: 'Product B', quantity: 1, price: 30 },
+            { product_name: 'Product A', quantity: 2, price: 50 },
+            { product_name: 'Product B', quantity: 1, price: 30 },
+            { product_name: 'Product A', quantity: 2, price: 50 },
+            { product_name: 'Product B', quantity: 1, price: 30 },
+        ],
+        warehouse: 'Warehouse 1',
+        date: '2024-09-25',
+        created_at: new Date().toISOString().split('T')[0],
+
+        total_price: 130,
+        isPaid: false,
+    },
+    {
+        invoice_id: 'INV002',
+        customer: {
+            customer_name: 'No Name',
+            customer_phone_no: '123-456-7890',
+            customer_id: 'CUST0002',
+        },
+        products: [
+            { product_name: 'Product A', quantity: 2, price: 50 },
+            { product_name: 'Product B', quantity: 1, price: 30 },
+        ],
+        warehouse: 'Warehouse 2',
+        date: '2024-09-25',
+        created_at: new Date().toISOString().split('T')[0],
+
+     
+        total_price: 130,
+        isPaid: false,
+    },
+];

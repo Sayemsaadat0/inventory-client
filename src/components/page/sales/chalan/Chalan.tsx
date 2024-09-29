@@ -4,31 +4,8 @@ import React, { useRef, useState } from 'react';
 import Select, { SingleValue } from 'react-select';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
-
-// Define types for customer and product
-interface Customer {
-    customer_name: string;
-    customer_phone_no: string;
-    customer_id: string;
-}
-
-interface Product {
-    product_name: string;
-    quantity: number;
-    price: number;
-}
-
-// Define type for invoice data
-interface Invoice {
-    invoice_id: string;
-    customer: Customer;
-    products: Product[];
-    warehouse: string;
-    date: string;
-    created_at: string;
-    total_price: number;
-    isPaid: boolean;
-}
+// import { InvoiceType } from '../../../../lib/type';
+import { chalanDataFake } from '../../../../data/dummy.data';
 
 // Define type for Select options
 interface OptionType {
@@ -37,32 +14,12 @@ interface OptionType {
 }
 
 const Chalan: React.FC = () => {
-    const chalanData: Invoice[] = [
-        {
-            invoice_id: 'INV001',
-            customer: {
-                customer_name: 'John Doe',
-                customer_phone_no: '123-456-7890',
-                customer_id: 'CUST001',
-            },
-            products: [
-                { product_name: 'Product A', quantity: 2, price: 50 },
-                { product_name: 'Product B', quantity: 1, price: 30 },
-            ],
-            warehouse: 'Warehouse 1',
-            date: '2024-09-25',
-            created_at: new Date().toISOString().split('T')[0],
-            
-            total_price: 130,
-            isPaid: false,
-        },
-        // Add more invoices as needed...
-    ];
+
 
     const [selectedInvoice, setSelectedInvoice] = useState<OptionType | null>(null);
     const contentRef = useRef<HTMLDivElement | null>(null);
 
-    const invoiceOptions: OptionType[] = chalanData.map((i) => ({
+    const invoiceOptions: OptionType[] = chalanDataFake.map((i) => ({
         value: i.invoice_id,
         label: i.invoice_id,
     }));
@@ -103,12 +60,12 @@ const Chalan: React.FC = () => {
                     <div ref={contentRef} id="pdf-content" className='bg- text-black py-10 border'>
                         <h3>Selected Invoice Details</h3>
                         <p>Invoice ID: {selectedInvoice.value}</p>
-                        <p>Customer Name: {chalanData.find(i => i.invoice_id === selectedInvoice.value)?.customer.customer_name}</p>
-                        <p>Warehouse: {chalanData.find(i => i.invoice_id === selectedInvoice.value)?.warehouse}</p>
-                        <p>Total Price: ${chalanData.find(i => i.invoice_id === selectedInvoice.value)?.total_price}</p>
+                        <p>Customer Name: {chalanDataFake.find(i => i.invoice_id === selectedInvoice.value)?.customer.customer_name}</p>
+                        <p>Warehouse: {chalanDataFake.find(i => i.invoice_id === selectedInvoice.value)?.warehouse}</p>
+                        <p>Total Price: ${chalanDataFake.find(i => i.invoice_id === selectedInvoice.value)?.total_price}</p>
                         <h4>Products:</h4>
                         <ul>
-                            {chalanData.find(i => i.invoice_id === selectedInvoice.value)?.products.map((product, index) => (
+                            {chalanDataFake.find(i => i.invoice_id === selectedInvoice.value)?.products.map((product, index) => (
                                 <li key={index}>
                                     {product.product_name} - Quantity: {product.quantity}, Price: ${product.price}
                                 </li>

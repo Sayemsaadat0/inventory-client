@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import TextInput from "../../../shared/inputs/TextInput"; // Assuming this is your custom input component
+import TextInput from "../../../shared/inputs/TextInput"; 
 import Button from "../../../ui/button";
 import { useFormik } from "formik";
 
@@ -9,12 +9,12 @@ type Product = {
     unit_price: number;
 };
 
-type ArticleFormType = {
+type GenerateOrderFormType = {
     handleFormSubmit: (values: any) => undefined;
     isLoading?: boolean;
 };
 
-const ArticleForm: FC<ArticleFormType> = ({ isLoading, handleFormSubmit }) => {
+const GenerateOrderForm: FC<GenerateOrderFormType> = ({ isLoading, handleFormSubmit }) => {
     const [products, setProducts] = useState<Product[]>([{ product_name: "", quantity: 0, unit_price: 0 }]);
 
     const calculateTotalPrice = (products: Product[]) => {
@@ -207,7 +207,7 @@ const ArticleForm: FC<ArticleFormType> = ({ isLoading, handleFormSubmit }) => {
                         value={values.created_at}
                         onChange={handleChange}
                         type="text"
-                        // disabled
+                    // disabled
                     />
                     <TextInput
                         className="w-full"
@@ -217,7 +217,7 @@ const ArticleForm: FC<ArticleFormType> = ({ isLoading, handleFormSubmit }) => {
                         type="number"
 
                         error={Boolean(errors.total_price) && touched.total_price && errors.total_price}
-                        // disabled
+                    // disabled
                     />
                 </div>
 
@@ -235,14 +235,14 @@ const ArticleForm: FC<ArticleFormType> = ({ isLoading, handleFormSubmit }) => {
     );
 };
 
-const GenerateSales = () => {
+const GenerateOrder = () => {
     return (
         <div className="relative">
             <div>
-                <ArticleForm isLoading={false} handleFormSubmit={() => undefined} />
+                <GenerateOrderForm isLoading={false} handleFormSubmit={() => undefined} />
             </div>
         </div>
     );
 };
 
-export default GenerateSales;
+export default GenerateOrder;

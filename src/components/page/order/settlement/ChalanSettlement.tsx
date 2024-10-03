@@ -1,9 +1,10 @@
 import  { useState } from "react";
-import { chalanDataFake } from "../../../data/dummy.data";
-import SharedTable from "../../shared/table/SharedTable";
-import Button from "../../ui/button";
+import Button from "../../../ui/button";
+import SharedTable from "../../../shared/table/SharedTable";
+import { chalanDataFake } from "../../../../data/dummy.data";
 
-const Account = () => {
+
+const ChalanSettlement = () => {
 
 const [expandedInvoices, setExpandedInvoices] = useState<string[]>([]);
 
@@ -98,4 +99,4 @@ const [expandedInvoices, setExpandedInvoices] = useState<string[]>([]);
   );
 };
 
-export default Account;
+export default ChalanSettlement;

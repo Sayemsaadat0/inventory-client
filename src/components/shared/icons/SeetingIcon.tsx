@@ -5,8 +5,8 @@ interface SettingsIconProps {
 }
 
 const SettingsIcon: React.FC<SettingsIconProps> = ({
-  width,
-  height,
+  width = 21,
+  height = 21,
   className,
 }) => {
   return (
@@ -45,9 +45,6 @@ const SettingsIcon: React.FC<SettingsIconProps> = ({
   );
 };
 
-SettingsIcon.defaultProps = {
-  width: "21",
-  height: "21",
-};
+
 
 export default SettingsIcon;

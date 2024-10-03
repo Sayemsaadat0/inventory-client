@@ -2,7 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 // import logo from "../../../assets/BAMSLogo.svg";
 import logo1 from '/Logo.png'
 import DashboardIcon from "../icons/DashboardIcon";
-import AccountsIcon from "../icons/AccountsIcon";
+// import AccountsIcon from "../icons/AccountsIcon";
 import InventoryIcon from "../icons/InventoryIcon";
 import SalesIcon from "../icons/SalesIcon";
 import ReportsIcon from "../icons/ReportsIcon";
@@ -25,11 +25,6 @@ const Sidebar = () => {
       icon: <DashboardIcon />,
     },
     {
-      path: "/accounts",
-      label: "Accounts",
-      icon: <AccountsIcon />,
-    },
-    {
       label: "Inventory",
       icon: <InventoryIcon />,
       subRoutes: [
@@ -38,11 +33,12 @@ const Sidebar = () => {
       ],
     },
     {
-      label: "Sales",
+      label: "Order",
       icon: <SalesIcon />,
       subRoutes: [
-        { path: "/sales/generate-sale", label: "Sale Generate" },
-        { path: "/sales/chalan", label: "Create Chalan" },
+        { path: "/order/generate-order", label: "Generate Order" },
+        { path: "/order/chalan", label: "Issue Chalan" },
+        { path: "/order/chalan-settlemenet", label: "Chalan Settlement" },
       ],
     },
     {
@@ -104,10 +100,12 @@ const Sidebar = () => {
                   </Link>
                 )}
               </div>
+
             ))}
           </div>
         </div>
       </div>
+
     </div>
   );
 };

@@ -1,6 +1,62 @@
+import React, { useEffect, useState } from "react";
 import Marquee from "react-fast-marquee";
+import { weatherData } from "../../../lib/watherForcast";
+
+
+
+
+type watherForcastType = {
+    temp: number | null;
+    feel: string;
+    name: string;
+    date: number;
+    month: string;
+    year: number;
+    day: string;
+}
+
+const WeatherInfo = () => {
+    const [weatherInfo, setWeatherInfo] = useState<watherForcastType | undefined>(undefined);
+
+    useEffect(() => {
+        const fetchWeather = async () => {
+            const data = await weatherData();
+            setWeatherInfo(data);
+        };
+        fetchWeather();
+    }, []);
+
+    return <div>
+        {weatherInfo ? (
+            <div>
+                <p>Temperature: {weatherInfo.temp}°C</p>
+                <p>Weather: {weatherInfo.feel}</p>
+                <p>Location: {weatherInfo.name}</p>
+                <p>Date: {weatherInfo.day}, {weatherInfo.date} {weatherInfo.month} {weatherInfo.year}</p>
+            </div>
+        ) : (
+            <p>Loading weather data...</p>
+        )}
+    </div>
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 const Dashboard = () => {
+
     return (
         <div>
             <Marquee>
@@ -14,6 +70,8 @@ const Dashboard = () => {
                     </div>
                 ))}
             </Marquee>
+
+            <WeatherInfo />
         </div>
     );
 };

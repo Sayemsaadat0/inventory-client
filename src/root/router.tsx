@@ -5,9 +5,9 @@ import Settings from "../components/page/settings/Settings";
 import Dashboard from "../components/page/dashboard/Dashboard";
 import UnitsWarehouses from "../components/page/inventory/unit-warehouse/UnitsWarehouses";
 import Inventory from "../components/page/inventory/Inventory";
-import GenerateSales from "../components/page/sales/generate-sales/GenerateSales";
-import Chalan from "../components/page/sales/chalan/Chalan";
-import Account from "../components/page/account/Account";
+import Chalan from "../components/page/order/chalan/Chalan";
+import GenerateOrder from "../components/page/order/generate-order/GenerateOrder";
+import ChalanSettlement from "../components/page/order/settlement/ChalanSettlement";
 
 const router = createBrowserRouter([
   {
@@ -27,16 +27,16 @@ const router = createBrowserRouter([
         element: <Inventory />,
       },
       {
-        path: "/sales/generate-sale",
-        element: <GenerateSales />,
+        path: "/order/generate-order",
+        element: <GenerateOrder />,
       },
       {
-        path: "/sales/chalan",
+        path: "/order/chalan",
         element: <Chalan />,
       },
       {
-        path: "/accounts",
-        element: <Account />,
+        path: "/order/chalan-settlemenet",
+        element: <ChalanSettlement />,
       },
       {
         path: "/setting",

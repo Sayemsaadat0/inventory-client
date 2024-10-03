@@ -1,7 +1,10 @@
+import CustomerForm from "./CustomerForm"
 
 const Customers = () => {
   return (
-    <div>Customers</div>
+    <div>
+      <CustomerForm handleFormSubmit={() => undefined} isLoading={false} />
+    </div>
   )
 }
 

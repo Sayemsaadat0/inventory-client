@@ -1,7 +1,10 @@
+import LedgersForm from "./LedgersForm"
 
 const Ledgers = () => {
   return (
-    <div>Ledgers</div>
+    <div>
+      <LedgersForm handleFormSubmit={() => undefined} isLoading={false}/>
+    </div>
   )
 }
 

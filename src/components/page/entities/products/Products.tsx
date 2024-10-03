@@ -1,6 +1,10 @@
+import ProductForm from "./ProductForm"
+
 const Products = () => {
   return (
-    <div>Products</div>
+    <div>
+      <ProductForm handleFormSubmit={() => undefined} isLoading={false}/>
+    </div>
   )
 }
 

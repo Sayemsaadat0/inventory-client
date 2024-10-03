@@ -458,7 +458,7 @@ export const salesData = [
 ];
 
 
-export  const chalanDataFake = [
+export const chalanDataFake = [
     {
         invoice_id: 'INV001',
         customer: {
@@ -498,8 +498,10 @@ export  const chalanDataFake = [
         date: '2024-09-25',
         created_at: new Date().toISOString().split('T')[0],
 
-     
+
         total_price: 130,
         isPaid: false,
     },
 ];
+
+

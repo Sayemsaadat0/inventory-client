@@ -1,6 +1,10 @@
+import UsersForm from "./UsersForm"
+
 const Users = () => {
     return (
-        <div>Users</div>
+        <div>
+            <UsersForm handleFormSubmit={() => undefined} isLoading={false} />
+        </div>
     )
 }
 

@@ -1,8 +1,11 @@
+import PaymentTypeForm from "./PaymentTypeForm"
 
 
 const PaymentType = () => {
   return (
-    <div>PaymentType</div>
+    <div>
+      <PaymentTypeForm handleFormSubmit={() => undefined} isLoading={false}/>
+    </div>
   )
 }
 

@@ -7,6 +7,10 @@ body {
   font-family: "Poppins", sans-serif;
 }
 
+.weatherFont {
+  font-family: Impact;
+}
+
 .custom-scroll::-webkit-scrollbar {
   border-radius: 50%;
   width: 5px;

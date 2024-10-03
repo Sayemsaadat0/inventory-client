@@ -13,6 +13,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "../../ui/accordion"
+import EntityIcon from "../icons/EntityIcon";
 
 
 const Sidebar = () => {
@@ -25,11 +26,23 @@ const Sidebar = () => {
       icon: <DashboardIcon />,
     },
     {
+      label: "Entities",
+      icon: <EntityIcon />,
+      subRoutes: [
+        { path: "/entity/companies", label: "Initiate Company" },
+        { path: "/entity/users", label: "Enroll User" },
+        { path: "/entity/customers", label: "Register Customer" },
+        { path: "/entity/products", label: "Add Products" },
+        { path: "/entity/payment-type", label: "Payment Type" },
+        { path: "/entity/ledgers", label: "Ledger Setup" },
+      ],
+    },
+    {
       label: "Inventory",
       icon: <InventoryIcon />,
       subRoutes: [
-        { path: "/inventory/unit-warehouse", label: "Units & Warehouses" },
-        { path: "/inventory", label: "Product Inventory" },
+        { path: "/stock-overview/unit-warehouse", label: "Units & Warehouses" },
+        { path: "/stock-overview", label: "Stock Overview" },
       ],
     },
     {
@@ -54,22 +67,22 @@ const Sidebar = () => {
   ];
 
   return (
-    <div className="h-screen backdrop-blur-[5px] bg-black/35 w-full py-6  flex flex-col justify-between">
+    <div className="h-screen backdrop-blur-[5px] bg-black/35 w-full py-4  flex flex-col justify-between">
       <div>
-        <div className="flex items-center gap-3 ps-2.5 mt-0.5">
+        <div className="flex items-center gap-3 ps-2.5 mt-0.5 ">
           <img className="h-12" src={logo1} alt="Logo" />
           <h1 className="capitalize text-xs leading-[1rem]  pb-1">
             BAITS Inventory Management Solution
           </h1>
         </div>
-        <div className="mt-16 px-2.5">
+        <div className="mt-5 px-2.5">
           <div>
             {menuItems.map((item, index) => (
               <div key={index}>
                 {item.subRoutes ? (
                   <Accordion type="single" collapsible>
                     <AccordionItem value={`item-${index}`}>
-                      <AccordionTrigger className=" w-full py-3 mb-0.5 px-6 hover:bg-black/35 rounded-[6px] text-xs">
+                      <AccordionTrigger className=" w-full py-2 mb-0.5 px-6 hover:bg-black/35 rounded-[6px] text-xs">
                         <span className="flex items-center gap-3">  {item.icon}
                           {item.label}</span>
                       </AccordionTrigger>
@@ -92,7 +105,7 @@ const Sidebar = () => {
                 ) : (
                   <Link
                     to={item.path}
-                    className={`flex gap-3.5 items-center w-full  text-xs py-3 mb-0.5 px-6 hover:bg-black/35 rounded-[6px] ${location.pathname === item.path && "bg-black/35 font-semibold"
+                    className={`flex gap-3.5 items-center w-full  text-xs py-2 mb-0.5 px-6 hover:bg-black/35 rounded-[6px] ${location.pathname === item.path && "bg-black/35 font-semibold"
                       }`}
                   >
                     {item.icon}

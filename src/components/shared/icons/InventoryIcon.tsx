@@ -5,8 +5,8 @@ interface InventoryIconProps {
 }
 
 const InventoryIcon: React.FC<InventoryIconProps> = ({
-  width,
-  height,
+  width = 20,
+  height = 20,
   className,
 }) => {
   return (
@@ -48,9 +48,5 @@ const InventoryIcon: React.FC<InventoryIconProps> = ({
   );
 };
 
-InventoryIcon.defaultProps = {
-  width: "20",
-  height: "20",
-};
 
 export default InventoryIcon;

@@ -5,8 +5,8 @@ interface DashboardIconProps {
 }
 
 const DashboardIcon: React.FC<DashboardIconProps> = ({
-  width,
-  height,
+  width = 19,
+  height = 19,
   className,
 }) => {
   return (
@@ -33,9 +33,6 @@ const DashboardIcon: React.FC<DashboardIconProps> = ({
   );
 };
 
-DashboardIcon.defaultProps = {
-  width: "19",
-  height: "19",
-};
+
 
 export default DashboardIcon;

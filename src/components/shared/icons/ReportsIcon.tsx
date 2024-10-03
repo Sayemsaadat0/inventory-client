@@ -5,8 +5,8 @@ interface ReportsIconProps {
 }
 
 const ReportsIcon: React.FC<ReportsIconProps> = ({
-  width,
-  height,
+  width = 20,
+  height = 20,
   className,
 }) => {
   return (
@@ -36,9 +36,6 @@ const ReportsIcon: React.FC<ReportsIconProps> = ({
   );
 };
 
-ReportsIcon.defaultProps = {
-  width: "20",
-  height: "20",
-};
+
 
 export default ReportsIcon;

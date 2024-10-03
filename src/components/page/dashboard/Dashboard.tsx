@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Marquee from "react-fast-marquee";
 import { weatherData } from "../../../lib/watherForcast";
+import Loader from "../../shared/Loader";
 
 
 
@@ -28,14 +29,29 @@ const WeatherInfo = () => {
 
     return <div>
         {weatherInfo ? (
-            <div>
-                <p>Temperature: {weatherInfo.temp}°C</p>
-                <p>Weather: {weatherInfo.feel}</p>
-                <p>Location: {weatherInfo.name}</p>
-                <p>Date: {weatherInfo.day}, {weatherInfo.date} {weatherInfo.month} {weatherInfo.year}</p>
+            <div className="flex gap-2 lg:justify-end">
+                <div className="bg-black/60 flex flex-col items-center justify-between backdrop-blur-sm w-full lg:min-w-72 min-h-72 p-5 rounded-[10px] text-center weatherFont">
+                    <p className="text-2xl">{weatherInfo.year}</p>
+                    <div>
+                        <p className="text-5xl  font-bold ">{weatherInfo.date}</p>
+                        <p className="text-5xl  font-bold">{weatherInfo.month}</p>
+                    </div>
+                    <p className="text-2xl">{weatherInfo.day}</p>
+                </div>
+                <div className="bg-black/60 p-5 flex flex-col items-center justify-between backdrop-blur-sm  w-full lg:min-w-72 min-h-72 rounded-[10px] text-center  weatherFont">
+                    <p className="text-2xl">Weather today at <br /> {weatherInfo.name}</p>
+                    <p>
+                        <span className="font-bold text-7xl">
+                            {weatherInfo.temp}
+                        </span>
+                        <sup className="text-4xl">°C</sup></p>
+                    <p className=" text-2xl">{weatherInfo.feel}</p>
+                </div>
+
+
             </div>
         ) : (
-            <p>Loading weather data...</p>
+            <Loader />
         )}
     </div>
 }
@@ -58,20 +74,42 @@ const WeatherInfo = () => {
 const Dashboard = () => {
 
     return (
-        <div>
-            <Marquee>
-                {[...new Array(10)].map((_, i) => (
-                    <div key={i} className="marquee-item">
-                        <img
-                            className="h-20 object-cover"
-                            src="https://i.pinimg.com/564x/e7/e9/9d/e7e99de3fcbf96d1dfda430102ceb662.jpg"
-                            alt=""
-                        />
-                    </div>
-                ))}
-            </Marquee>
+        <div className=" space-y-10 ">
+            <div className="flex flex-col xl:flex-row justify-between gap-2">
+                <div className=" bg-black/60 backdrop-blur-sm w-full rounded-[10px] p-3 flex flex-col justify-center gap-5">
+                    <p> <span className="opacity-80 text-2xl ">Welcome back,</span> <span className="text-3xl font-semibold italic">John Snow !</span></p>
+                    <p className="w-[80%]">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt officiis nisi harum ratione nulla voluptas iste temporibus et dolores inventore! lorem50</p>
+                </div>
+                <div>
+                    <WeatherInfo />
+                </div>
 
-            <WeatherInfo />
+            </div>
+            <div className="space-y-5 rounded-[10px]">
+                <Marquee>
+                    {[...new Array(10)].map((_, i) => (
+                        <div key={i} className="marquee-item">
+                            <img
+                                className="h-28 rounded-[10px] object-cover"
+                                src="https://i.pinimg.com/564x/e7/e9/9d/e7e99de3fcbf96d1dfda430102ceb662.jpg"
+                                alt=""
+                            />
+                        </div>
+                    ))}
+                </Marquee>
+                <Marquee direction={'right'}>
+                    {[...new Array(10)].map((_, i) => (
+                        <div key={i} className="marquee-item">
+                            <img
+                                className="h-28 rounded-[10px] object-cover"
+                                src="https://i.pinimg.com/564x/e7/e9/9d/e7e99de3fcbf96d1dfda430102ceb662.jpg"
+                                alt=""
+                            />
+                        </div>
+                    ))}
+                </Marquee>
+            </div>
+
         </div>
     );
 };

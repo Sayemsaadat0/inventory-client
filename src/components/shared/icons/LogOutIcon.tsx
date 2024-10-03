@@ -5,8 +5,8 @@ interface LogOutIconProps {
 }
 
 const LogOutIcon: React.FC<LogOutIconProps> = ({
-  width,
-  height,
+  width = 21,
+  height = 21,
   className,
 }) => {
   return (
@@ -30,9 +30,5 @@ const LogOutIcon: React.FC<LogOutIconProps> = ({
   );
 };
 
-LogOutIcon.defaultProps = {
-  width: "21",
-  height: "21",
-};
 
 export default LogOutIcon;

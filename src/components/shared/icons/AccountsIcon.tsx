@@ -5,8 +5,8 @@ interface AccountsIconProps {
 }
 
 const AccountsIcon: React.FC<AccountsIconProps> = ({
-  width,
-  height,
+  width = 20,
+  height = 20,
   className,
 }) => {
   return (
@@ -38,9 +38,6 @@ const AccountsIcon: React.FC<AccountsIconProps> = ({
   );
 };
 
-AccountsIcon.defaultProps = {
-  width: "20",
-  height: "20",
-};
+
 
 export default AccountsIcon;

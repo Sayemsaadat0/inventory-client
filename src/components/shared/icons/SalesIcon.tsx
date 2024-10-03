@@ -4,7 +4,7 @@ interface SalesIconProps {
   className?: string;
 }
 
-const SalesIcon: React.FC<SalesIconProps> = ({ width, height, className }) => {
+const SalesIcon: React.FC<SalesIconProps> = ({ width = 20, height = 20, className }) => {
   return (
     <svg
       width={width}
@@ -38,9 +38,6 @@ const SalesIcon: React.FC<SalesIconProps> = ({ width, height, className }) => {
   );
 };
 
-SalesIcon.defaultProps = {
-  width: "20",
-  height: "20",
-};
+
 
 export default SalesIcon;

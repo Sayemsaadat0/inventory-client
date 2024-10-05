@@ -11,6 +11,7 @@ export const weatherData = async (cityName: string = 'Dhaka') => {
     const apiKey = '0cefbdd8089c7b724b58eac94e84c704';
     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}`;
 
+
     try {
         const response = await fetch(apiUrl);
         if (!response.ok) {
@@ -18,7 +19,7 @@ export const weatherData = async (cityName: string = 'Dhaka') => {
         }
 
         const data = await response.json();
-        const temp = Math.floor(data.main.temp - 273.15); // Convert from Kelvin to Celsius
+        const temp = Math.floor(data.main.temp - 273.15); 
         const feel = data.weather[0].main;
         const name = data.name;
 

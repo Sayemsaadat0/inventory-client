@@ -16,7 +16,7 @@ const buttonVariants = cva(
         regulerBtn:
           'rounded-[1px] text-xs px-[18px]  py-[12px] md:text-[15px] bg-black/40 md:px-6 md:py-2.5 xl:px-8 xl:py-3 xl:text-[16px]',
         regulerOutlineBtn:
-          'rounded-[10px] bg-white text-xstext-black border border-green-500 px-[18px] py-[12px] font-semibold ',
+          ' bg-black/50  text-xs hover:bg-white/20 transition-all border border-white px-[18px] py-[12px] font-semibold ',
         iconBtn: 'text-14-regular  p-2 bg-green-500 ',
         profileCardbtn:
           'rounded-[200px] text-xs px-4 py-1.5 bg-green-200',
@@ -25,7 +25,7 @@ const buttonVariants = cva(
       },
     },
     defaultVariants: {
-      variant: "regulerBtn",
+      variant: "regulerOutlineBtn",
     },
   }
 )

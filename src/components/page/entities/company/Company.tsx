@@ -1,6 +1,6 @@
-import { chalanDataFake } from "../../../../data/dummy.data";
+import { fakeCompanyData } from "../../../../data/dummy.data";
 import SharedTable from "../../../shared/table/SharedTable";
-import Button from "../../../ui/button";
+import Title from "../../../shared/Title";
 import CompanyForm from "./CompanyForm";
 
 const Company = () => {
@@ -8,51 +8,46 @@ const Company = () => {
 
     const columns = [
         {
-            title: "Invoice No",
-            dataKey: "invoice_id",
-            row: (data: any) => <div>{data.invoice_id}</div>,
+            title: "Name",
+            dataKey: "company_name",
+            row: (data: any) => <div>{data.company_name}</div>,
         },
 
         {
-            title: "Customer Info",
-            dataKey: "customer",
+            title: "Location",
+            dataKey: "location",
             row: (data: any) => (
                 <div>
-                    <p>{data.customer.customer_name}</p>
-                    <p className="text-sm text-gray-500">{data.customer.customer_phone_no}</p>
+                    <p>{data.location}</p>
                 </div>
             ),
         },
         {
-            title: "Date",
-            dataKey: "date",
-            row: (data: any) => <div>{data.date}</div>,
-        },
-        {
-            title: "Warehouse",
-            dataKey: "warehouse",
-            row: (data: any) => <div>{data.warehouse}</div>,
-        },
-
-        {
             title: "Total Price",
             dataKey: "total_price",
-            row: (data: any) => <div>${data.total_price}</div>,
+            row: (data: any) => <div className="flex justify-end">
+                <TableAction data={data} />
+            </div>,
         },
     ];
 
+    const TableAction = ({ data }: { data: any }) => {
+        return <div>
+            <CompanyForm instance={data} handleFormSubmit={() => undefined} isLoading={false} />
+        </div>
+    }
+
     return (
         <div className="space-y-5">
-            <CompanyForm handleFormSubmit={() => undefined} isLoading={false} />
             <div className="flex justify-between">
-                <p className="text-xl w-fit p-2 text-black bg-white">Accounts List</p>
-                <Button label="Add Invoice" />
+                <Title title="List of Companies" />
+                <CompanyForm handleFormSubmit={() => undefined} isLoading={false} />
             </div>
             <div>
                 <SharedTable
                     columns={columns}
                     isLoading={false}
-                    data={chalanDataFake || []}
+                    data={fakeCompanyData || []}
                 />
             </div>
         </div>

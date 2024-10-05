@@ -39,7 +39,7 @@ const SharedTable: FC<SharedTableProps> = ({ columns, data, isLoading }) => {
                                     {columns.map((column, colIndex) => (
                                         <td
                                             key={colIndex}
-                                            className="px-2 text-[14px] border  lg:text-base xl:px-5 py-3 h-fit   break-words"
+                                            className="px-2 text-[14px] border lg:text-base xl:px-5 py-3 h-fit   break-words"
                                         >
                                             {column.row(row)}
                                         </td>

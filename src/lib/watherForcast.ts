@@ -8,8 +8,8 @@ export const weatherData = async (cityName: string = 'Dhaka') => {
     const month = monthNames[d.getMonth()];
     const day = dayNames[d.getDay()];
 
-    const apiKey = import.meta.env.VITE_WEATHER_API_KEY;
-    const apiUrl = `${import.meta.env.VITE_WEATHER_API_URL}/data/2.5/weather?q=${cityName}&appid=${apiKey}`;
+    const apiKey = '0cefbdd8089c7b724b58eac94e84c704';
+    const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}`;
 
     try {
         const response = await fetch(apiUrl);
@@ -27,3 +27,4 @@ export const weatherData = async (cityName: string = 'Dhaka') => {
         console.error(error)
     }
 };
+

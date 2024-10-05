@@ -1,28 +1,26 @@
 
 import { FC } from 'react';
 import { useFormik } from 'formik';
-import * as Yup from 'yup';
 import Button from '../../../ui/button';
 import TextInput from '../../../shared/inputs/TextInput';
-
-
-// Validation schema
-const validationSchema = Yup.object({
-    name: Yup.string().required('Name is required'),
-    email: Yup.string().required('Email is required'),
-    password: Yup.string().required('Password is required'),
-    confirm_password: Yup.string().required('Password is required'),
-});
+// import { companyDataValidate } from '../../../../validation/CompanyValidate';
+import {
+    Dialog, DialogContent
+} from '../../../ui/dialog';
+import { FaEdit } from "react-icons/fa";
+import { IoMdAdd } from "react-icons/io";
+import { useState } from 'react';
 
 
 type CustomerFormType = {
+    instance?: any,
     handleFormSubmit: Function,
     isLoading?: boolean,
 }
 
 
 
-const CustomerForm: FC<CustomerFormType> = ({ isLoading, handleFormSubmit }) => {
+const CustomerForm: FC<CustomerFormType> = ({ instance, isLoading, handleFormSubmit, }) => {
     const {
         handleChange,
         values,
@@ -30,99 +28,127 @@ const CustomerForm: FC<CustomerFormType> = ({ isLoading, handleFormSubmit }) => 
         errors,
         handleSubmit,
         isSubmitting,
+        resetForm
     } = useFormik({
         initialValues: {
-            name: '',
-            email: '',
-            password: '',
-            confirm_password: '',
+            customer_name: instance?.customer_name || "",
+            location: instance?.location || "",
+            phone_no: instance?.phone_no || "",
         },
-        validationSchema,
+        // validationSchema: companyDataValidate,
         onSubmit: async (data) => {
             try {
-                await handleFormSubmit(data)
-                console.log(data)
-            } catch (err) {
+                const modifiedData = {
+                    customer_name: values.customer_name || "",
+                    location: values.location || "",
+                    phone_no: values.phone_no || "",
+                };
+                if (instance) {
+                    await handleFormSubmit(modifiedData);
+                    // setOpen(!open);
+                    // toast({
+                    //     variant: "success",
+                    //     description: "Edited Successfully",
+                    // });
+                } else {
+                    await handleFormSubmit(data);
+                    // toast({
+                    //     variant: "success",
+                    //     description: "Added Successfully",
+                    // });
+                    resetForm();
+                    // setOpen(!open);
+                }
+            } catch (err: any) {
                 console.log(err)
+                // toast({
+                //     variant: "destructive",
+                //     description: err,
+                // });
             }
         },
     });
 
     console.log(values)
+    const [open, setOpen] = useState(false)
+
 
     return (
-        <div className=' rounded-[12px] p-5 md:p-10 space-y-5'>
-            <h3 className='text-xl font-semibold text-center'>Sign up to Account</h3>
-            <p className='text-center'>Please enter your details to continue</p>
-            <form className="space-y-6" autoComplete="off" onSubmit={handleSubmit}>
-                <TextInput
-                    className="w-full"
-                    id="name"
-                    label="Enter your full name"
-                    value={values.name}
-                    onChange={handleChange}
-                    type="text"
-                    error={
-                        Boolean(errors.name) &&
-                        touched.name &&
-                        errors.name
-                    }
-                />
-                <TextInput
-                    className="w-full"
-                    id="email"
-                    label="Enter Your Email"
-                    value={values.email}
-                    onChange={handleChange}
-                    type="text"
-                    error={
-                        Boolean(errors.email) &&
-                        touched.email &&
-                        errors.email
-                    }
-                />
-
-
-                <TextInput
-                    className="w-full "
-                    id="password"
-                    label="Password"
-                    value={values.password}
-                    onChange={handleChange}
-                    type="password"
-                    error={
-                        Boolean(errors.password) &&
-                        touched.password &&
-                        errors.password
-                    }
-                />
-                <TextInput
-                    className="w-full "
-                    id="confirm_password"
-                    label="Confirm Password"
-                    value={values.confirm_password}
-                    onChange={handleChange}
-                    type="password"
-                    error={
-                        Boolean(errors.confirm_password) &&
-                        touched.confirm_password &&
-                        errors.confirm_password
-                    }
-                />
-
-
-                <div className='w-full flex justify-center'>
-                    <Button
-                        type='submit'
-                        disabled={isSubmitting}
-                        className="w-full"
-                        variant={'regulerBtn'}
-                        label={isLoading ? 'Publishing..' : 'Publish'}
-                    />
+        <div>
+            <Dialog onOpenChange={() => setOpen(!open)} open={open}>
+                <div className='cursor-pointer' onClick={() => setOpen(!open)}>
+                    {instance ? <div><FaEdit className='text-green-500' /></div> : <div>
+                        <Button reverse icon={<IoMdAdd className='text-xl' />} label='New Customer' />
+                    </div>}
                 </div>
-            </form>
+                <DialogContent>
+                    <div className='p-5 md:p-10 space-y-5'>
+                        <div className=''>
+                            {instance ? <p className='text-xl font-semibold'>Edit Information</p> : <p className='text-xl font-semibold'>Register New Customer</p>}
+                        </div>
+                        <form className="space-y-6" autoComplete="off" onSubmit={handleSubmit}>
+                            <TextInput
+                                className="w-full"
+                                id="customer_name"
+                                label='Name'
+                                placeholder="Customer Name"
+                                value={values.customer_name}
+                                onChange={handleChange}
+                                type="text"
+                                error={
+                                    Boolean(errors.customer_name) &&
+                                    touched.customer_name &&
+                                    errors.customer_name
+                                }
+                            />
+                            <TextInput
+                                className="w-full"
+                                id="phone_no"
+                                label='Address'
+                                placeholder="Enter Phone No"
+                                value={values.phone_no}
+                                onChange={handleChange}
+                                type="text"
+                                error={
+                                    Boolean(errors.phone_no) &&
+                                    touched.phone_no &&
+                                    errors.phone_no
+                                }
+                            />
+                            <TextInput
+                                className="w-full"
+                                id="location"
+                                label='Address'
+                                placeholder="Enter Address of the Company"
+                                value={values.location}
+                                onChange={handleChange}
+                                type="text"
+                                error={
+                                    Boolean(errors.location) &&
+                                    touched.location &&
+                                    errors.location
+                                }
+                            />
+
+                            <div className='w-full flex justify-center'>
+                                <Button
+                                    onClick={() => setOpen(!open)}
+                                    type='submit'
+                                    disabled={isSubmitting}
+                                    className="w-full"
+                                    variant={'regulerOutlineBtn'}
+                                    label={isLoading ? 'Saving..' : 'Save'}
+                                />
+                            </div>
+                        </form>
+
+                    </div>
+                </DialogContent>
+            </Dialog>
+
 
         </div>
+
     );
 };
 

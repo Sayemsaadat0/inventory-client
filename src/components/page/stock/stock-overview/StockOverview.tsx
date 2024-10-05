@@ -1,16 +1,24 @@
 import { inventoryFakeData } from "../../../../data/dummy.data";
 import SharedTable from "../../../shared/table/SharedTable";
-import Button from "../../../ui/button";
+import Title from "../../../shared/Title";
+import AddToStockForm from "./AddToStockForm";
+
 
 const StockOverview = () => {
-    const stockColumn = [
+
+
+    const columns = [
         {
-            title: "Products",
+            title: "Name",
             dataKey: "product_name",
+            row: (data: any) => <div>{data.product_name}</div>,
+        },
+        {
+            title: "Quantity",
+            dataKey: "quantity",
             row: (data: any) => (
                 <div>
-                    <p className="font-semibold">{data.product_name}</p>
-                    <p className="text-xs font-light">{data.product_id}</p>
+                    <p>{data?.quantity}</p>
                 </div>
             ),
         },
@@ -18,53 +26,43 @@ const StockOverview = () => {
             title: "Warehouse",
             dataKey: "warehouse",
             row: (data: any) => (
-                <div>{data.warehouse}</div>
-            ),
-        },
-        {
-            title: "Unit & Quantity",
-            dataKey: "unit",
-            row: (data: any) => (
-                <div>{data.quantity} {' '}
-                    <span className="text-sm font-light">{data.unit}</span>
+                <div>
+                    <p><span className="opacity-70 italic">Unit : </span>{data.unit}</p>
+                    <p><span className="opacity-70 italic">Warehouse : </span> {data.warehouse}</p>
                 </div>
             ),
         },
-        {
-            title: "Notes",
-            dataKey: "notes",
-            row: (data: any) => (
-                <div>{data.notes}</div>
-            ),
-        },
+
         {
             title: "Action",
             dataKey: "action",
-            row: () => (
-                <div className="flex justify-end">
-                    <span className="px-2 bg-red-100 text-red-500 border rounded-full cursor-pointer">X</span>
-                </div>
-            ),
+            row: (data: any) => <div className="flex justify-end">
+                <TableAction data={data} />
+            </div>,
         },
     ];
+
+    const TableAction = ({ data }: { data: any }) => {
+        return <div>
+            <AddToStockForm instance={data} handleFormSubmit={() => undefined} isLoading={false} />
+        </div>
+    }
 
     return (
         <div className="space-y-5">
             <div className="flex justify-between">
-                <p className="text-3xl rounded-[20px] w-fit p-2 bg-black/40">Product Inventory</p>
-                <div>
-                    <Button label="Add Inventory" />
-                </div>
+                <Title title="Sotck Overview" />
+                <AddToStockForm handleFormSubmit={() => undefined} isLoading={false} />
             </div>
             <div>
                 <SharedTable
-                    columns={stockColumn}
+                    columns={columns}
                     isLoading={false}
-                    data={inventoryFakeData || []} // Bind your fake inventory data
+                    data={inventoryFakeData || []}
                 />
             </div>
         </div>
     );
-}
+};
 
 export default StockOverview;

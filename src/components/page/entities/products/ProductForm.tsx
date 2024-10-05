@@ -1,28 +1,26 @@
 
 import { FC } from 'react';
 import { useFormik } from 'formik';
-import * as Yup from 'yup';
 import Button from '../../../ui/button';
 import TextInput from '../../../shared/inputs/TextInput';
-
-
-// Validation schema
-const validationSchema = Yup.object({
-    name: Yup.string().required('Name is required'),
-    email: Yup.string().required('Email is required'),
-    password: Yup.string().required('Password is required'),
-    confirm_password: Yup.string().required('Password is required'),
-});
+// import { companyDataValidate } from '../../../../validation/CompanyValidate';
+import {
+    Dialog, DialogContent
+} from '../../../ui/dialog';
+import { FaEdit } from "react-icons/fa";
+import { IoMdAdd } from "react-icons/io";
+import { useState } from 'react';
 
 
 type ProductFormType = {
+    instance?: any,
     handleFormSubmit: Function,
     isLoading?: boolean,
 }
 
 
 
-const ProductForm: FC<ProductFormType> = ({ isLoading, handleFormSubmit }) => {
+const ProductForm: FC<ProductFormType> = ({ instance, isLoading, handleFormSubmit, }) => {
     const {
         handleChange,
         values,
@@ -30,99 +28,111 @@ const ProductForm: FC<ProductFormType> = ({ isLoading, handleFormSubmit }) => {
         errors,
         handleSubmit,
         isSubmitting,
+        resetForm
     } = useFormik({
         initialValues: {
-            name: '',
-            email: '',
-            password: '',
-            confirm_password: '',
+            item: instance?.ledger_name || "",
+            image: instance?.image || "",
         },
-        validationSchema,
+        // validationSchema: companyDataValidate,
         onSubmit: async (data) => {
             try {
-                await handleFormSubmit(data)
-                console.log(data)
-            } catch (err) {
+                const modifiedData = {
+                    item: values.item || "",
+                    image: values.image || "",
+                };
+                if (instance) {
+                    await handleFormSubmit(modifiedData);
+                    // setOpen(!open);
+                    // toast({
+                    //     variant: "success",
+                    //     description: "Edited Successfully",
+                    // });
+                } else {
+                    await handleFormSubmit(data);
+                    // toast({
+                    //     variant: "success",
+                    //     description: "Added Successfully",
+                    // });
+                    resetForm();
+                    // setOpen(!open);
+                }
+            } catch (err: any) {
                 console.log(err)
+                // toast({
+                //     variant: "destructive",
+                //     description: err,
+                // });
             }
         },
     });
 
     console.log(values)
+    const [open, setOpen] = useState(false)
+
 
     return (
-        <div className=' rounded-[12px] p-5 md:p-10 space-y-5'>
-            <h3 className='text-xl font-semibold text-center'>Sign up to Account</h3>
-            <p className='text-center'>Please enter your details to continue</p>
-            <form className="space-y-6" autoComplete="off" onSubmit={handleSubmit}>
-                <TextInput
-                    className="w-full"
-                    id="name"
-                    label="Enter your full name"
-                    value={values.name}
-                    onChange={handleChange}
-                    type="text"
-                    error={
-                        Boolean(errors.name) &&
-                        touched.name &&
-                        errors.name
-                    }
-                />
-                <TextInput
-                    className="w-full"
-                    id="email"
-                    label="Enter Your Email"
-                    value={values.email}
-                    onChange={handleChange}
-                    type="text"
-                    error={
-                        Boolean(errors.email) &&
-                        touched.email &&
-                        errors.email
-                    }
-                />
-
-
-                <TextInput
-                    className="w-full "
-                    id="password"
-                    label="Password"
-                    value={values.password}
-                    onChange={handleChange}
-                    type="password"
-                    error={
-                        Boolean(errors.password) &&
-                        touched.password &&
-                        errors.password
-                    }
-                />
-                <TextInput
-                    className="w-full "
-                    id="confirm_password"
-                    label="Confirm Password"
-                    value={values.confirm_password}
-                    onChange={handleChange}
-                    type="password"
-                    error={
-                        Boolean(errors.confirm_password) &&
-                        touched.confirm_password &&
-                        errors.confirm_password
-                    }
-                />
-
-
-                <div className='w-full flex justify-center'>
-                    <Button
-                        type='submit'
-                        disabled={isSubmitting}
-                        className="w-full"
-                        variant={'regulerBtn'}
-                        label={isLoading ? 'Publishing..' : 'Publish'}
-                    />
+        <div>
+            <Dialog onOpenChange={() => setOpen(!open)} open={open}>
+                <div className='cursor-pointer' onClick={() => setOpen(!open)}>
+                    {instance ? <div><FaEdit className='text-green-500' /></div> : <div>
+                        <Button reverse icon={<IoMdAdd className='text-xl' />} label='Add New Product' />
+                    </div>}
                 </div>
-            </form>
+                <DialogContent>
+                    <div className='p-5 md:p-10 space-y-5'>
+                        <div className=''>
+                            {instance ? <p className='text-xl font-semibold'>Edit Information</p> : <p className='text-xl font-semibold'>Add New Product</p>}
+                        </div>
+                        <form className="space-y-6" autoComplete="off" onSubmit={handleSubmit}>
+                            <TextInput
+                                className="w-full"
+                                id="item"
+                                label='Item Name'
+                                placeholder="Item Name"
+                                value={values.item}
+                                onChange={handleChange}
+                                type="text"
+                                error={
+                                    Boolean(errors.item) &&
+                                    touched.item &&
+                                    errors.item
+                                }
+                            />
+                            <TextInput
+                                className="w-full"
+                                id="image"
+                                label='image'
+                                placeholder="Select Image"
+                                value={values.image}
+                                onChange={handleChange}
+                                type="file"
+                                error={
+                                    Boolean(errors.image) &&
+                                    touched.image &&
+                                    errors.image
+                                }
+                            />
+
+                            <div className='w-full flex justify-center'>
+                                <Button
+                                    onClick={() => setOpen(!open)}
+                                    type='submit'
+                                    disabled={isSubmitting}
+                                    className="w-full"
+                                    variant={'regulerOutlineBtn'}
+                                    label={isLoading ? 'Saving..' : 'Save'}
+                                />
+                            </div>
+                        </form>
+
+                    </div>
+                </DialogContent>
+            </Dialog>
+
 
         </div>
+
     );
 };
 

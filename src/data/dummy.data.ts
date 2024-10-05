@@ -13,6 +13,14 @@ export const fakeCompanyData = [
     }
 ];
 
+export const fakeLedgerData = [
+    {
+        id: 1,
+        ledger_name: "AlphaTech Innovations",
+        note: "AlphaTech Innovations",
+    },
+];
+
 
 
 export const fakeCustomerData = [
@@ -20,31 +28,31 @@ export const fakeCustomerData = [
         id: "lamsCust260924aa", // Static date (26/09/24) with 'aa' suffix
         customer_name: "John Doe",
         phone_no: "+1-202-555-0143",
-        address: "1234 Elm Street, San Francisco, USA"
+        location: "1234 Elm Street, San Francisco, USA"
     },
     {
         id: "lamsCust260924ab", // Static date (26/09/24) with 'ab' suffix
         customer_name: "Jane Smith",
         phone_no: "+44-20-7946-0958",
-        address: "456 Oak Avenue, London, UK"
+        location: "456 Oak Avenue, London, UK"
     },
     {
         id: "lamsCust260924ac", // Static date (26/09/24) with 'ac' suffix
         customer_name: "Alice Johnson",
         phone_no: "+91-98765-43210",
-        address: "789 Pine Road, Mumbai, India"
+        location: "789 Pine Road, Mumbai, India"
     },
     {
         id: "lamsCust260924ad", // Static date (26/09/24) with 'ad' suffix
         customer_name: "Bob Brown",
         phone_no: "+61-412-345-678",
-        address: "321 Maple Street, Sydney, Australia"
+        location: "321 Maple Street, Sydney, Australia"
     },
     {
         id: "lamsCust260924ae", // Static date (26/09/24) with 'ae' suffix
         customer_name: "Charlie Davis",
         phone_no: "+49-30-12345678",
-        address: "654 Birch Lane, Berlin, Germany"
+        location: "654 Birch Lane, Berlin, Germany"
     }
 ];
 
@@ -53,9 +61,76 @@ export const fakeProductsData = [
     {
         id: "item260924aa01", // Static date (26/09/24) with 'aa01' suffix
         item: "Wireless Headphones",
-        image: "https://example.com/image1.jpg",
+        image: "https://i.pinimg.com/564x/7d/90/24/7d9024c49129dfb45e11ce9a489d2c74.jpg",
         created_at: "2024-09-26",
+
+    },
+    {
+        id: "item260924aa02", // Static date (26/09/24) with 'aa02' suffix
+        item: "Bluetooth Speaker",
+        image: "https://example.com/image2.jpg",
+        created_at: "2024-09-26",
+    },
+    {
+        id: "item260924aa03", // Static date (26/09/24) with 'aa03' suffix
+        item: "Smartwatch",
+        image: "https://example.com/image3.jpg",
+        created_at: "2024-09-26",
+
+    },
+
+    {
+        id: "item260924aa04", // Static date (26/09/24) with 'aa04' suffix
+        item: "Laptop Stand",
+        image: "https://example.com/image4.jpg",
+        created_at: "2024-09-26",
+
+    },
+    {
+        id: "item260924aa05", // Static date (26/09/24) with 'aa05' suffix
+        item: "Portable Charger",
+        image: "https://example.com/image5.jpg",
+        created_at: "2024-09-26",
+
+    }
+];
+
+
+/*
+  history: [
+            {
+                date: "2024-09-26",
+                customer: "Bob Brown",
+                quantity: 5,
+                unit: "piece",
+                unitPrice: 24.99,
+                totalPrice: 124.95,
+                invoiceId: "inv26092024aa04" // Invoice ID format
+            }
+        ]
         history: [
+            {
+                date: "2024-09-26",
+                customer: "Alice Johnson",
+                quantity: 3,
+                unit: "piece",
+                unitPrice: 199.99,
+                totalPrice: 599.97,
+                invoiceId: "inv26092024aa03" // Invoice ID format
+            }
+        ]      
+   history: [
+            {
+                date: "2024-09-26",
+                customer: "Charlie Davis",
+                quantity: 10,
+                unit: "piece",
+                unitPrice: 19.99,
+                totalPrice: 199.90,
+                invoiceId: "inv26092024aa05" // Invoice ID format
+            }
+        ]
+    history: [
             {
                 date: "2024-09-26",
                 customer: "John Doe",
@@ -75,74 +150,12 @@ export const fakeProductsData = [
                 invoiceId: "inv26092024aa02" // Invoice ID format
             }
         ]
-    },
-    {
-        id: "item260924aa02", // Static date (26/09/24) with 'aa02' suffix
-        item: "Bluetooth Speaker",
-        image: "https://example.com/image2.jpg",
-        created_at: "2024-09-26",
-        history: [] // No history for this product
-    },
-    {
-        id: "item260924aa03", // Static date (26/09/24) with 'aa03' suffix
-        item: "Smartwatch",
-        image: "https://example.com/image3.jpg",
-        created_at: "2024-09-26",
-        history: [
-            {
-                date: "2024-09-26",
-                customer: "Alice Johnson",
-                quantity: 3,
-                unit: "piece",
-                unitPrice: 199.99,
-                totalPrice: 599.97,
-                invoiceId: "inv26092024aa03" // Invoice ID format
-            }
-        ]
-    },
-    {
-        id: "item260924aa04", // Static date (26/09/24) with 'aa04' suffix
-        item: "Laptop Stand",
-        image: "https://example.com/image4.jpg",
-        created_at: "2024-09-26",
-        history: [
-            {
-                date: "2024-09-26",
-                customer: "Bob Brown",
-                quantity: 5,
-                unit: "piece",
-                unitPrice: 24.99,
-                totalPrice: 124.95,
-                invoiceId: "inv26092024aa04" // Invoice ID format
-            }
-        ]
-    },
-    {
-        id: "item260924aa05", // Static date (26/09/24) with 'aa05' suffix
-        item: "Portable Charger",
-        image: "https://example.com/image5.jpg",
-        created_at: "2024-09-26",
-        history: [
-            {
-                date: "2024-09-26",
-                customer: "Charlie Davis",
-                quantity: 10,
-                unit: "piece",
-                unitPrice: 19.99,
-                totalPrice: 199.90,
-                invoiceId: "inv26092024aa05" // Invoice ID format
-            }
-        ]
-    }
-];
-
-
-
+*/
 
 
 export const fakeAccountHeadData = [
     {
-        id: "acchead260924aa01", // Static date (26/09/24) with 'aa01' suffix
+        id: "acchead260924aa01", 
         account_head: "Cash",
         created_at: "2024-09-26",
         history: [
@@ -305,6 +318,8 @@ export const inventoryFakeData = [
         quantity: 150,
         notes: "New arrival, good for study rooms",
         image: "https://example.com/images/desk-lamp.jpg", // Replace with the actual image URL
+       
+       
         history: [
             {
                 customer: "John Doe",

@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import { cn } from "../../../lib/utils";
 
 const inputVariants = cva(
-    "rounded-[10px]  border-2 outline-none bg-inherit py-1  px-4 md:py-1.5  peer  disabled:bg-gray-100"
+    "border-2 outline-none bg-inherit py-1  px-4 md:py-1.5  peer  disabled:bg-gray-100"
 );
 
 export interface InputProps

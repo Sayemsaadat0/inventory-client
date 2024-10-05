@@ -19,7 +19,7 @@ export const weatherData = async (cityName: string = 'Dhaka') => {
         }
 
         const data = await response.json();
-        const temp = Math.floor(data.main.temp - 273.15); 
+        const temp = Math.floor(data.main.temp - 273.15);
         const feel = data.weather[0].main;
         const name = data.name;
 

@@ -77,7 +77,7 @@ const Dashboard = () => {
         <div className=" space-y-10 ">
             <div className="flex flex-col xl:flex-row justify-between gap-2">
                 <div className=" overflow-hidden relative bg-black/60 backdrop-blur-sm w-full rounded-[10px] p-3 flex flex-col justify-center gap-5">
-                    <p> <span className="opacity-80 text-2xl ">Welcome back,</span> <span className="text-3xl font-semibold italic">John Snow !</span></p>
+                    <p> <span className="opacity-80 text-2xl ">Welcome back, </span> <span className="text-3xl font-semibold italic">John Snow !!</span></p>
                     <p className="w-[80%]">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt officiis nisi harum ratione nulla voluptas iste temporibus et dolores inventore! lorem50</p>
 
                     <div className="absolute opacity-50 bottom-0 right-0">

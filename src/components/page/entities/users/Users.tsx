@@ -1,10 +1,11 @@
-import UsersForm from "./UsersForm"
+// import UsersForm from "./UsersForm"
 
 const Users = () => {
     return (
         <div>
-            Users
-            <UsersForm handleFormSubmit={() => undefined} isLoading={false} />
+            <div className="flex justify-center items-center ">
+                <img className="w-[40%] aspect-square" src="https://i.ibb.co.com/P9BQ24g/UNDER.png" alt="" />
+            </div>
         </div>
     )
 }

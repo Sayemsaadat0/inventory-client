@@ -27,7 +27,7 @@ const AddToStockForm: FC<AddToStockFormType> = ({ instance, isLoading, handleFor
         initialValues: {
             warehouse: instance?.warehouse || "",
             unit: instance?.unit || "",
-            product_id: instance?.product_id || "", // Product ID initialized here
+            product_id: instance?.product_id || "", 
             quantity: instance?.quantity || 0,
             notes: instance?.notes || "",
             image: null, // Handle image file manually
@@ -52,6 +52,8 @@ const AddToStockForm: FC<AddToStockFormType> = ({ instance, isLoading, handleFor
         setFieldValue('image', file);
     };
 
+
+    console.log(values)
     // Find the selected product based on product_id to set the correct display value
     // const selectedProduct = fakeProductsData.find(
     //     (product) => product.id === values.product_id

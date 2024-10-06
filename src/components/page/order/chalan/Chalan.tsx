@@ -51,13 +51,13 @@ const Chalan: React.FC = () => {
                 name="invoices"
                 menuPlacement="top"
                 options={invoiceOptions}
-                className="text-black"
+                className="text-black  "
                 classNamePrefix="select"
                 onChange={handleInvoiceChange}
             />
             {selectedInvoice && (
                 <section>
-                    <div ref={contentRef} id="pdf-content" className='bg- text-black py-10 border'>
+                    <div ref={contentRef} id="pdf-content" className=' text-black py-10 border'>
                         <h3>Selected Invoice Details</h3>
                         <p>Invoice ID: {selectedInvoice.value}</p>
                         <p>Customer Name: {chalanDataFake.find(i => i.invoice_id === selectedInvoice.value)?.customer.customer_name}</p>

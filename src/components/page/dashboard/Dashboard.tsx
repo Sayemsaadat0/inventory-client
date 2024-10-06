@@ -72,9 +72,20 @@ const WeatherInfo = () => {
 
 
 const Dashboard = () => {
+    // const fruits = [
+    //     { label: "Apple", value: "asdsd" },
+    //     { label: "Banana", value: "68758423" },
+    //     { label: "Cherry", value: "6875842354" },
+    //     { label: "Berry", value: "68758423897" }
+    // ];
+    // const handleSelect = (item: { label: string; value: string }) => {
+    //     console.log(`Selected item: ${item.label}`);
+    //     console.log(`Selected item: ${item.value}`);
+    // };
 
     return (
         <div className=" space-y-10 ">
+
             <div className="flex flex-col xl:flex-row justify-between gap-2">
                 <div className=" overflow-hidden relative bg-black/60 backdrop-blur-sm w-full rounded-[10px] p-3 flex flex-col justify-center gap-5">
                     <p> <span className="opacity-80 text-2xl ">Welcome back, </span> <span className="text-3xl font-semibold italic">John Snow !!</span></p>
@@ -82,7 +93,7 @@ const Dashboard = () => {
 
                     <div className="absolute opacity-50 bottom-0 right-0">
                         {/* <img className="w-60" src="https://i.ibb.co.com/hWSQMfp/Untitled-design-3.png"/> */}
-                        <img className="w-60" src="https://i.ibb.co.com/0VdSgYk/Untitled-design-5.png"/>
+                        <img className="w-60" src="https://i.ibb.co.com/0VdSgYk/Untitled-design-5.png" />
                     </div>
                 </div>
                 <div>

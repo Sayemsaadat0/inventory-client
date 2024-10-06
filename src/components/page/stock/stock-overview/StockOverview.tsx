@@ -23,12 +23,12 @@ const StockOverview = () => {
             ),
         },
         {
-            title: "Warehouse",
-            dataKey: "warehouse",
+            title: "Unit",
+            dataKey: "Unit",
             row: (data: any) => (
                 <div>
                     <p><span className="opacity-70 italic">Unit : </span>{data.unit}</p>
-                    <p><span className="opacity-70 italic">Warehouse : </span> {data.warehouse}</p>
+                    {/* <p><span className="opacity-70 italic">Warehouse : </span> {data.warehouse}</p> */}
                 </div>
             ),
         },

@@ -8,6 +8,7 @@ interface Item {
 interface SearchProps {
     data: Item[];
     placeholder?: string;
+    title?: string;
     onSelect?: (item: Item) => void;
     direction?: 'top' | 'bottom'; // Added direction prop
 }
@@ -16,6 +17,7 @@ const SearchSelectInput: React.FC<SearchProps> = ({
     data,
     placeholder = "Search ...",
     onSelect,
+    title,
     direction = 'bottom' // Default direction is bottom
 }) => {
     const [search, setSearch] = useState<string>("");
@@ -79,19 +81,21 @@ const SearchSelectInput: React.FC<SearchProps> = ({
     }, [showSuggestions]);
 
     return (
-        <div className="max-w-md mx-auto p-4">
+        <div >
+            {
+                title && <p className='py-2'>{title}</p>
+            }
             <div className="relative">
                 <input
                     type="text"
                     value={search}
                     placeholder={placeholder}
                     onChange={onSearch}
-                    onKeyDown={handleKeyDown} // Add key down event
-                    onFocus={handleFocus} // Show all suggestions on focus
-                    onBlur={handleBlur} // Optional: Hide suggestions on blur
-                    className="w-full p-2 bg-black/40 border focus:outline-none text-white"
+                    onKeyDown={handleKeyDown} 
+                    onFocus={handleFocus}
+                    onBlur={handleBlur} 
+                    className="w-full px-1 py-0.5 bg-black/40 border focus:outline-none text-white"
                 />
-                <i className="fas fa-search absolute right-3 top-2 text-gray-500"></i>
                 {showSuggestions && (
                     <ul
                         className={`absolute z-10 w-full rounded-md max-h-60 overflow-auto bg-white text-black border border-gray-300 ${direction === 'top' ? 'bottom-full mb-1' : 'top-full mt-1 max-h-[calc(50vh)]'
@@ -103,7 +107,7 @@ const SearchSelectInput: React.FC<SearchProps> = ({
                                     key={item.value}
                                     onClick={() => onClickItem(item)}
                                     className={`p-2 cursor-pointer hover:bg-black/20 transition-all ${highlightedIndex === index ? "bg-white/20" : ""
-                                        }`} // Highlight current selection
+                                        }`}
                                 >
                                     {item.label}
                                 </li>

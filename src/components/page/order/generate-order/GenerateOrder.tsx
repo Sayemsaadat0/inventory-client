@@ -2,6 +2,9 @@ import { FC, useState } from "react";
 import { useFormik } from "formik";
 import TextInput from "../../../shared/inputs/TextInput";
 import SearchSelectInput from "../../../shared/inputs/SearchSelectInput";
+import Title from "../../../shared/Title";
+import Button from "../../../ui/button";
+import CloseIcon from "../../../shared/icons/CloseIcon";
 
 // Define types for Product and Select options
 type Product = {
@@ -31,13 +34,11 @@ const fakeCustomerData = [
 // Predefined options for the customer data
 const customerOptions = fakeCustomerData.map(i => ({ label: i.customer_name, value: i.id }));
 
-// Sample data for product options
 const productOptions: SelectOptionType[] = [
     { value: "1", label: "Product A" },
     { value: "2", label: "Product B" },
 ];
 
-// Sample data for warehouse options
 const warehouseOptions: SelectOptionType[] = [
     { value: "1", label: "Warehouse 1" },
     { value: "2", label: "Warehouse 2" },
@@ -118,54 +119,52 @@ const GenerateOrderForm: FC<GenerateOrderFormType> = ({ isLoading, handleFormSub
         handleProductChange(index, "unit", item.value);
     };
 
-    console.log(values);
+    // console.log(values);
     return (
-        <div className="rounded-[12px] space-y-5">
-            <form autoComplete="off" onSubmit={handleSubmit}>
-                <h1>Generate Order</h1>
-
-                {/* Customer Information */}
-                <div className="py-5">
-                    <h3>Customer Information</h3>
+        <div className="">
+            <Title title="Generate Order" />
+            <form autoComplete="off" className="bg-black/40 backdrop-blur-sm p-5" onSubmit={handleSubmit}>
+                <div className="w-[20%] ">
                     <SearchSelectInput
+                        title="Customer Information"
                         data={customerOptions} // Using the predefined options directly
                         onSelect={handleCustomerSelect}
                         placeholder="Search Customer"
                     />
                 </div>
+                <hr className="my-10" />
 
                 {/* Product Table */}
-                <div className="py-5">
-                    <button
-                        type="button"
-                        className="bg-green-500 text-black py-2"
+                <div className="">
+                    {/* onClick={handleAddProduct} */}
+                    <Button
+                        className="py-1 "
                         onClick={handleAddProduct}
-                    >
-                        Add Product
-                    </button>
-                    <table className="w-full border text-left table-auto font-normal mt-4">
-                        <thead className="border">
+                        label="Add Product" />
+
+                    <table className="w-full text-left table-auto font-normal mt-4 ">
+                        <thead className="bg-black">
                             <tr className=" font-normal ">
-                                <th className="font-normal text-sm py-2 px-4 border-r">Product Name</th>
-                                <th className="font-normal text-sm py-2 px-4 border-r">Quantity</th>
-                                <th className="font-normal text-sm py-2 px-4 border-r">Unit Price</th>
-                                <th className="font-normal text-sm py-2 px-4 border-r">Unit</th>
+                                <th className="font-normal text-sm py-2 px-4 ">Product Name</th>
+                                <th className="font-normal text-sm py-2 px-4 ">Quantity</th>
+                                <th className="font-normal text-sm py-2 px-4 ">Unit Price</th>
+                                <th className="font-normal text-sm py-2 px-4 ">Unit</th>
                                 <th className="font-normal text-sm py-2 px-4"></th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody >
                             {products.map((product, index) => (
-                                <tr key={index}>
-                                    <td className="py-2 px-4">
+                                <tr key={index} >
+                                    <td>
                                         <SearchSelectInput
-                                            data={productOptions} // Adjust this to your product options
+                                            data={productOptions}
                                             onSelect={(item) => handleProductChange(index, "product_name", item.label)}
                                             placeholder="Search Product"
                                         />
                                     </td>
-                                    <td className="py-2 px-4">
+                                    <td >
                                         <TextInput
-                                            className="w-full"
+                                            className="w-full py-0.5 "
                                             id={`quantity-${index}`}
                                             placeholder="Enter quantity"
                                             value={product.quantity}
@@ -173,9 +172,9 @@ const GenerateOrderForm: FC<GenerateOrderFormType> = ({ isLoading, handleFormSub
                                             type="number"
                                         />
                                     </td>
-                                    <td className="py-2 px-4">
+                                    <td className="">
                                         <TextInput
-                                            className="w-full"
+                                            className="w-full py-0.5"
                                             id={`unit_price-${index}`}
                                             placeholder="Enter unit price"
                                             value={product.unit_price}
@@ -183,20 +182,20 @@ const GenerateOrderForm: FC<GenerateOrderFormType> = ({ isLoading, handleFormSub
                                             type="number"
                                         />
                                     </td>
-                                    <td className="py-2 px-4">
+                                    <td className="">
                                         <SearchSelectInput
-                                            data={unitOptions} // Adjust this to your unit options
+                                            data={unitOptions}
                                             onSelect={(item) => handleUnitSelect(index, item)}
                                             placeholder="Search Unit"
                                         />
                                     </td>
-                                    <td className="py-2 px-4">
+                                    <td className=" flex items-center justify-center mt-1.5">
                                         <button
                                             type="button"
                                             className="text-red-600"
                                             onClick={() => handleRemoveProduct(index)}
                                         >
-                                            X
+                                            <CloseIcon />
                                         </button>
                                     </td>
                                 </tr>

@@ -5,18 +5,18 @@ import { IconType } from "../shared/icons/icons";
 
 
 const buttonVariants = cva(
-  "leading-none text-white transition-all disabled:bg-slate-300  disabled:text-slate-600",
+  "leading-none  transition-all disabled:bg-slate-300  disabled:text-slate-600",
   {
     variants: {
       variant: {
         roundedBtn:
-          'rounded-[200px] text-xs px-[18px]  py-[12px] md:text-[15px] bg-black/40 md:px-6 md:py-2.5 xl:px-8 xl:py-3 xl:text-[16px]',
+          'rounded-[200px] text-xs text-black md:text-[15px] bg-gradient-to-r from-amber-100 to-teal-800/50  px-[18px] py-[12px] hover:scale-105 transition-all',
         roundedOutlinedBtn:
-          'rounded-[200px] text-xs text-black px-[18px] py-[12px] md:text-[15px] border border-green-500 md:px-6 md:py-2.5 xl:px-8 xl:py-3 xl:text-[16px] ',
+          'rounded-[200px] text-xs text-black md:text-[15px] border border-green-500  px-[18px] py-[12px] ',
         regulerBtn:
-          'rounded-[1px] text-xs px-[18px]  py-[12px] md:text-[15px] bg-black/40 md:px-6 md:py-2.5 xl:px-8 xl:py-3 xl:text-[16px]',
+          ' text-xs text-black px-[18px]hover:scale-105 transition-all   md:text-[15px] bg-gradient-to-r from-amber-100 to-teal-800/50  px-[18px] py-[12px]',
         regulerOutlineBtn:
-          ' bg-black/50  text-xs hover:bg-white/20 transition-all border border-white px-[18px] py-[12px] font-semibold ',
+          ' bg-black/50 text-white text-xs hover:bg-white/20 transition-all border border-white px-[18px] py-[12px] font-semibold ',
         iconBtn: 'text-14-regular  p-2 bg-green-500 ',
         profileCardbtn:
           'rounded-[200px] text-xs px-4 py-1.5 bg-green-200',
@@ -25,7 +25,7 @@ const buttonVariants = cva(
       },
     },
     defaultVariants: {
-      variant: "regulerOutlineBtn",
+      variant: "regulerBtn",
     },
   }
 )

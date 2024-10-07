@@ -69,7 +69,6 @@ const CustomerForm: FC<CustomerFormType> = ({ instance, isLoading, handleFormSub
         },
     });
 
-    console.log(values)
     const [open, setOpen] = useState(false)
 
 
@@ -78,7 +77,7 @@ const CustomerForm: FC<CustomerFormType> = ({ instance, isLoading, handleFormSub
             <Dialog onOpenChange={() => setOpen(!open)} open={open}>
                 <div className='cursor-pointer' onClick={() => setOpen(!open)}>
                     {instance ? <div><FaEdit className='text-green-500' /></div> : <div>
-                        <Button reverse icon={<IoMdAdd className='text-xl' />} label='New Customer' />
+                        <Button className='' reverse icon={<IoMdAdd className='text-xl' />} label='New Customer' />
                     </div>}
                 </div>
                 <DialogContent>

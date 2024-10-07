@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import clsx from 'clsx';
 
 interface Item {
     label: string;
@@ -10,7 +11,10 @@ interface SearchProps {
     placeholder?: string;
     title?: string;
     onSelect?: (item: Item) => void;
-    direction?: 'top' | 'bottom'; // Added direction prop
+    direction?: 'top' | 'bottom';
+    inputClassName?: string; // Class name for the input field
+    suggestionClassName?: string; // Class name for the suggestion list
+    suggestionItemClassName?: string; // Class name for each suggestion item
 }
 
 const SearchSelectInput: React.FC<SearchProps> = ({
@@ -18,16 +22,19 @@ const SearchSelectInput: React.FC<SearchProps> = ({
     placeholder = "Search ...",
     onSelect,
     title,
-    direction = 'bottom' // Default direction is bottom
+    direction = 'bottom',
+    inputClassName, // Get the input class name from props
+    suggestionClassName, // Get the suggestion class name from props
+    suggestionItemClassName, // Get the suggestion item class name from props
 }) => {
     const [search, setSearch] = useState<string>("");
     const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
-    const [highlightedIndex, setHighlightedIndex] = useState<number>(-1); // Track highlighted index
+    const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
 
     const onSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearch(e.target.value);
         setShowSuggestions(true);
-        setHighlightedIndex(-1); // Reset highlighted index on new search
+        setHighlightedIndex(-1);
     };
 
     const onClickItem = (item: Item) => {
@@ -38,12 +45,11 @@ const SearchSelectInput: React.FC<SearchProps> = ({
         }
     };
 
-    // Filter based on search input
     const filtered = search.length > 0
         ? data.filter((item) =>
             item.label.toLowerCase().includes(search.toLowerCase())
         )
-        : data; // Show all data when search is empty
+        : data;
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "ArrowDown") {
@@ -63,51 +69,61 @@ const SearchSelectInput: React.FC<SearchProps> = ({
         }
     };
 
-    // Handle focus to show all suggestions
     const handleFocus = () => {
         setShowSuggestions(true);
-        setHighlightedIndex(-1); // Reset highlighted index
+        setHighlightedIndex(-1);
     };
 
-    // Optional: Hide suggestions when input loses focus
     const handleBlur = () => {
         setTimeout(() => {
             setShowSuggestions(false);
-        }, 100); // Delay to allow click on suggestion
+        }, 100);
     };
 
     useEffect(() => {
-        setHighlightedIndex(-1); // Reset highlighted index when suggestions are shown
+        setHighlightedIndex(-1);
     }, [showSuggestions]);
 
     return (
-        <div >
-            {
-                title && <p className='py-2'>{title}</p>
-            }
+        <div>
+            {title && <p className="py-1">{title}</p>}
             <div className="relative">
                 <input
                     type="text"
                     value={search}
                     placeholder={placeholder}
                     onChange={onSearch}
-                    onKeyDown={handleKeyDown} 
+                    onKeyDown={handleKeyDown}
                     onFocus={handleFocus}
-                    onBlur={handleBlur} 
-                    className="w-full px-1 py-0.5 bg-black/40 border focus:outline-none text-white"
+                    onBlur={handleBlur}
+                    className={clsx(
+                        "w-full px-1 py-1 bg-black/50 border border-gray-700 focus:outline-none text-white",
+                        inputClassName // Apply custom input class
+                    )}
                 />
                 {showSuggestions && (
                     <ul
-                        className={`absolute z-10 w-full rounded-md max-h-60 overflow-auto bg-white text-black border border-gray-300 ${direction === 'top' ? 'bottom-full mb-1' : 'top-full mt-1 max-h-[calc(50vh)]'
-                            }`}
+                        className={clsx(
+                            "absolute z-10 w-full rounded-md max-h-60 overflow-auto bg-white text-black border border-gray-300",
+                            suggestionClassName, // Apply custom suggestion class
+                            {
+                                "bottom-full mb-1": direction === "top",
+                                "top-full mt-1 max-h-[calc(50vh)]": direction === "bottom",
+                            }
+                        )}
                     >
                         {filtered.length > 0 ? (
                             filtered.map((item, index) => (
                                 <li
                                     key={item.value}
                                     onClick={() => onClickItem(item)}
-                                    className={`p-2 cursor-pointer hover:bg-black/20 transition-all ${highlightedIndex === index ? "bg-white/20" : ""
-                                        }`}
+                                    className={clsx(
+                                        "p-2 cursor-pointer hover:bg-black/20 transition-all",
+                                        suggestionItemClassName, // Apply custom suggestion item class
+                                        {
+                                            "bg-white/20": highlightedIndex === index,
+                                        }
+                                    )}
                                 >
                                     {item.label}
                                 </li>

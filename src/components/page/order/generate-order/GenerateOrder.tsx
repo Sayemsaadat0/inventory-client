@@ -2,9 +2,9 @@ import { FC, useState } from "react";
 import { useFormik } from "formik";
 import TextInput from "../../../shared/inputs/TextInput";
 import SearchSelectInput from "../../../shared/inputs/SearchSelectInput";
-import Title from "../../../shared/Title";
-import Button from "../../../ui/button";
-import CloseIcon from "../../../shared/icons/CloseIcon";
+import Button from "../../../ui/button"; // Custom Button Component
+import { MdOutlineDeleteOutline } from "react-icons/md";
+import CustomerForm from "../../entities/customer/CustomerForm";
 
 // Define types for Product and Select options
 type Product = {
@@ -28,30 +28,26 @@ type GenerateOrderFormType = {
 const fakeCustomerData = [
     { id: "1", customer_name: "John Doe" },
     { id: "2", customer_name: "Jane Smith" },
-    { id: "2", customer_name: "Jane Smith" },
 ];
 
-// Predefined options for the customer data
+// Sample data for warehouse options
+const fakeWarehouseData = [
+    { id: "1", warehouse_name: "Warehouse A" },
+    { id: "2", warehouse_name: "Warehouse B" },
+];
+
+// Predefined options for the customer and warehouse data
 const customerOptions = fakeCustomerData.map(i => ({ label: i.customer_name, value: i.id }));
+const warehouseOptions = fakeWarehouseData.map(i => ({ label: i.warehouse_name, value: i.warehouse_name }));
 
 const productOptions: SelectOptionType[] = [
     { value: "1", label: "Product A" },
     { value: "2", label: "Product B" },
 ];
 
-const warehouseOptions: SelectOptionType[] = [
-    { value: "1", label: "Warehouse 1" },
-    { value: "2", label: "Warehouse 2" },
-];
-
-// Sample data for unit options
-const unitOptions: SelectOptionType[] = [
-    { value: "kg", label: "Kilogram" },
-    { value: "pcs", label: "Pieces" },
-];
-
 const GenerateOrderForm: FC<GenerateOrderFormType> = ({ isLoading, handleFormSubmit }) => {
     const [products, setProducts] = useState<Product[]>([{ product_name: "", quantity: 0, unit_price: 0, unit: "" }]);
+    // const date = new Date();
 
     const calculateTotalPrice = (products: Product[]) => {
         return products.reduce((total, product) => total + product.quantity * product.unit_price, 0);
@@ -69,17 +65,16 @@ const GenerateOrderForm: FC<GenerateOrderFormType> = ({ isLoading, handleFormSub
                 customer_name: '',
                 customer_id: '',
             },
+            warehouse_name: '',
             products: products,
-            warehouse: '',
             date: '',
-            created_at: new Date().toISOString().split('T')[0],
             total_price: 0,
             isPaid: false,
         },
         onSubmit: async (data) => {
             try {
+                data.total_price = calculateTotalPrice(products);
                 handleFormSubmit(data);
-                console.log("Form Data:", data);
             } catch (err) {
                 console.log(err);
             }
@@ -98,9 +93,15 @@ const GenerateOrderForm: FC<GenerateOrderFormType> = ({ isLoading, handleFormSub
     };
 
     const handleProductChange = (index: number, field: string, value: string | number) => {
-        const updatedProducts = products.map((product, i) =>
-            i === index ? { ...product, [field]: value } : product
-        );
+        const updatedProducts = products.map((product, i) => {
+            if (i === index) {
+                if (field === "quantity" || field === "unit_price") {
+                    return { ...product, [field]: Number(value) }; // Convert value to number
+                }
+                return { ...product, [field]: value };
+            }
+            return product;
+        });
         setProducts(updatedProducts);
         setFieldValue("products", updatedProducts);
         setFieldValue("total_price", calculateTotalPrice(updatedProducts));
@@ -111,144 +112,152 @@ const GenerateOrderForm: FC<GenerateOrderFormType> = ({ isLoading, handleFormSub
         setFieldValue("customer.customer_name", item.label);
     };
 
-    const handleWarehouseSelect = (item: { value: string; label: string }) => {
-        setFieldValue("warehouse", item.value);
+    const handleWarehouseSelect = (item: { value: string }) => {
+        setFieldValue("warehouse_name", item.value); // Set warehouse_name directly
     };
 
-    const handleUnitSelect = (index: number, item: { value: string; label: string }) => {
-        handleProductChange(index, "unit", item.value);
-    };
-
-    // console.log(values);
+    console.log(values);
     return (
-        <div className="">
-            <Title title="Generate Order" />
-            <form autoComplete="off" className="bg-black/40 backdrop-blur-sm p-5" onSubmit={handleSubmit}>
-                <div className="w-[20%] ">
-                    <SearchSelectInput
-                        title="Customer Information"
-                        data={customerOptions} // Using the predefined options directly
-                        onSelect={handleCustomerSelect}
-                        placeholder="Search Customer"
-                    />
+        <div className="p-5 min-h-[calc(100vh-200px)] bg-black/30 backdrop-blur-sm">
+            <form autoComplete="off" className="relative" onSubmit={handleSubmit}>
+                <div className="flex  justify-between gap-10">
+                    <div className="w-full">
+                        <TextInput
+                            className="w-full  bg-black/20"
+                            label="Select a date"
+                            id="date"
+                            placeholder="Date"
+                            value={values.date}
+                            onChange={handleChange}
+                            type="date"
+                        />
+                    </div>
+                    <div className="w-full">
+                        <SearchSelectInput
+                            inputClassName="placeholder:text-white  bg-black/20 border-0 py-2 w-full"
+                            title="Select Warehouse"
+                            data={warehouseOptions}
+                            onSelect={handleWarehouseSelect}
+                            placeholder="Search Warehouse"
+                        />
+                    </div>
+                    <div className="flex justify-end items-end w-full ">
+                        <SearchSelectInput
+                            inputClassName="placeholder:text-white  border-0  bg-black/20 py-2 w-full"
+                            title="Customer Information"
+                            data={customerOptions}
+                            onSelect={handleCustomerSelect}
+                            placeholder="Search Customer"
+                        />
+                        <div>
+                            <CustomerForm handleFormSubmit={() => undefined} isLoading={false} />
+                        </div>
+                    </div>
                 </div>
-                <hr className="my-10" />
-
-                {/* Product Table */}
-                <div className="">
-                    {/* onClick={handleAddProduct} */}
+                <div className="h-[0.1px] w-full bg-gray-500 my-5"></div>
+                <div>
                     <Button
-                        className="py-1 "
+                        className="py-2 px-4"
                         onClick={handleAddProduct}
-                        label="Add Product" />
-
-                    <table className="w-full text-left table-auto font-normal mt-4 ">
-                        <thead className="bg-black">
-                            <tr className=" font-normal ">
-                                <th className="font-normal text-sm py-2 px-4 ">Product Name</th>
-                                <th className="font-normal text-sm py-2 px-4 ">Quantity</th>
-                                <th className="font-normal text-sm py-2 px-4 ">Unit Price</th>
-                                <th className="font-normal text-sm py-2 px-4 ">Unit</th>
-                                <th className="font-normal text-sm py-2 px-4"></th>
-                            </tr>
-                        </thead>
-                        <tbody >
-                            {products.map((product, index) => (
-                                <tr key={index} >
-                                    <td>
-                                        <SearchSelectInput
-                                            data={productOptions}
-                                            onSelect={(item) => handleProductChange(index, "product_name", item.label)}
-                                            placeholder="Search Product"
-                                        />
-                                    </td>
-                                    <td >
-                                        <TextInput
-                                            className="w-full py-0.5 "
-                                            id={`quantity-${index}`}
-                                            placeholder="Enter quantity"
-                                            value={product.quantity}
-                                            onChange={(e) => handleProductChange(index, "quantity", e.target.value)}
-                                            type="number"
-                                        />
-                                    </td>
-                                    <td className="">
-                                        <TextInput
-                                            className="w-full py-0.5"
-                                            id={`unit_price-${index}`}
-                                            placeholder="Enter unit price"
-                                            value={product.unit_price}
-                                            onChange={(e) => handleProductChange(index, "unit_price", e.target.value)}
-                                            type="number"
-                                        />
-                                    </td>
-                                    <td className="">
-                                        <SearchSelectInput
-                                            data={unitOptions}
-                                            onSelect={(item) => handleUnitSelect(index, item)}
-                                            placeholder="Search Unit"
-                                        />
-                                    </td>
-                                    <td className=" flex items-center justify-center mt-1.5">
-                                        <button
-                                            type="button"
-                                            className="text-red-600"
-                                            onClick={() => handleRemoveProduct(index)}
-                                        >
-                                            <CloseIcon />
-                                        </button>
-                                    </td>
+                        label="Add More"
+                    />
+                    <div className="min-h-[400px] max-h-[400px] overflow-y-auto">
+                        <table className="w-full border text-left table-auto font-normal">
+                            <thead className="bg-gradient-to-r from-amber-100 to-teal-200 text-black">
+                                <tr className="font-normal">
+                                    <th className="font-normal text-sm p-2 w-10">Index</th>
+                                    <th className="font-normal text-sm py-2 px-4">Product Name</th>
+                                    <th className="font-normal text-sm py-2 px-4">Unit</th>
+                                    <th className="font-normal text-sm py-2 px-4">Quantity</th>
+                                    <th className="font-normal text-sm py-2 px-4">Unit Price</th>
+                                    <th className="font-normal text-sm py-2 px-4 flex justify-end">Action</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody className="bg-black/20">
+                                {products.map((product, index) => (
+                                    <tr key={index} className="border h-auto">
+                                        <td className="text-center">{index + 1}</td>
+                                        <td className="border">
+                                            <SearchSelectInput
+                                                inputClassName="placeholder:text-white py-2 border-none w-full bg-inherit"
+                                                data={productOptions}
+                                                onSelect={(item) => handleProductChange(index, "product_name", item.label)}
+                                                placeholder="Search Product"
+                                            />
+                                        </td>
+                                        <td className="border">
+                                            <TextInput
+                                                className="placeholder:text-white placeholder:text-[12px] py-2 border-none w-full bg-inherit"
+                                                id={`unit-${index}`}
+                                                placeholder="Unit"
+                                                value={product.unit}
+                                                onChange={(e) => handleProductChange(index, "unit", e.target.value)}
+                                                type="text"
+                                            />
+                                        </td>
+                                        <td className="border">
+                                            <TextInput
+                                                className="placeholder:text-white placeholder:text-[12px] py-2 border-none w-full bg-inherit"
+                                                id={`quantity-${index}`}
+                                                placeholder="Enter quantity"
+                                                value={product.quantity}
+                                                onChange={(e) => handleProductChange(index, "quantity", e.target.value)}
+                                                type="number"
+                                            />
+                                        </td>
+                                        <td className="border">
+                                            <TextInput
+                                                className="placeholder:text-white placeholder:text-[12px] py-2 border-none w-full bg-inherit"
+                                                id={`unit_price-${index}`}
+                                                placeholder="Enter unit price"
+                                                value={product.unit_price}
+                                                onChange={(e) => handleProductChange(index, "unit_price", e.target.value)}
+                                                type="number"
+                                            />
+                                        </td>
+                                        <td className="border flex justify-end">
+                                            <button
+                                                type="button"
+                                                className="text-2xl text-red-500 p-2"
+                                                onClick={() => handleRemoveProduct(index)}
+                                            >
+                                                <MdOutlineDeleteOutline />
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
-                {/* Warehouse and Date */}
-                <div className="py-5">
-                    <h3>Warehouse</h3>
-                    <SearchSelectInput
-                        data={warehouseOptions}
-                        onSelect={handleWarehouseSelect}
-                        placeholder="Search Warehouse"
-                    />
-                </div>
+                <div className="flex justify-end  mt-10">
 
-                <div className="grid grid-cols-2 gap-5">
-                    <input
-                        className="w-full"
-                        value={values.date}
-                        onChange={handleChange}
-                        type="date"
-                        placeholder="Date"
-                    />
-                </div>
-
-                <div className="grid grid-cols-2 gap-5 py-5">
-                    <input
-                        className="w-full"
-                        value={calculateTotalPrice(products)}
-                        onChange={handleChange}
-                        type="number"
-                        disabled
-                    />
-                </div>
-
-                {/* Submit Button */}
-                <div className="w-full flex justify-center">
-                    <button
-                        disabled={isSubmitting}
-                        className="w-full bg-blue-500 text-white py-2"
-                        type="submit"
-                    >
-                        {isLoading ? "Publishing.." : "Publish"}
-                    </button>
+                    <div className=" backdrop-blur-md bg-black/20 p-2 w-[20%] ">
+                        <div className="border-b grid grid-cols-3 justify-items-start py-3">
+                            <p>Products </p>
+                            <p>:</p>
+                            <p>{products?.length}</p>
+                        </div>
+                        <div className=" py-3  grid grid-cols-3 justify-items-start">
+                            <p className="">Grand Total </p>
+                            <p>:</p>
+                            <p>$ {calculateTotalPrice(products)}</p>
+                        </div>
+                        <div>
+                            <Button
+                                type="submit"
+                                label={isLoading ? "Loading..." : "Generate Order"}
+                                disabled={isSubmitting || isLoading}
+                                className=" w-full"
+                            />
+                        </div>
+                    </div>
                 </div>
             </form>
         </div>
     );
 };
-
 const GenerateOrder = () => {
     return (
         <div className="relative">

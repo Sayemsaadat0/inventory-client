@@ -18,7 +18,7 @@ const SharedTable: FC<SharedTableProps> = ({ columns, data, isLoading }) => {
         <div className="overflow-x-auto max-w-full ">
             <div className="w-full">
                 <table className="w-full text-left ">
-                    <thead className="sticky  z-10 top-0 w-full h-fit  bg-white text-black ">
+                    <thead className="sticky  z-10 top-0 w-full h-fit  bg-gradient-to-r from-amber-100 to-teal-200 text-black ">
                         <tr>
                             {columns.map((column, index) => (
                                 <th

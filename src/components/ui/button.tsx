@@ -10,11 +10,11 @@ const buttonVariants = cva(
     variants: {
       variant: {
         roundedBtn:
-          'rounded-[200px] text-xs text-black md:text-[15px] bg-gradient-to-r from-amber-100 to-teal-800/50  px-[18px] py-[12px] hover:scale-105 transition-all',
+          'rounded-[200px] text-xs text-black md:text-[15px] bg-gradient-to-r from-amber-100 to-teal-800/50  px-[18px] py-[12px]  transition-all',
         roundedOutlinedBtn:
           'rounded-[200px] text-xs text-black md:text-[15px] border border-green-500  px-[18px] py-[12px] ',
         regulerBtn:
-          ' text-xs text-black px-[18px]hover:scale-105 transition-all   md:text-[15px] bg-gradient-to-r from-amber-100 to-teal-800/50  px-[18px] py-[12px]',
+          ' text-xs text-black px-2  transition-all bg-gradient-to-r from-amber-100 to-teal-800/50  py-2.5 ',
         regulerOutlineBtn:
           ' bg-black/50 text-white text-xs hover:bg-white/20 transition-all border border-white px-[18px] py-[12px] font-semibold ',
         iconBtn: 'text-14-regular  p-2 bg-green-500 ',

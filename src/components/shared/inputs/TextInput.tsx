@@ -1,10 +1,9 @@
-
 import { cva } from "class-variance-authority";
 import React, { useEffect } from "react";
 import { cn } from "../../../lib/utils";
 
 const inputVariants = cva(
-    "border-2 outline-none bg-inherit py-1  px-4   peer  disabled:bg-gray-100"
+    "bg-black/50 outline-none py-2  px-4   peer  disabled:cursor-not-allowed"
 );
 
 export interface InputProps

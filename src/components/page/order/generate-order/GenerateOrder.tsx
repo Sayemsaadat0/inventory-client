@@ -5,6 +5,7 @@ import SearchSelectInput from "../../../shared/inputs/SearchSelectInput";
 import Button from "../../../ui/button"; // Custom Button Component
 import { MdOutlineDeleteOutline } from "react-icons/md";
 import CustomerForm from "../../entities/customer/CustomerForm";
+import { showDatePicker } from "../../../../lib/datePicker";
 
 // Define types for Product and Select options
 type Product = {
@@ -128,6 +129,7 @@ const GenerateOrderForm: FC<GenerateOrderFormType> = ({ isLoading, handleFormSub
                             id="date"
                             placeholder="Date"
                             value={values.date}
+                            onClick={(e) => showDatePicker(e)}
                             onChange={handleChange}
                             type="date"
                         />

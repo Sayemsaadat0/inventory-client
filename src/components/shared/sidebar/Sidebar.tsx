@@ -41,7 +41,8 @@ const Sidebar = () => {
       label: "Inventory",
       icon: <InventoryIcon />,
       subRoutes: [
-        { path: "/stock-overview/unit-warehouse", label: "Units & Warehouses" },
+        { path: "/stock-overview/unit", label: "Units" },
+        { path: "/stock-overview/warehouse", label: "Warehouses" },
         { path: "/stock-overview", label: "Stock Overview" },
       ],
     },

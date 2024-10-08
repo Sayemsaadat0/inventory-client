@@ -12,9 +12,9 @@ interface SearchProps {
     title?: string;
     onSelect?: (item: Item) => void;
     direction?: 'top' | 'bottom';
-    inputClassName?: string; // Class name for the input field
-    suggestionClassName?: string; // Class name for the suggestion list
-    suggestionItemClassName?: string; // Class name for each suggestion item
+    inputClassName?: string; 
+    suggestionClassName?: string; 
+    suggestionItemClassName?: string; 
 }
 
 const SearchSelectInput: React.FC<SearchProps> = ({
@@ -23,9 +23,9 @@ const SearchSelectInput: React.FC<SearchProps> = ({
     onSelect,
     title,
     direction = 'bottom',
-    inputClassName, // Get the input class name from props
-    suggestionClassName, // Get the suggestion class name from props
-    suggestionItemClassName, // Get the suggestion item class name from props
+    inputClassName, 
+    suggestionClassName, 
+    suggestionItemClassName, 
 }) => {
     const [search, setSearch] = useState<string>("");
     const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
@@ -97,7 +97,7 @@ const SearchSelectInput: React.FC<SearchProps> = ({
                     onFocus={handleFocus}
                     onBlur={handleBlur}
                     className={clsx(
-                        "w-full px-1 py-1 bg-black/50 border border-gray-700 focus:outline-none text-white",
+                        "w-full px-1 py-1  border border-gray-700 focus:outline-none text-white",
                         inputClassName // Apply custom input class
                     )}
                 />
@@ -119,7 +119,7 @@ const SearchSelectInput: React.FC<SearchProps> = ({
                                     onClick={() => onClickItem(item)}
                                     className={clsx(
                                         "p-2 cursor-pointer hover:bg-black/20 transition-all",
-                                        suggestionItemClassName, // Apply custom suggestion item class
+                                        suggestionItemClassName, 
                                         {
                                             "bg-white/20": highlightedIndex === index,
                                         }

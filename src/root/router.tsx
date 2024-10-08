@@ -15,6 +15,7 @@ import Customers from "../components/page/entities/customer/Customers";
 import Products from "../components/page/entities/products/Products";
 import PaymentType from "../components/page/entities/payment-type/PaymentType";
 import Ledgers from "../components/page/entities/ledgers/Ledgers";
+import DownloadChalan from "../components/page/order/chalan/DownloadChalan";
 
 const router = createBrowserRouter([
   {
@@ -67,6 +68,12 @@ const router = createBrowserRouter([
       {
         path: "/order/chalan",
         element: <Chalan />,
+      },
+      {
+        path: "/order/chalan/download/:id",
+        loader: ({ params }) =>
+          fetch(`/order/chalan/download/${params.invoice_id}`),
+        element: <DownloadChalan />,
       },
       {
         path: "/order/chalan-settlemenet",

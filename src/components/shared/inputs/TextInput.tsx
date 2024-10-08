@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { cn } from "../../../lib/utils";
 
 const inputVariants = cva(
-    "bg-black/50 outline-none py-2  px-4   peer  disabled:cursor-not-allowed"
+    "bg-black/50 border outline-none py-2  px-4   peer  disabled:cursor-not-allowed"
 );
 
 export interface InputProps

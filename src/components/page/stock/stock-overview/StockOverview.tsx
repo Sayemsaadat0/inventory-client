@@ -1,6 +1,5 @@
 import { inventoryFakeData } from "../../../../data/dummy.data";
 import SharedTable from "../../../shared/table/SharedTable";
-import Title from "../../../shared/Title";
 import AddToStockForm from "./AddToStockForm";
 
 
@@ -50,8 +49,8 @@ const StockOverview = () => {
 
     return (
         <div className="space-y-5">
-            <div className="flex justify-between">
-                <Title title="Sotck Overview" />
+            <div className="flex justify-end">
+                {/* <Title title="Sotck Overview" /> */}
                 <AddToStockForm handleFormSubmit={() => undefined} isLoading={false} />
             </div>
             <div>

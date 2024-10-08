@@ -476,50 +476,232 @@ export const salesData = [
 ];
 
 
+// export const chalanDataFake = [
+//     {
+//         invoice_id: 'INV001',
+//         customer: {
+//             customer_name: 'John Doe',
+//             customer_phone_no: '123-456-7890',
+//             customer_id: 'CUST001',
+//         },
+//         products: [
+//             { product_name: 'Product A', quantity: 2, price: 50 },
+//             { product_name: 'Product B', quantity: 1, price: 30 },
+//             { product_name: 'Product A', quantity: 2, price: 50 },
+//             { product_name: 'Product B', quantity: 1, price: 30 },
+//             { product_name: 'Product A', quantity: 2, price: 50 },
+//             { product_name: 'Product B', quantity: 1, price: 30 },
+//             { product_name: 'Product A', quantity: 2, price: 50 },
+//             { product_name: 'Product B', quantity: 1, price: 30 },
+//         ],
+//         warehouse: 'Warehouse 1',
+//         date: '2024-09-25',
+//         created_at: new Date().toISOString().split('T')[0],
+
+//         total_price: 130,
+//         isPaid: false,
+//     },
+//     {
+//         invoice_id: 'INV002',
+//         customer: {
+//             customer_name: 'No Name',
+//             customer_phone_no: '123-456-7890',
+//             customer_id: 'CUST0002',
+//         },
+//         products: [
+//             { product_name: 'Product A', quantity: 2, price: 50 },
+//             { product_name: 'Product B', quantity: 1, price: 30 },
+//         ],
+//         warehouse: 'Warehouse 2',
+//         date: '2024-09-25',
+//         created_at: new Date().toISOString().split('T')[0],
+
+
+//         total_price: 130,
+//         isPaid: false,
+//     },
+// ];
+
+
 export const chalanDataFake = [
     {
-        invoice_id: 'INV001',
-        customer: {
-            customer_name: 'John Doe',
-            customer_phone_no: '123-456-7890',
-            customer_id: 'CUST001',
-        },
+        invoice_id: "INV001",
+        issued_date: "2024-10-01",
+        created_at: "2024-10-01T10:00:00Z",
+        chalan_date: null,
+        paid_date: null,
+        warehouse_name: "Warehouse A",
+        customer_name: "John Doe",
+        customer_id: "1",
         products: [
-            { product_name: 'Product A', quantity: 2, price: 50 },
-            { product_name: 'Product B', quantity: 1, price: 30 },
-            { product_name: 'Product A', quantity: 2, price: 50 },
-            { product_name: 'Product B', quantity: 1, price: 30 },
-            { product_name: 'Product A', quantity: 2, price: 50 },
-            { product_name: 'Product B', quantity: 1, price: 30 },
-            { product_name: 'Product A', quantity: 2, price: 50 },
-            { product_name: 'Product B', quantity: 1, price: 30 },
+            {
+                product_name: "Product A",
+                product_id: "1",
+                unit: "pcs",
+                quantity: 10,
+                unit_price: 15.0,
+            },
+            {
+                product_name: "Product B",
+                product_id: "2",
+                unit: "pcs",
+                quantity: 5,
+                unit_price: 20.0,
+            }
         ],
-        warehouse: 'Warehouse 1',
-        date: '2024-09-25',
-        created_at: new Date().toISOString().split('T')[0],
-
-        total_price: 130,
+        total_price: 125.0,
         isPaid: false,
+        isIssedChalan: true,
+        payment_type: "bank",
+        paid_amount: null,
+        note: "First order from John Doe.",
+        recived_by: {
+            user_name: "Admin User",
+            user_id: "admin1",
+        }
     },
     {
-        invoice_id: 'INV002',
-        customer: {
-            customer_name: 'No Name',
-            customer_phone_no: '123-456-7890',
-            customer_id: 'CUST0002',
-        },
+        invoice_id: "INV002",
+        issued_date: "2024-10-02",
+        created_at: "2024-10-02T11:30:00Z",
+        chalan_date: null,
+        paid_date: null,
+        warehouse_name: "Warehouse B",
+        customer_name: "Jane Smith",
+        customer_id: "2",
         products: [
-            { product_name: 'Product A', quantity: 2, price: 50 },
-            { product_name: 'Product B', quantity: 1, price: 30 },
+            {
+                product_name: "Product A",
+                product_id: "1",
+                unit: "pcs",
+                quantity: 20,
+                unit_price: 15.0,
+            },
+            {
+                product_name: "Product C",
+                product_id: "3",
+                unit: "pcs",
+                quantity: 8,
+                unit_price: 30.0,
+            }
         ],
-        warehouse: 'Warehouse 2',
-        date: '2024-09-25',
-        created_at: new Date().toISOString().split('T')[0],
-
-
-        total_price: 130,
+        total_price: 240.0,
         isPaid: false,
+        // isIssedChalan: false,
+        payment_type: "bank",
+        paid_amount: null,
+        note: "Urgent delivery for Jane Smith.",
+        recived_by: {
+            user_name: "Admin User",
+            user_id: "admin1",
+        }
     },
+    {
+        invoice_id: "INV003",
+        issued_date: "2024-10-03",
+        created_at: "2024-10-03T14:15:00Z",
+        chalan_date: null,
+        paid_date: null,
+        warehouse_name: "Warehouse A",
+        customer_name: "Alice Johnson",
+        customer_id: "3",
+        products: [
+            {
+                product_name: "Product D",
+                product_id: "4",
+                unit: "pcs",
+                quantity: 15,
+                unit_price: 10.0,
+            },
+            {
+                product_name: "Product E",
+                product_id: "5",
+                unit: "pcs",
+                quantity: 12,
+                unit_price: 25.0,
+            }
+        ],
+        total_price: 370.0,
+        isPaid: false,
+        isIssedChalan: false,
+        payment_type: "bank",
+        paid_amount: null,
+        note: "Regular order from Alice Johnson.",
+        recived_by: {
+            user_name: "Admin User",
+            user_id: "admin1",
+        }
+    },
+    {
+        invoice_id: "INV004",
+        issued_date: "2024-10-04",
+        created_at: "2024-10-04T09:45:00Z",
+        chalan_date: null,
+        paid_date: null,
+        warehouse_name: "Warehouse C",
+        customer_name: "Bob Brown",
+        customer_id: "4",
+        products: [
+            {
+                product_name: "Product F",
+                product_id: "6",
+                unit: "pcs",
+                quantity: 25,
+                unit_price: 12.0,
+            },
+            {
+                product_name: "Product G",
+                product_id: "7",
+                unit: "pcs",
+                quantity: 10,
+                unit_price: 18.0,
+            }
+        ],
+        total_price: 420.0,
+        isPaid: false,
+        isIssedChalan: false,
+        payment_type: "bank",
+        paid_amount: null,
+        note: "New customer Bob Brown.",
+        recived_by: {
+            user_name: "Admin User",
+            user_id: "admin1",
+        }
+    },
+    {
+        invoice_id: "INV005",
+        issued_date: "2024-10-05",
+        created_at: "2024-10-05T16:00:00Z",
+        chalan_date: null,
+        paid_date: null,
+        warehouse_name: "Warehouse A",
+        customer_name: "Charlie Black",
+        customer_id: "5",
+        products: [
+            {
+                product_name: "Product H",
+                product_id: "8",
+                unit: "pcs",
+                quantity: 5,
+                unit_price: 50.0,
+            },
+            {
+                product_name: "Product I",
+                product_id: "9",
+                unit: "pcs",
+                quantity: 3,
+                unit_price: 70.0,
+            }
+        ],
+        total_price: 495.0,
+        isPaid: false,
+        isIssedChalan: false,
+        payment_type: "bank",
+        paid_amount: null,
+        note: "Bulk order from Charlie Black.",
+        recived_by: {
+            user_name: "Admin User",
+            user_id: "admin1",
+        }
+    }
 ];
-
-

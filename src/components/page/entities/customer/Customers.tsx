@@ -1,6 +1,5 @@
 import { fakeCustomerData } from "../../../../data/dummy.data";
 import SharedTable from "../../../shared/table/SharedTable";
-import Title from "../../../shared/Title";
 import CustomerForm from "./CustomerForm";
 
 
@@ -49,8 +48,8 @@ const Customers = () => {
 
   return (
     <div className="space-y-5">
-      <div className="flex justify-between">
-        <Title title="List of Customers" />
+      <div className="flex justify-end">
+        {/* <Title title="List of Customers" /> */}
         <CustomerForm handleFormSubmit={() => undefined} isLoading={false} />
       </div>
       <div>

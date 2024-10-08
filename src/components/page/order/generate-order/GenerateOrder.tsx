@@ -118,12 +118,12 @@ const GenerateOrderForm: FC<GenerateOrderFormType> = ({ isLoading, handleFormSub
 
     console.log(values);
     return (
-        <div className="p-5 min-h-[calc(100vh-200px)] bg-black/30 backdrop-blur-sm">
+        <div className="p-5  bg-black/30 backdrop-blur-sm">
             <form autoComplete="off" className="relative" onSubmit={handleSubmit}>
                 <div className="flex  justify-between gap-10">
                     <div className="w-full">
                         <TextInput
-                            className="w-full  bg-black/20"
+                            className="w-full  bg-black/20 border-0"
                             label="Select a date"
                             id="date"
                             placeholder="Date"

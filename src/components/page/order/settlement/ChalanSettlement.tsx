@@ -1,12 +1,10 @@
-import  { useState } from "react";
+import { useState } from "react";
 import Button from "../../../ui/button";
 import SharedTable from "../../../shared/table/SharedTable";
 import { chalanDataFake } from "../../../../data/dummy.data";
 
-
 const ChalanSettlement = () => {
-
-const [expandedInvoices, setExpandedInvoices] = useState<string[]>([]);
+  const [expandedInvoices, setExpandedInvoices] = useState<string[]>([]);
 
   const toggleExpandInvoice = (invoiceId: string) => {
     setExpandedInvoices((prev) =>
@@ -16,32 +14,35 @@ const [expandedInvoices, setExpandedInvoices] = useState<string[]>([]);
     );
   };
 
+  // Filtered data based on isIssedChalan
+  const filteredData = chalanDataFake.filter((invoice) => invoice.isIssedChalan);
+
   const columns = [
     {
       title: "Invoice No",
       dataKey: "invoice_id",
       row: (data: any) => <div>{data.invoice_id}</div>,
     },
-
     {
       title: "Customer Info",
       dataKey: "customer",
       row: (data: any) => (
         <div>
-          <p>{data.customer.customer_name}</p>
-          <p className="text-sm text-gray-500">{data.customer.customer_phone_no}</p>
+          <p>{data.customer_name}</p>
+          {/* Adjusted for your data structure */}
+          <p className="text-sm text-gray-500">{data.customer_id}</p>
         </div>
       ),
     },
     {
       title: "Date",
       dataKey: "date",
-      row: (data: any) => <div>{data.date}</div>,
+      row: (data: any) => <div>{data.issued_date}</div>,
     },
     {
       title: "Warehouse",
       dataKey: "warehouse",
-      row: (data: any) => <div>{data.warehouse}</div>,
+      row: (data: any) => <div>{data.warehouse_name}</div>,
     },
     {
       title: "Products",
@@ -57,7 +58,7 @@ const [expandedInvoices, setExpandedInvoices] = useState<string[]>([]);
               <div key={index} className="mb-2">
                 <p className="font-semibold">{product.product_name}</p>
                 <p className="text-sm text-gray-500">
-                  Quantity: {product.quantity}, Price: ${product.price}
+                  Quantity: {product.quantity}, Price: ${product.unit_price}
                 </p>
               </div>
             ))}
@@ -81,9 +82,7 @@ const [expandedInvoices, setExpandedInvoices] = useState<string[]>([]);
   ];
 
   return (
-    <div className="space-y-5"
-    
-    >
+    <div className="space-y-5">
       <div className="flex justify-between">
         <p className="text-xl w-fit p-2 text-black bg-white">Accounts List</p>
         <Button label="Add Invoice" />
@@ -92,8 +91,12 @@ const [expandedInvoices, setExpandedInvoices] = useState<string[]>([]);
         <SharedTable
           columns={columns}
           isLoading={false}
-          data={chalanDataFake || []}
+          data={filteredData || []} // Use the filtered data here
         />
+      </div>
+      {/* Confirm Button */}
+      <div className="flex justify-end">
+        <Button label="Confirm" />
       </div>
     </div>
   );

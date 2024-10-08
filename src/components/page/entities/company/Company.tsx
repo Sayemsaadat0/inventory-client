@@ -1,6 +1,5 @@
 import { fakeCompanyData } from "../../../../data/dummy.data";
 import SharedTable from "../../../shared/table/SharedTable";
-import Title from "../../../shared/Title";
 import CompanyForm from "./CompanyForm";
 
 const Company = () => {
@@ -39,8 +38,7 @@ const Company = () => {
 
     return (
         <div className="space-y-5">
-            <div className="flex justify-between">
-                <Title title="List of Companies" />
+            <div className="flex justify-end">
                 <CompanyForm handleFormSubmit={() => undefined} isLoading={false} />
             </div>
             <div>

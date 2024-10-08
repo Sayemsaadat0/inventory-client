@@ -1,6 +1,5 @@
 import { fakeLedgerData } from "../../../../data/dummy.data";
 import SharedTable from "../../../shared/table/SharedTable";
-import Title from "../../../shared/Title";
 import LedgersForm from "./LedgersForm";
 
 
@@ -39,8 +38,8 @@ const Ledgers = () => {
  console.log(fakeLedgerData)
   return (
     <div className="space-y-5">
-      <div className="flex justify-between">
-        <Title title="List of Customers" />
+      <div className="flex justify-end">
+        {/* <Title title="List of Customers" /> */}
         <LedgersForm handleFormSubmit={() => undefined} isLoading={false} />
       </div>
       <div>

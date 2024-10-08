@@ -547,6 +547,20 @@ export const chalanDataFake = [
                 unit: "pcs",
                 quantity: 5,
                 unit_price: 20.0,
+            },
+            {
+                product_name: "Product B",
+                product_id: "2",
+                unit: "pcs",
+                quantity: 5,
+                unit_price: 20.0,
+            },
+            {
+                product_name: "Product B",
+                product_id: "2",
+                unit: "pcs",
+                quantity: 5,
+                unit_price: 20.0,
             }
         ],
         total_price: 125.0,
@@ -562,7 +576,7 @@ export const chalanDataFake = [
     },
     {
         invoice_id: "INV002",
-        issued_date: "2024-10-02",
+        issued_date: "2024-8-02T11:30:00Z",
         created_at: "2024-10-02T11:30:00Z",
         chalan_date: null,
         paid_date: null,
@@ -571,11 +585,25 @@ export const chalanDataFake = [
         customer_id: "2",
         products: [
             {
-                product_name: "Product A",
+                product_name: "Product A Product A ",
                 product_id: "1",
                 unit: "pcs",
                 quantity: 20,
                 unit_price: 15.0,
+            },
+            {
+                product_name: "Product C",
+                product_id: "3",
+                unit: "pcs",
+                quantity: 8,
+                unit_price: 30.0,
+            },
+            {
+                product_name: "Product C",
+                product_id: "3",
+                unit: "pcs",
+                quantity: 8,
+                unit_price: 30.0,
             },
             {
                 product_name: "Product C",

@@ -97,14 +97,14 @@ const SearchSelectInput: React.FC<SearchProps> = ({
                     onFocus={handleFocus}
                     onBlur={handleBlur}
                     className={clsx(
-                        "w-full px-1 py-1  border border-gray-700 focus:outline-none text-white",
+                        "w-full px-2 py-1 bg-black+/20 border border-gray-700 focus:outline-none text-white",
                         inputClassName // Apply custom input class
                     )}
                 />
                 {showSuggestions && (
                     <ul
                         className={clsx(
-                            "absolute z-10 w-full rounded-md max-h-60 overflow-auto bg-white text-black border border-gray-300",
+                            "absolute z-50 w-full rounded-md max-h-60 overflow-auto bg-white text-black border border-gray-300 ",
                             suggestionClassName, // Apply custom suggestion class
                             {
                                 "bottom-full mb-1": direction === "top",

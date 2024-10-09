@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import DashboardLayout from "../layout/DashboardLayout";
 import Login from "../components/login/Login";
-import Settings from "../components/page/settings/Settings";
+// import Settings from "../components/page/settings/Settings";
 import Dashboard from "../components/page/dashboard/Dashboard";
 // import UnitsWarehouses from "../components/page/stock/unit-warehouse/UnitsWarehouses";
 // import Inventory from "../components/page/inventory/Inventory";
@@ -87,10 +87,10 @@ const router = createBrowserRouter([
       },
       // report
       // settings
-      {
-        path: "/setting",
-        element: <Settings />,
-      },
+      // {
+      //   path: "/setting",
+      //   element: <Settings />,
+      // },
     ],
   },
   {

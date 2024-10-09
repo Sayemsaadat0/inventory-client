@@ -6,7 +6,7 @@ import DashboardIcon from "../icons/DashboardIcon";
 import InventoryIcon from "../icons/InventoryIcon";
 import SalesIcon from "../icons/SalesIcon";
 import ReportsIcon from "../icons/ReportsIcon";
-import SettingsIcon from "../icons/SeetingIcon";
+// import SettingsIcon from "../icons/SeetingIcon";
 import {
   Accordion,
   AccordionContent,
@@ -60,11 +60,11 @@ const Sidebar = () => {
       label: "Reports",
       icon: <ReportsIcon />,
     },
-    {
-      path: "/setting",
-      label: "Setting",
-      icon: <SettingsIcon />,
-    },
+    // {
+    //   path: "/setting",
+    //   label: "Setting",
+    //   icon: <SettingsIcon />,
+    // },
   ];
 
   return (

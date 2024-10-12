@@ -18,11 +18,16 @@ import Ledgers from "../components/page/entities/ledgers/Ledgers";
 import DownloadChalan from "../components/page/order/chalan/DownloadChalan";
 import UnitComponent from "../components/page/stock/unit-warehouse/UnitComponent";
 import Warehouses from "../components/page/stock/unit-warehouse/Warehouses";
+import PrivateRoute from "../components/shared/PrivateRoute";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <DashboardLayout />,
+    element: (
+      <PrivateRoute>
+        <DashboardLayout />
+      </PrivateRoute>
+    ),
     children: [
       {
         path: "/",

@@ -1,17 +1,15 @@
 import { useState } from "react";
 // import backgroundImage from "../../assets/backgrounds/background.png";
 import BAMSLogo from "../../assets/BAMSLogo.svg";
-import { useBackground } from "../context/BackgroundContext";
+import useAxios from "../hooks/useAxios";
 
-// import useAxios from "../hooks/useAxios";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Login: React.FC = () => {
-  const { displayedBackground } = useBackground();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  //   const axiosPost = useAxios();
-  //   const navigate = useNavigate();
+  const axiosPost = useAxios();
+  const navigate = useNavigate();
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -24,25 +22,25 @@ const Login: React.FC = () => {
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    // try {
-    //   const response = await axiosPost.post("/login", { email, password });
-    //   console.log("Login response data:", response.data); // Debugging line
+    try {
+      const response = await axiosPost.post("/auth/login", { email, password });
+      console.log("Login response data:", response.data); // Debugging line
 
-    //   // Store user data in localStorage
-    //   localStorage.setItem("user", JSON.stringify(response.data.user));
+      // Store user data in localStorage
+      localStorage.setItem("user", JSON.stringify(response.data.user));
 
-    //   // Redirect to the dashboard after storing user data
-    //   navigate("/");
-    // } catch (error) {
-    //   console.error("Error logging in:", error.message);
-    // }
+      // Redirect to the dashboard after storing user data
+      navigate("/");
+    } catch (error: any) {
+      console.error("Error logging in:", error.message);
+    }
   };
 
   return (
     <div
       className="h-screen w-screen "
       style={{
-        backgroundImage: `url("${displayedBackground}")`,
+        backgroundImage: `url("https://i.ibb.co.com/7rqjGM7/Add-a-little-bit-of-body-text.gif")`,
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
       }}
@@ -66,20 +64,22 @@ const Login: React.FC = () => {
               account.
             </p>
             <div className="pt-10">
-              <form onSubmit={handleLogin} className="">
+              <form autoComplete="off" onSubmit={handleLogin} className="">
                 <div className="">
                   <input
                     type="text"
                     placeholder="example@gmail.com"
-                    className="block text-sm py-[18px] px-4 rounded-t-lg  border border-b-0 outline-cyan-800 w-full placeholder:text-sm "
+                    autoComplete="off"
+                    className="block text-sm py-[18px] px-4 rounded-t-[6px]  border border-b-0 outline-cyan-800 w-full placeholder:text-sm bg-white/15"
                     value={email}
                     onChange={handleEmailChange}
                   />
                   <input
                     type="password"
                     placeholder="Your password"
-                    className="block text-sm py-[18px] px-4 rounded-b-lg w-full border outline-cyan-800 placeholder:text-sm "
+                    className="block text-sm py-[18px] px-4 rounded-b-[6px] w-full border outline-cyan-800 placeholder:text-sm bg-white/15 "
                     value={password}
+                    autoComplete="off"
                     onChange={handlePasswordChange}
                   />
                 </div>
@@ -89,7 +89,7 @@ const Login: React.FC = () => {
                 <div className="text-center mt-4">
                   <button
                     type="submit"
-                    className="w-full py-4 font-medium text-sm text-white backdrop-blur-[180px] bg-black/35  rounded-lg hover:bg transition-all"
+                    className="w-full py-4 font-medium text-sm text-white backdrop-blur-[180px] bg-black/35  rounded-[6px] hover:bg transition-all"
                   >
                     Login
                   </button>

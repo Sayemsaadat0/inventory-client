@@ -1,4 +1,3 @@
-import { fakeCustomerData } from "../../../../data/dummy.data";
 import useDynamicData from "../../../hooks/useDynamicData";
 import SharedTable from "../../../shared/table/SharedTable";
 import CustomerForm from "./CustomerForm";

@@ -8,9 +8,16 @@ import React, {
 
 // Define the shape of your user object
 interface User {
-  id: number;
-  name: string;
-  // Add other fields as per your user object
+  company_logo: string;
+  company_name: string;
+  email: string;
+  id: string;
+  image: string;
+  phone_number: string;
+  role: string;
+  user_image: string;
+  username: string;
+  workspace_id: string;
 }
 
 // Define the shape of the context

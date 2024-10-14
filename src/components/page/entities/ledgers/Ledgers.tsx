@@ -1,9 +1,18 @@
-import { fakeLedgerData } from "../../../../data/dummy.data";
+import { useUser } from "../../../context/UserProvider";
+import useDynamicData from "../../../hooks/useDynamicData";
 import SharedTable from "../../../shared/table/SharedTable";
 import LedgersForm from "./LedgersForm";
 
-
 const Ledgers = () => {
+  const { user } = useUser();
+  const { data: ledgersData, isLoading } = useDynamicData({
+    queryKey: "myQueryKey",
+    url: `/ledgers/all/${user?.workspace_id}`,
+    callback: (responseData) => {
+      console.log("Data received later:", responseData);
+      // Perform additional operations with the data
+    },
+  });
 
   const columns = [
     {
@@ -24,18 +33,26 @@ const Ledgers = () => {
     {
       title: "Action",
       dataKey: "action",
-      row: (data: any) => <div className="flex justify-end">
-        <TableAction data={data} />
-      </div>,
+      row: (data: any) => (
+        <div className="flex justify-end">
+          <TableAction data={data} />
+        </div>
+      ),
     },
   ];
 
   const TableAction = ({ data }: { data: any }) => {
-    return <div>
-      <LedgersForm instance={data} handleFormSubmit={() => undefined} isLoading={false} />
-    </div>
-  }
- console.log(fakeLedgerData)
+    return (
+      <div>
+        <LedgersForm
+          instance={data}
+          handleFormSubmit={() => undefined}
+          isLoading={false}
+        />
+      </div>
+    );
+  };
+
   return (
     <div className="space-y-5">
       <div className="flex justify-end">
@@ -45,8 +62,8 @@ const Ledgers = () => {
       <div>
         <SharedTable
           columns={columns}
-          isLoading={false}
-          data={fakeLedgerData || []}
+          isLoading={isLoading}
+          data={ledgersData || []}
         />
       </div>
     </div>

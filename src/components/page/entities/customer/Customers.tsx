@@ -1,10 +1,17 @@
 import { fakeCustomerData } from "../../../../data/dummy.data";
+import useDynamicData from "../../../hooks/useDynamicData";
 import SharedTable from "../../../shared/table/SharedTable";
 import CustomerForm from "./CustomerForm";
 
-
 const Customers = () => {
-
+  const { data: customersData, isLoading } = useDynamicData({
+    queryKey: "myQueryKey",
+    url: "/customers/all/HTJEOHKRM1EC",
+    callback: (responseData) => {
+      console.log("Data received later:", responseData);
+      // Perform additional operations with the data
+    },
+  });
 
   const columns = [
     {
@@ -18,7 +25,8 @@ const Customers = () => {
       dataKey: "phone_no",
       row: (data: any) => (
         <div>
-          <p>Phone No : {data?.phone_no}</p>        </div>
+          <p>Phone No : {data?.phone_no}</p>{" "}
+        </div>
       ),
     },
 
@@ -34,17 +42,25 @@ const Customers = () => {
     {
       title: "Action",
       dataKey: "action",
-      row: (data: any) => <div className="flex justify-end">
-        <TableAction data={data} />
-      </div>,
+      row: (data: any) => (
+        <div className="flex justify-end">
+          <TableAction data={data} />
+        </div>
+      ),
     },
   ];
 
   const TableAction = ({ data }: { data: any }) => {
-    return <div>
-      <CustomerForm instance={data} handleFormSubmit={() => undefined} isLoading={false} />
-    </div>
-  }
+    return (
+      <div>
+        <CustomerForm
+          instance={data}
+          handleFormSubmit={() => undefined}
+          isLoading={false}
+        />
+      </div>
+    );
+  };
 
   return (
     <div className="space-y-5">
@@ -55,8 +71,8 @@ const Customers = () => {
       <div>
         <SharedTable
           columns={columns}
-          isLoading={false}
-          data={fakeCustomerData || []}
+          isLoading={isLoading}
+          data={customersData || []}
         />
       </div>
     </div>

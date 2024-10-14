@@ -34,14 +34,14 @@ const CompanyForm: FC<CompanyFormType> = ({
   } = useFormik({
     initialValues: {
       company_name: instance?.company_name || "",
-      location: instance?.location || "",
+      company_address: instance?.company_address || "",
     },
     validationSchema: companyDataValidate,
     onSubmit: async (data) => {
       try {
         const modifiedData = {
           company_name: values.company_name || "",
-          company_address: values.location || "",
+          company_address: values.company_address || "",
           workspace_id: user?.workspace_id || "no workspace id found",
         };
 
@@ -76,7 +76,6 @@ const CompanyForm: FC<CompanyFormType> = ({
     },
   });
 
-  console.log(values);
   const [open, setOpen] = useState(false);
 
   return (
@@ -127,16 +126,16 @@ const CompanyForm: FC<CompanyFormType> = ({
               />
               <TextInput
                 className="w-full"
-                id="location"
+                id="company_address"
                 label="Address"
                 placeholder="Enter Address of the Company"
-                value={values.location}
+                value={values.company_address}
                 onChange={handleChange}
                 type="text"
                 error={
-                  Boolean(errors.location) &&
-                  touched.location &&
-                  errors.location
+                  Boolean(errors.company_address) &&
+                  touched.company_address &&
+                  errors.company_address
                 }
               />
 

@@ -7,6 +7,8 @@ import { Dialog, DialogContent } from "../../../ui/dialog";
 import { FaEdit } from "react-icons/fa";
 import { IoMdAdd } from "react-icons/io";
 import { useState } from "react";
+import usePostData from "../../../hooks/usePostData";
+import { useUser } from "../../../context/UserProvider";
 
 type CompanyFormType = {
   instance?: any;
@@ -19,6 +21,8 @@ const CompanyForm: FC<CompanyFormType> = ({
   isLoading,
   handleFormSubmit,
 }) => {
+  const postData = usePostData();
+  const { user } = useUser();
   const {
     handleChange,
     values,
@@ -37,9 +41,15 @@ const CompanyForm: FC<CompanyFormType> = ({
       try {
         const modifiedData = {
           company_name: values.company_name || "",
-          location: values.location || "",
+          company_address: values.location || "",
+          workspace_id: user?.workspace_id || "no workspace id found",
         };
 
+        const url = "/companies";
+        postData(url, modifiedData, "refetch", (responseData: any) => {
+          console.log("Response received:", responseData);
+          // Handle the response data here
+        });
         if (instance) {
           await handleFormSubmit(modifiedData);
           // setOpen(!open);

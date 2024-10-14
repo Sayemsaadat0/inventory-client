@@ -1,11 +1,13 @@
+import { useUser } from "../../../context/UserProvider";
 import useDynamicData from "../../../hooks/useDynamicData";
 import SharedTable from "../../../shared/table/SharedTable";
 import CompanyForm from "./CompanyForm";
 
 const Company = () => {
+  const { user } = useUser();
   const { data: companyData, isLoading } = useDynamicData({
     queryKey: "myQueryKey",
-    url: "/companies/all/HTJEOHKRM1EC",
+    url: `/companies/all/${user?.workspace_id}`,
     callback: (responseData) => {
       console.log("Data received later:", responseData);
       // Perform additional operations with the data

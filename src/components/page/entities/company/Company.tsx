@@ -5,7 +5,11 @@ import CompanyForm from "./CompanyForm";
 
 const Company = () => {
   const { user } = useUser();
-  const { data: companyData, isLoading } = useDynamicData({
+  const {
+    data: companyData,
+    isLoading,
+    refetch,
+  } = useDynamicData({
     queryKey: "myQueryKey",
     url: `/companies/all/${user?.workspace_id}`,
     callback: (responseData) => {
@@ -49,9 +53,9 @@ const Company = () => {
     return (
       <div>
         <CompanyForm
-          //   refetch={refetch}
+          refetch={refetch}
           instance={data}
-          handleFormSubmit={() => undefined}
+          // handleFormSubmit={() => undefined}
           isLoading={false}
         />
       </div>
@@ -61,7 +65,7 @@ const Company = () => {
   return (
     <div className="space-y-5">
       <div className="flex justify-end">
-        <CompanyForm handleFormSubmit={() => undefined} isLoading={false} />
+        <CompanyForm refetch={refetch} isLoading={false} />
       </div>
       <div>
         <SharedTable

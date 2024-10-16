@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { useFormik } from "formik";
 import Button from "../../../ui/button";
 import TextInput from "../../../shared/inputs/TextInput";
@@ -6,23 +6,22 @@ import { companyDataValidate } from "../../../../validation/CompanyValidate";
 import { Dialog, DialogContent } from "../../../ui/dialog";
 import { FaEdit } from "react-icons/fa";
 import { IoMdAdd } from "react-icons/io";
-import { useState } from "react";
 import usePostData from "../../../hooks/usePostData";
+import useUpdateData from "../../../hooks/useUpdateData"; // Import useUpdateData
 import { useUser } from "../../../context/UserProvider";
 
 type CompanyFormType = {
   instance?: any;
-  handleFormSubmit: Function;
   isLoading?: boolean;
+  refetch: Function;
 };
 
-const CompanyForm: FC<CompanyFormType> = ({
-  instance,
-  isLoading,
-  handleFormSubmit,
-}) => {
+const CompanyForm: FC<CompanyFormType> = ({ refetch, instance, isLoading }) => {
   const postData = usePostData();
+  const updateData = useUpdateData(); // Use the useUpdateData hook
   const { user } = useUser();
+  const url = "/companies"; // API endpoint
+
   const {
     handleChange,
     values,
@@ -34,44 +33,43 @@ const CompanyForm: FC<CompanyFormType> = ({
   } = useFormik({
     initialValues: {
       company_name: instance?.company_name || "",
-      company_address: instance?.company_address || "",
+      location: instance?.location || "",
+      workspace_id: user?.workspace_id || "no workspace id found",
     },
     validationSchema: companyDataValidate,
     onSubmit: async (data) => {
       try {
         const modifiedData = {
           company_name: values.company_name || "",
-          company_address: values.company_address || "",
+          location: values.location || "",
           workspace_id: user?.workspace_id || "no workspace id found",
         };
 
-        const url = "/companies";
-        postData(url, modifiedData, "refetch", (responseData: any) => {
-          console.log("Response received:", responseData);
-          // Handle the response data here
-        });
         if (instance) {
-          await handleFormSubmit(modifiedData);
-          // setOpen(!open);
-          // toast({
-          //     variant: "success",
-          //     description: "Edited Successfully",
-          // });
+          // If instance exists, we are updating the company
+          updateData(
+            `${url}/${instance.id}`,
+            modifiedData,
+            refetch,
+            (responseData: any) => {
+              alert("Company updated successfully");
+              console.log("Response received after update:", responseData);
+              // Handle the response data here (e.g., close modal or reset form)
+              resetForm();
+              setOpen(false); // Close the dialog
+            }
+          );
         } else {
-          await handleFormSubmit(data);
-          // toast({
-          //     variant: "success",
-          //     description: "Added Successfully",
-          // });
-          resetForm();
-          // setOpen(!open);
+          // If no instance, we are adding a new company
+          postData(url, modifiedData, "refetch", (responseData: any) => {
+            alert("Company added successfully");
+            console.log("Response received after creation:", responseData);
+            resetForm();
+            setOpen(false); // Close the dialog
+          });
         }
       } catch (err: any) {
-        console.log(err);
-        // toast({
-        //     variant: "destructive",
-        //     description: err,
-        // });
+        console.log("Error during form submission:", err);
       }
     },
   });
@@ -98,7 +96,7 @@ const CompanyForm: FC<CompanyFormType> = ({
         </div>
         <DialogContent>
           <div className="p-5 md:p-10 space-y-5">
-            <div className="">
+            <div>
               {instance ? (
                 <p className="text-xl font-semibold">Edit Information</p>
               ) : (
@@ -126,19 +124,18 @@ const CompanyForm: FC<CompanyFormType> = ({
               />
               <TextInput
                 className="w-full"
-                id="company_address"
+                id="location"
                 label="Address"
                 placeholder="Enter Address of the Company"
-                value={values.company_address}
+                value={values.location}
                 onChange={handleChange}
                 type="text"
                 error={
-                  Boolean(errors.company_address) &&
-                  touched.company_address &&
-                  errors.company_address
+                  Boolean(errors.location) &&
+                  touched.location &&
+                  errors.location
                 }
               />
-
               <div className="w-full flex justify-center">
                 <Button
                   onClick={() => setOpen(!open)}

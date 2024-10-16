@@ -1,11 +1,16 @@
 import useAxios from "./useAxios";
 
-const usePostData = () => {
+const useUpdateData = () => {
   const axiosPost = useAxios();
 
-  const postData = (url: string, data: object, refetch: any, callback: any) => {
+  const updateData = (
+    url: string,
+    data: object,
+    refetch: any,
+    callback: (response: any) => void
+  ) => {
     axiosPost
-      .post(url, data)
+      .put(url, data)
       .then((res) => {
         console.log(res);
 
@@ -20,11 +25,11 @@ const usePostData = () => {
         }
       })
       .catch((err) => {
-        console.log("error to add", err);
+        console.log("Error updating data: ", err);
       });
   };
 
-  return postData;
+  return updateData;
 };
 
-export default usePostData;
+export default useUpdateData;

@@ -58,7 +58,7 @@ const Customers = () => {
         <CustomerForm
           instance={data}
           handleFormSubmit={() => undefined}
-          isLoading={false}
+          // isLoading={false}
         />
       </div>
     );
@@ -68,7 +68,7 @@ const Customers = () => {
     <div className="space-y-5">
       <div className="flex justify-end">
         {/* <Title title="List of Customers" /> */}
-        <CustomerForm handleFormSubmit={handleAddData} isLoading={false} />
+        <CustomerForm handleFormSubmit={handleAddData} />
       </div>
       <div>
         <SharedTable

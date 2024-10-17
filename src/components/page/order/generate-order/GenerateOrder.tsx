@@ -7,9 +7,16 @@ import { MdOutlineDeleteOutline } from "react-icons/md";
 import CustomerForm from "../../entities/customer/CustomerForm";
 import { showDatePicker } from "../../../../lib/datePicker";
 import { useUser } from "../../../context/UserProvider";
-import usePostData from "../../../hooks/usePostData";
+// import usePostData from "../../../hooks/usePostData";
+import { format } from "date-fns";
+import { usePostCustomersData } from "../../../hooks/customer.hook";
+import { usePostOrdersData } from "../../../hooks/order/generate-order.hook";
+
+// import { usePostOrdersData } from "../../../hooks/order/generate-order.hook";
 
 // Define types for Product and Select options
+
+// Fake Data
 type Product = {
   product_name: string;
   quantity: number;
@@ -21,12 +28,6 @@ interface SelectOptionType {
   value: string;
   label: string;
 }
-
-type GenerateOrderFormType = {
-  handleFormSubmit: (values: any) => undefined;
-  isLoading?: boolean;
-};
-
 // Sample data for customer options
 const fakeCustomerData = [
   { id: "1", customer_name: "John Doe" },
@@ -44,6 +45,7 @@ const customerOptions = fakeCustomerData.map((i) => ({
   label: i.customer_name,
   value: i.id,
 }));
+
 const warehouseOptions = fakeWarehouseData.map((i) => ({
   label: i.warehouse_name,
   value: i.warehouse_name,
@@ -53,13 +55,19 @@ const productOptions: SelectOptionType[] = [
   { value: "1", label: "Product A" },
   { value: "2", label: "Product B" },
 ];
+// fake Data
+
+type GenerateOrderFormType = {
+  handleFormSubmit: Function;
+  isLoading?: boolean;
+};
 
 const GenerateOrderForm: FC<GenerateOrderFormType> = ({
   isLoading,
   handleFormSubmit,
 }) => {
   const { user } = useUser();
-  const postData = usePostData();
+  // const postData = usePostData();
   const [products, setProducts] = useState<Product[]>([
     { product_name: "", quantity: 0, unit_price: 0, unit: "" },
   ]);
@@ -75,50 +83,41 @@ const GenerateOrderForm: FC<GenerateOrderFormType> = ({
   const { handleChange, values, handleSubmit, isSubmitting, setFieldValue } =
     useFormik({
       initialValues: {
-        customer: {
+        issue_date: format(new Date(), "yyyy-MM-dd"),
+        warehouse_name: "",
+        customer: JSON.stringify({
           customer_name: "",
           customer_id: "",
-        },
-        warehouse_name: "",
-        products: products,
-        date: "",
-        total_price: 0,
-        isPaid: false,
+        }),
+        products: JSON.stringify([
+          {
+            product_name: "",
+            product_id: "",
+            quantity: 0,
+            unit_price: 0,
+            unit: "",
+          },
+        ]),
+        payment_type: "",
+        chalan_date: null,
+        settlement_date: null,
+        grand_total: 0,
+        isPaid: "incomplete",
+        isChalan: false,
+        workspace_id: user?.workspace_id || "",
       },
       onSubmit: async (data) => {
-        const order = {
-          customer: JSON.stringify({
-            customer_name: "John Doe",
-            customer_id: "CUST001",
-          }),
-          warehouse_name: "Warehouse A",
-          products: JSON.stringify([
-            {
-              product_name: "Product A",
-              product_id: "PROD001",
-              quantity: 5,
-              unit_price: 10.0,
-              unit: "kg",
-            },
-          ]),
-          payment_type: "Cash",
-          issue_date: "2024-10-10",
-          chalan_date: null,
-          settlement_date: "2024-10-15",
-          grand_total: 50.0,
-          isPaid: "incomplete",
-          isChalan: "false",
-          workspace_id: user?.workspace_id || "no workspace id found",
-        };
         try {
-          postData("/orders", order, "refetch", (responseData: any) => {
-            console.log("Response received:", responseData);
-            // Handle the response data here
-          });
-          data.total_price = calculateTotalPrice(products);
+          // postData("/orders", data, "refetch", (responseData: any) => {
+          //   console.log("Response received:", responseData);
+          //   // Handle the response data here
+          // });
+          data.grand_total = calculateTotalPrice(products);
           handleFormSubmit(data);
+          alert("Submited Successfully");
         } catch (err) {
           console.log(err);
+          alert(err);
         }
       },
     });
@@ -134,7 +133,7 @@ const GenerateOrderForm: FC<GenerateOrderFormType> = ({
     const updatedProducts = products.filter((_, i) => i !== index);
     setProducts(updatedProducts);
     setFieldValue("products", updatedProducts);
-    setFieldValue("total_price", calculateTotalPrice(updatedProducts));
+    setFieldValue("grand_total", calculateTotalPrice(updatedProducts));
   };
 
   const handleProductChange = (
@@ -153,7 +152,7 @@ const GenerateOrderForm: FC<GenerateOrderFormType> = ({
     });
     setProducts(updatedProducts);
     setFieldValue("products", updatedProducts);
-    setFieldValue("total_price", calculateTotalPrice(updatedProducts));
+    setFieldValue("grand_total", calculateTotalPrice(updatedProducts));
   };
 
   const handleCustomerSelect = (item: { value: string; label: string }) => {
@@ -166,6 +165,8 @@ const GenerateOrderForm: FC<GenerateOrderFormType> = ({
   };
 
   console.log(values);
+
+  const { mutateAsync: addCustomerFn } = usePostCustomersData();
   return (
     <div className="p-5  bg-black/30 backdrop-blur-sm">
       <form autoComplete="off" className="relative" onSubmit={handleSubmit}>
@@ -173,10 +174,10 @@ const GenerateOrderForm: FC<GenerateOrderFormType> = ({
           <div className="w-full">
             <TextInput
               className="w-full  bg-black/20 border-0"
-              label="Select a date"
-              id="date"
-              placeholder="Date"
-              value={values.date}
+              label="Issue Date"
+              id="issue_date"
+              placeholder="issue_date"
+              value={values.issue_date}
               onClick={(e) => showDatePicker(e)}
               onChange={handleChange}
               type="date"
@@ -200,10 +201,7 @@ const GenerateOrderForm: FC<GenerateOrderFormType> = ({
               placeholder="Search Customer"
             />
             <div>
-              <CustomerForm
-                handleFormSubmit={() => undefined}
-                isLoading={false}
-              />
+              <CustomerForm handleFormSubmit={addCustomerFn} />
             </div>
           </div>
         </div>
@@ -327,9 +325,12 @@ const GenerateOrderForm: FC<GenerateOrderFormType> = ({
   );
 };
 const GenerateOrder = () => {
+  // const { mutateAsync } = usePostOrdersData();
+  const { mutateAsync } = usePostOrdersData();
+
   return (
     <div className="relative">
-      <GenerateOrderForm isLoading={false} handleFormSubmit={() => undefined} />
+      <GenerateOrderForm handleFormSubmit={mutateAsync} />
     </div>
   );
 };

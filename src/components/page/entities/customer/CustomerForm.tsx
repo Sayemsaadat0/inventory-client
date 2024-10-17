@@ -13,12 +13,12 @@ import { toast } from "../../../../hooks/use-toast";
 type CustomerFormType = {
   instance?: any;
   handleFormSubmit: Function;
-  isLoading?: boolean;
+  // isLoading?: boolean;
 };
 
 const CustomerForm: FC<CustomerFormType> = ({
   instance,
-  isLoading,
+  // isLoading,
   handleFormSubmit,
 }) => {
   const { user } = useUser();
@@ -158,7 +158,7 @@ const CustomerForm: FC<CustomerFormType> = ({
                   disabled={isSubmitting}
                   className="w-full"
                   variant={"regulerOutlineBtn"}
-                  label={isLoading ? "Saving.." : "Save"}
+                  label={isSubmitting ? "Saving.." : "Save"}
                 />
               </div>
             </form>

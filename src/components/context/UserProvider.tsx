@@ -58,7 +58,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
           setUser(JSON.parse(savedUser));
         }
       } catch (error) {
-        console.error("Failed to load user", error);
+        console.log("Failed to load user", error);
       } finally {
         setLoading(false);
       }

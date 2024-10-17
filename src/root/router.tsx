@@ -19,6 +19,7 @@ import DownloadChalan from "../components/page/order/chalan/DownloadChalan";
 import UnitComponent from "../components/page/stock/unit-warehouse/UnitComponent";
 import Warehouses from "../components/page/stock/unit-warehouse/Warehouses";
 import PrivateRoute from "../components/shared/PrivateRoute";
+// import PrivateRoute from "../components/shared/";
 
 const router = createBrowserRouter([
   {

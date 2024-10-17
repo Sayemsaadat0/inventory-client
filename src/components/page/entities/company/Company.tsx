@@ -1,27 +1,17 @@
-import { useUser } from "../../../context/UserProvider";
-import useDynamicData from "../../../hooks/useDynamicData";
+import {
+  useGetCompaniesData,
+  usePostCompaniesData,
+  useUpdateCompany,
+  // useUpdateCompany,
+} from "../../../hooks/companies.hook";
+
 import SharedTable from "../../../shared/table/SharedTable";
 import CompanyForm from "./CompanyForm";
 
 const Company = () => {
-  const { user } = useUser();
-  const {
-    data: companyData,
-    isLoading,
-    refetch,
-  } = useDynamicData({
-    queryKey: "myQueryKey",
-    url: `/companies/all/${user?.workspace_id}`,
-    callback: (responseData) => {
-      console.log("Data received later:", responseData);
-      // Perform additional operations with the data
-    },
-  });
+  const { data: companiesData, isLoading: iscompaniesDataLoading } =
+    useGetCompaniesData();
 
-  //   if (isLoading) {
-  //     return <div>Loading...</div>;
-  //   }
-  console.log(companyData);
   const columns = [
     {
       title: "Name",
@@ -50,28 +40,32 @@ const Company = () => {
   ];
 
   const TableAction = ({ data }: { data: any }) => {
+    const { mutateAsync: handleUpdateData } = useUpdateCompany(data?.id);
     return (
       <div>
         <CompanyForm
-          refetch={refetch}
+          // refetch={refetch}
           instance={data}
-          // handleFormSubmit={() => undefined}
-          isLoading={false}
+          handleFormSubmit={handleUpdateData}
         />
       </div>
     );
   };
 
+  const { mutateAsync: handleAddData } = usePostCompaniesData();
+
+  console.log(companiesData);
+
   return (
     <div className="space-y-5">
       <div className="flex justify-end">
-        <CompanyForm refetch={refetch} isLoading={false} />
+        <CompanyForm handleFormSubmit={handleAddData} />
       </div>
       <div>
         <SharedTable
           columns={columns}
-          isLoading={isLoading}
-          data={companyData || []}
+          isLoading={iscompaniesDataLoading}
+          data={companiesData || []}
         />
       </div>
     </div>

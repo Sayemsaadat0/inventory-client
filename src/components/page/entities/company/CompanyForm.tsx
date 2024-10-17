@@ -6,21 +6,16 @@ import { companyDataValidate } from "../../../../validation/CompanyValidate";
 import { Dialog, DialogContent } from "../../../ui/dialog";
 import { FaEdit } from "react-icons/fa";
 import { IoMdAdd } from "react-icons/io";
-import usePostData from "../../../hooks/usePostData";
-import useUpdateData from "../../../hooks/useUpdateData"; // Import useUpdateData
 import { useUser } from "../../../context/UserProvider";
+import { toast } from "../../../../hooks/use-toast";
 
 type CompanyFormType = {
   instance?: any;
-  isLoading?: boolean;
-  refetch: Function;
+  handleFormSubmit: Function;
 };
 
-const CompanyForm: FC<CompanyFormType> = ({ refetch, instance, isLoading }) => {
-  const postData = usePostData();
-  const updateData = useUpdateData(); // Use the useUpdateData hook
+const CompanyForm: FC<CompanyFormType> = ({ instance, handleFormSubmit }) => {
   const { user } = useUser();
-  const url = "/companies"; // API endpoint
 
   const {
     handleChange,
@@ -29,7 +24,7 @@ const CompanyForm: FC<CompanyFormType> = ({ refetch, instance, isLoading }) => {
     errors,
     handleSubmit,
     isSubmitting,
-    resetForm,
+    // resetForm,
   } = useFormik({
     initialValues: {
       company_name: instance?.company_name || "",
@@ -37,6 +32,7 @@ const CompanyForm: FC<CompanyFormType> = ({ refetch, instance, isLoading }) => {
       workspace_id: user?.workspace_id || "no workspace id found",
     },
     validationSchema: companyDataValidate,
+
     onSubmit: async (data) => {
       try {
         const modifiedData = {
@@ -46,35 +42,37 @@ const CompanyForm: FC<CompanyFormType> = ({ refetch, instance, isLoading }) => {
         };
 
         if (instance) {
-          // If instance exists, we are updating the company
-          updateData(
-            `${url}/${instance.id}`,
-            modifiedData,
-            refetch,
-            (responseData: any) => {
-              alert("Company updated successfully");
-              console.log("Response received after update:", responseData);
-              // Handle the response data here (e.g., close modal or reset form)
-              resetForm();
-              setOpen(false); // Close the dialog
-            }
-          );
+          await handleFormSubmit(modifiedData);
+          setOpen(!open);
+          toast({
+            variant: "success",
+            description: "Edited Successfully",
+          });
         } else {
-          // If no instance, we are adding a new company
-          postData(url, modifiedData, "refetch", (responseData: any) => {
-            alert("Company added successfully");
-            console.log("Response received after creation:", responseData);
-            resetForm();
-            setOpen(false); // Close the dialog
+          await handleFormSubmit(data);
+          toast({
+            variant: "success",
+            description: "Added Successfully",
           });
         }
-      } catch (err: any) {
-        console.log("Error during form submission:", err);
+
+        /* 
+        
+                  resetForm();
+          setOpen(!open);
+        */
+      } catch (err) {
+        toast({
+          variant: "destructive",
+          description: err,
+        });
       }
     },
   });
 
   const [open, setOpen] = useState(false);
+
+  console.log(values);
 
   return (
     <div>
@@ -143,7 +141,7 @@ const CompanyForm: FC<CompanyFormType> = ({ refetch, instance, isLoading }) => {
                   disabled={isSubmitting}
                   className="w-full"
                   variant={"regulerOutlineBtn"}
-                  label={isLoading ? "Saving.." : "Save"}
+                  label={isSubmitting ? "Saving.." : "Save"}
                 />
               </div>
             </form>

@@ -1,19 +1,16 @@
-import { useUser } from "../../../context/UserProvider";
-import useDynamicData from "../../../hooks/useDynamicData";
+import {
+  useGetCustomersData,
+  usePostCustomersData,
+} from "../../../hooks/customer.hook";
+
 import SharedTable from "../../../shared/table/SharedTable";
 import CustomerForm from "./CustomerForm";
 
 const Customers = () => {
-  const { user } = useUser();
+  const { mutateAsync: handleAddData } = usePostCustomersData();
 
-  const { data: customersData, isLoading } = useDynamicData({
-    queryKey: "myQueryKey",
-    url: `/customers/all/${user?.workspace_id}`,
-    callback: (responseData) => {
-      console.log("Data received later:", responseData);
-      // Perform additional operations with the data
-    },
-  });
+  const { data: customersData, isLoading: iscustomersDataLoading } =
+    useGetCustomersData();
 
   const columns = [
     {
@@ -53,6 +50,9 @@ const Customers = () => {
   ];
 
   const TableAction = ({ data }: { data: any }) => {
+    //     const { mutateAsync: handleUpdateData, isLoading: isDataUpdating } =
+    // useUpdateCustomer(data?.id);
+
     return (
       <div>
         <CustomerForm
@@ -68,12 +68,12 @@ const Customers = () => {
     <div className="space-y-5">
       <div className="flex justify-end">
         {/* <Title title="List of Customers" /> */}
-        <CustomerForm handleFormSubmit={() => undefined} isLoading={false} />
+        <CustomerForm handleFormSubmit={handleAddData} isLoading={false} />
       </div>
       <div>
         <SharedTable
           columns={columns}
-          isLoading={isLoading}
+          isLoading={iscustomersDataLoading}
           data={customersData || []}
         />
       </div>

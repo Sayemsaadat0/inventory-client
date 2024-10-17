@@ -2,13 +2,13 @@ import { FC } from "react";
 import { useFormik } from "formik";
 import Button from "../../../ui/button";
 import TextInput from "../../../shared/inputs/TextInput";
-// import { companyDataValidate } from '../../../../validation/CompanyValidate';
 import { Dialog, DialogContent } from "../../../ui/dialog";
 import { FaEdit } from "react-icons/fa";
 import { IoMdAdd } from "react-icons/io";
 import { useState } from "react";
 import { useUser } from "../../../context/UserProvider";
-import usePostData from "../../../hooks/usePostData";
+
+import { toast } from "../../../../hooks/use-toast";
 
 type CustomerFormType = {
   instance?: any;
@@ -21,7 +21,6 @@ const CustomerForm: FC<CustomerFormType> = ({
   isLoading,
   handleFormSubmit,
 }) => {
-  const postData = usePostData();
   const { user } = useUser();
 
   const {
@@ -37,6 +36,7 @@ const CustomerForm: FC<CustomerFormType> = ({
       customer_name: instance?.customer_name || "",
       location: instance?.location || "",
       phone_no: instance?.phone_no || "",
+      workspace_id: user?.workspace_id || "no workspace id found",
     },
     // validationSchema: companyDataValidate,
     onSubmit: async (data) => {
@@ -47,32 +47,28 @@ const CustomerForm: FC<CustomerFormType> = ({
           phone_no: values.phone_no || "",
           workspace_id: user?.workspace_id || "no workspace id found",
         };
-        postData("/customers", modifiedData, "refetch", (responseData: any) => {
-          console.log("Response received:", responseData);
-          // Handle the response data here
-        });
         if (instance) {
           await handleFormSubmit(modifiedData);
-          // setOpen(!open);
-          // toast({
-          //     variant: "success",
-          //     description: "Edited Successfully",
-          // });
+          setOpen(!open);
+          toast({
+            variant: "success",
+            description: "Customer Data Edited Successfully",
+          });
         } else {
+          console.log(data);
           await handleFormSubmit(data);
-          // toast({
-          //     variant: "success",
-          //     description: "Added Successfully",
-          // });
+          toast({
+            variant: "success",
+            description: "New Customer Added Successfully",
+          });
           resetForm();
-          // setOpen(!open);
+          setOpen(!open);
         }
-      } catch (err: any) {
-        console.log(err);
-        // toast({
-        //     variant: "destructive",
-        //     description: err,
-        // });
+      } catch (err) {
+        toast({
+          variant: "destructive",
+          description: err,
+        });
       }
     },
   });

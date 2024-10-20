@@ -23,7 +23,7 @@ const SettingsComponent = () => {
     const [uploadedImage, setUploadedImage] = useState<string | null>(null); // State for the uploaded image
 
     // Define the static fallback image URL
-    const staticImage = "https://i.ibb.co.com/7rqjGM7/Add-a-little-bit-of-body-text.gif"; // Replace this with your static image URL
+    const staticImage = "https://i.ibb.co.com/x8LvNX0/Background-1.gif"; // Replace this with your static image URL
 
     useEffect(() => {
         const savedImage = localStorage.getItem("selectedImage");

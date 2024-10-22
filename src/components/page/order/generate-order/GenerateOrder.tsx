@@ -9,8 +9,9 @@ import { showDatePicker } from "../../../../lib/datePicker";
 import { useUser } from "../../../context/UserProvider";
 // import usePostData from "../../../hooks/usePostData";
 import { format } from "date-fns";
-import { usePostCustomersData } from "../../../hooks/customer.hook";
+// import { usePostCustomersData } from "../../../hooks/customer.hook";
 import { usePostOrdersData } from "../../../hooks/order/generate-order.hook";
+import { usePostCustomersData } from "../../../hooks/entities/customer.hook";
 
 // import { usePostOrdersData } from "../../../hooks/order/generate-order.hook";
 

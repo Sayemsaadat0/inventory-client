@@ -98,6 +98,18 @@ export const fakeProductsData = [
 
 
 
+export const fakseUserData = [
+    {
+        email: "john.doe@example.com",
+        password: "Password123!",
+        username: "john_doe",
+        phone_number: "+1-555-123-4567",
+        company_name: "Doe Technologies",
+        company_logo: "https://i.pinimg.com/control/564x/8f/d4/0e/8fd40ebc6be2d34f2de430a70420c236.jpg",
+        user_image: "https://i.pinimg.com/control/736x/d9/7b/bb/d97bbb08017ac2309307f0822e63d082.jpg",
+        role: "admin"
+    }
+]
 
 /*
   history: [
@@ -158,7 +170,7 @@ export const fakeProductsData = [
 
 export const fakeAccountHeadData = [
     {
-        id: "acchead260924aa01", 
+        id: "acchead260924aa01",
         account_head: "Cash",
         created_at: "2024-09-26",
         history: [
@@ -321,8 +333,8 @@ export const inventoryFakeData = [
         quantity: 150,
         notes: "New arrival, good for study rooms",
         image: "https://example.com/images/desk-lamp.jpg", // Replace with the actual image URL
-       
-       
+
+
         history: [
             {
                 customer: "John Doe",

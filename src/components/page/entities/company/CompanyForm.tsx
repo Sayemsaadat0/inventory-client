@@ -45,13 +45,13 @@ const CompanyForm: FC<CompanyFormType> = ({ instance, handleFormSubmit }) => {
           await handleFormSubmit(modifiedData);
           setOpen(!open);
           toast({
-            variant: "success",
+            variant: "default",
             description: "Edited Successfully",
           });
         } else {
           await handleFormSubmit(data);
           toast({
-            variant: "success",
+            variant: "default",
             description: "Added Successfully",
           });
         }
@@ -64,7 +64,7 @@ const CompanyForm: FC<CompanyFormType> = ({ instance, handleFormSubmit }) => {
       } catch (err) {
         toast({
           variant: "destructive",
-          description: err,
+          description: 'err',
         });
       }
     },

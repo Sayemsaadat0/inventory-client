@@ -10,6 +10,7 @@ import {
 import { FaEdit } from "react-icons/fa";
 import { IoMdAdd } from "react-icons/io";
 import { useState } from 'react';
+import ImageUploadField from '../../../shared/inputs/ImageUploadField';
 
 
 type ProductFormType = {
@@ -28,7 +29,8 @@ const ProductForm: FC<ProductFormType> = ({ instance, isLoading, handleFormSubmi
         errors,
         handleSubmit,
         isSubmitting,
-        resetForm
+        resetForm,
+        setFieldValue
     } = useFormik({
         initialValues: {
             item: instance?.ledger_name || "",
@@ -99,19 +101,15 @@ const ProductForm: FC<ProductFormType> = ({ instance, isLoading, handleFormSubmi
                                     errors.item
                                 }
                             />
-                            <TextInput
-                                className="w-full"
-                                id="image"
-                                label='image'
-                                placeholder="Select Image"
-                                value={values.image}
-                                onChange={handleChange}
-                                type="file"
+                            <ImageUploadField
                                 error={
                                     Boolean(errors.image) &&
                                     touched.image &&
                                     errors.image
                                 }
+                                setValue={(x: string) => setFieldValue("image", x)}
+                                fieldKey={"image"}
+                                value={values.image}
                             />
 
                             <div className='w-full flex justify-center'>

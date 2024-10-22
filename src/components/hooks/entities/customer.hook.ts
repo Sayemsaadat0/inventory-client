@@ -1,7 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { useUser } from "../context/UserProvider";
-import axiosRequest from "../../lib/axiosRequest";
-
+import { useUser } from "../../context/UserProvider";
+import axiosRequest from "../../../lib/axiosRequest";
 interface Customer {
   // Define customer data type here
   id: string;

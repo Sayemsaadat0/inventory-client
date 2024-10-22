@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import axiosRequest from "../../lib/axiosRequest";
-import { useUser } from "../context/UserProvider";
+import { useUser } from "../../context/UserProvider";
+import axiosRequest from "../../../lib/axiosRequest";
 
 // Define the types for your data
 interface Company {

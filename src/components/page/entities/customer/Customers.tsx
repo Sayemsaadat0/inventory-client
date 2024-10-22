@@ -1,8 +1,6 @@
-import {
-  useGetCustomersData,
-  usePostCustomersData,
-} from "../../../hooks/customer.hook";
 
+
+import { useGetCustomersData, usePostCustomersData } from "../../../hooks/entities/customer.hook";
 import SharedTable from "../../../shared/table/SharedTable";
 import CustomerForm from "./CustomerForm";
 

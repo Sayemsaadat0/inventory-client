@@ -1,10 +1,6 @@
-import {
-  useGetCompaniesData,
-  usePostCompaniesData,
-  useUpdateCompany,
-  // useUpdateCompany,
-} from "../../../hooks/companies.hook";
 
+
+import { useGetCompaniesData, usePostCompaniesData, useUpdateCompany } from "../../../hooks/entities/companies.hook";
 import SharedTable from "../../../shared/table/SharedTable";
 import CompanyForm from "./CompanyForm";
 

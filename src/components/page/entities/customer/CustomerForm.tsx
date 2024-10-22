@@ -49,25 +49,22 @@ const CustomerForm: FC<CustomerFormType> = ({
         };
         if (instance) {
           await handleFormSubmit(modifiedData);
-          setOpen(!open);
           toast({
-            variant: "success",
+            variant: "default",
             description: "Customer Data Edited Successfully",
           });
         } else {
-          console.log(data);
           await handleFormSubmit(data);
           toast({
-            variant: "success",
+            variant: "default",
             description: "New Customer Added Successfully",
           });
           resetForm();
-          setOpen(!open);
         }
       } catch (err) {
         toast({
           variant: "destructive",
-          description: err,
+          description: '',
         });
       }
     },

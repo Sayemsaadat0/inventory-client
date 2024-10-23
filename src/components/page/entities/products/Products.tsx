@@ -9,8 +9,8 @@ const Products = () => {
     {
       title: "Items",
       dataKey: "item",
-      row: (data: any) => <div className="flex  gap-5">
-        <img className="w-12 rounded-full inset-0 shrink-0 aspect-square object-cover " src={data?.image || 'https://i.pinimg.com/564x/7d/90/24/7d9024c49129dfb45e11ce9a489d2c74.jpg'} alt={data?.item} />
+      row: (data: any) => <div className="flex items-center gap-5">
+        <img className="w-12 rounded-full inset-0 shrink-0 aspect-square object-cover " src={data?.image ? data?.image : '/Logo.png'} alt={'Img'} />
         {data.item}</div>,
     },
     {

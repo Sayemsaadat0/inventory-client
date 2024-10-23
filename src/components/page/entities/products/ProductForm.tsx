@@ -7,10 +7,10 @@ import TextInput from '../../../shared/inputs/TextInput';
 import {
     Dialog, DialogContent
 } from '../../../ui/dialog';
-import { FaEdit } from "react-icons/fa";
 import { IoMdAdd } from "react-icons/io";
 import { useState } from 'react';
 import ImageUploadField from '../../../shared/inputs/ImageUploadField';
+import { RiEditCircleLine } from 'react-icons/ri';
 
 
 type ProductFormType = {
@@ -77,7 +77,9 @@ const ProductForm: FC<ProductFormType> = ({ instance, isLoading, handleFormSubmi
         <div>
             <Dialog onOpenChange={() => setOpen(!open)} open={open}>
                 <div className='cursor-pointer' onClick={() => setOpen(!open)}>
-                    {instance ? <div><FaEdit className='text-green-500' /></div> : <div>
+                    {instance ? <div className="bg-black p-[7px]  rounded-full ">
+                        <RiEditCircleLine className=" text-green-500" />
+                    </div> : <div>
                         <Button reverse icon={<IoMdAdd className='text-xl' />} label='Add New Product' />
                     </div>}
                 </div>

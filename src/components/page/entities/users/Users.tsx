@@ -96,12 +96,11 @@ const Users = () => {
     const TableAction = ({ data }: { data: any }) => {
         // const { mutateAsync: handleUpdateData } = useUpdateCompany(data?.id);
         // const { mutateAsync: handleDeleteData, isLoading } = useDeleteCompany(data?.id);
-        console.log(data)
         return (
             <div className="flex gap-1 ">
                 <div>
                     <UsersForm
-                        instance={'sd'}
+                        instance={data || ''}
                         handleFormSubmit={() => undefined}
                     />
                 </div>
@@ -116,7 +115,7 @@ const Users = () => {
         <div className="space-y-5">
             <div className="flex justify-between">
                 <Title title={`All Users (${fakseUserData?.length || 0})`} />
-                <UsersForm handleFormSubmit={() => undefined}  />
+                <UsersForm handleFormSubmit={() => undefined} />
             </div>
             <div>
                 <SharedTable

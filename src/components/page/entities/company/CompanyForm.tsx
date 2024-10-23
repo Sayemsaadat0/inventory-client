@@ -5,7 +5,8 @@ import TextInput from "../../../shared/inputs/TextInput";
 import { companyDataValidate } from "../../../../validation/CompanyValidate";
 import { Dialog, DialogContent } from "../../../ui/dialog";
 // import { FaEdit } from "react-icons/fa";
-import { BiMessageSquareEdit } from "react-icons/bi";
+import { RiEditCircleLine } from "react-icons/ri"; 
+
 import { IoMdAdd } from "react-icons/io";
 import { useUser } from "../../../context/UserProvider";
 import { toast } from "../../../../hooks/use-toast";
@@ -31,8 +32,7 @@ const CompanyForm: FC<CompanyFormType> = ({ instance, handleFormSubmit }) => {
     initialValues: {
       company_name: instance?.company_name || "",
       company_address
-        : instance?.company_address
-        || "",
+        : instance?.company_address || "",
       workspace_id: user?.workspace_id || "no workspace id found",
     },
     validationSchema: companyDataValidate,
@@ -41,9 +41,7 @@ const CompanyForm: FC<CompanyFormType> = ({ instance, handleFormSubmit }) => {
       try {
         const modifiedData = {
           company_name: values.company_name || "",
-          company_address
-            : values.company_address
-            || "",
+          company_address: values.company_address || "",
           workspace_id: user?.workspace_id || "no workspace id found",
         };
 
@@ -79,8 +77,8 @@ const CompanyForm: FC<CompanyFormType> = ({ instance, handleFormSubmit }) => {
       <Dialog onOpenChange={() => setOpen(!open)} open={open}>
         <div className="cursor-pointer" onClick={() => setOpen(!open)}>
           {instance ? (
-            <div className="bg-black p-2  rounded-full ">
-              <BiMessageSquareEdit className="text-green-500" />
+            <div className="bg-black p-[7px]  rounded-full">
+              <RiEditCircleLine className="text-green-500" />
             </div>
           ) : (
             <div>
@@ -122,23 +120,19 @@ const CompanyForm: FC<CompanyFormType> = ({ instance, handleFormSubmit }) => {
               />
               <TextInput
                 className="w-full"
-                id="company_address
-"
+                id="company_address" // Ensure this is a single line
                 label="Address"
                 placeholder="Enter Address of the Company"
-                value={values.company_address
-                }
+                value={values.company_address} // Ensure this is a single line
                 onChange={handleChange}
                 type="text"
                 error={
-                  Boolean(errors.company_address
-                  ) &&
-                  touched.company_address
-                  &&
+                  Boolean(errors.company_address) &&
+                  touched.company_address &&
                   errors.company_address
-
                 }
               />
+
               <div className="w-full flex justify-center">
                 <Button
                   onClick={() => setOpen(!open)}

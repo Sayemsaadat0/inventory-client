@@ -17,12 +17,11 @@ const validationSchema = Yup.object({
 
 type PaymentTypeFormType = {
     handleFormSubmit: Function,
-    isLoading?: boolean,
 }
 
 
 
-const PaymentTypeForm: FC<PaymentTypeFormType> = ({ isLoading, handleFormSubmit }) => {
+const PaymentTypeForm: FC<PaymentTypeFormType> = ({ handleFormSubmit }) => {
     const {
         handleChange,
         values,
@@ -32,10 +31,7 @@ const PaymentTypeForm: FC<PaymentTypeFormType> = ({ isLoading, handleFormSubmit 
         isSubmitting,
     } = useFormik({
         initialValues: {
-            name: '',
-            email: '',
-            password: '',
-            confirm_password: '',
+            payment_type: '',
         },
         validationSchema,
         onSubmit: async (data) => {
@@ -51,62 +47,19 @@ const PaymentTypeForm: FC<PaymentTypeFormType> = ({ isLoading, handleFormSubmit 
     console.log(values)
 
     return (
-        <div className=' rounded-[12px] p-5 md:p-10 space-y-5'>
-            <h3 className='text-xl font-semibold text-center'>Sign up to Account</h3>
-            <p className='text-center'>Please enter your details to continue</p>
+        <div className=''>
             <form className="space-y-6" autoComplete="off" onSubmit={handleSubmit}>
                 <TextInput
                     className="w-full"
-                    id="name"
-                    label="Enter your full name"
-                    value={values.name}
+                    id="payment_type"
+                    label="Payment Type"
+                    value={values.payment_type}
                     onChange={handleChange}
                     type="text"
                     error={
-                        Boolean(errors.name) &&
-                        touched.name &&
-                        errors.name
-                    }
-                />
-                <TextInput
-                    className="w-full"
-                    id="email"
-                    label="Enter Your Email"
-                    value={values.email}
-                    onChange={handleChange}
-                    type="text"
-                    error={
-                        Boolean(errors.email) &&
-                        touched.email &&
-                        errors.email
-                    }
-                />
-
-
-                <TextInput
-                    className="w-full "
-                    id="password"
-                    label="Password"
-                    value={values.password}
-                    onChange={handleChange}
-                    type="password"
-                    error={
-                        Boolean(errors.password) &&
-                        touched.password &&
-                        errors.password
-                    }
-                />
-                <TextInput
-                    className="w-full "
-                    id="confirm_password"
-                    label="Confirm Password"
-                    value={values.confirm_password}
-                    onChange={handleChange}
-                    type="password"
-                    error={
-                        Boolean(errors.confirm_password) &&
-                        touched.confirm_password &&
-                        errors.confirm_password
+                        Boolean(errors.payment_type) &&
+                        touched.payment_type &&
+                        errors.payment_type
                     }
                 />
 
@@ -116,8 +69,7 @@ const PaymentTypeForm: FC<PaymentTypeFormType> = ({ isLoading, handleFormSubmit 
                         type='submit'
                         disabled={isSubmitting}
                         className="w-full"
-                        variant={'regulerBtn'}
-                        label={isLoading ? 'Publishing..' : 'Publish'}
+                        label={isSubmitting ? 'Saving..' : 'Saving'}
                     />
                 </div>
             </form>

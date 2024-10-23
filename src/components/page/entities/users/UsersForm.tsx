@@ -8,7 +8,8 @@ import { toast } from '../../../../hooks/use-toast';
 import ImageUploadField from '../../../shared/inputs/ImageUploadField';
 import { useUser } from '../../../context/UserProvider';
 import { Dialog, DialogContent } from "../../../ui/dialog";
-import { RiEditCircleLine } from "react-icons/ri";import { IoMdAdd } from 'react-icons/io';
+import { RiEditCircleLine } from "react-icons/ri"; 
+import { IoMdAdd } from 'react-icons/io';
 
 // Validation schema
 // const validationSchema = Yup.object({
@@ -156,20 +157,7 @@ const UsersForm: FC<UsersFormType> = ({ instance, handleFormSubmit }) => {
                                     }
                                 />
                             }
-                            <TextInput
-                                className="w-full"
-                                id="password"
-                                label="Enter Your password"
-                                value={values.password}
-                                onChange={handleChange}
-                                type="text"
-                                error={
-                                    Boolean(errors.password) &&
-                                    touched.password &&
-                                    errors.password
-                                }
-                            />
-
+   
 
                             <TextInput
                                 className="w-full "

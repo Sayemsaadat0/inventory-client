@@ -3,7 +3,8 @@ import { useFormik } from "formik";
 import Button from "../../../ui/button";
 import TextInput from "../../../shared/inputs/TextInput";
 import { Dialog, DialogContent } from "../../../ui/dialog";
-import { FaEdit } from "react-icons/fa";
+import { RiEditCircleLine } from "react-icons/ri"; 
+
 import { IoMdAdd } from "react-icons/io";
 import { useState } from "react";
 import { useUser } from "../../../context/UserProvider";
@@ -80,9 +81,9 @@ const CustomerForm: FC<CustomerFormType> = ({
       <Dialog onOpenChange={() => setOpen(!open)} open={open}>
         <div className="cursor-pointer" onClick={() => setOpen(!open)}>
           {instance ? (
-            <div>
-              <FaEdit className="text-green-500" />
-            </div>
+           <div className="bg-black p-[7px]  rounded-full ">
+           <RiEditCircleLine className=" text-green-500" />
+       </div>
           ) : (
             <div>
               <Button

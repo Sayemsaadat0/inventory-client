@@ -61,12 +61,6 @@ const CompanyForm: FC<CompanyFormType> = ({ instance, handleFormSubmit }) => {
             description: "Added Successfully",
           });
         }
-
-        /* 
-        
-                  resetForm();
-          setOpen(!open);
-        */
       } catch (err: any) {
 
         toast({

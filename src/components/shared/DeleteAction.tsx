@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 import { AiFillWarning } from "react-icons/ai";
-import { FaTrashAlt } from "react-icons/fa";
+import { TiDeleteOutline } from "react-icons/ti";
 import { AlertDialog, AlertDialogContent } from "../ui/alert-dialog";
 import Button from "../ui/button";
 
@@ -33,8 +33,8 @@ const DeleteAction: React.FC<DeleteActionProps> = ({ handleDeleteSubmit, isLoadi
     return (
         <div>
             <AlertDialog open={open} onOpenChange={() => setOpen(!open)}>
-                <div onClick={() => setOpen(!open)} className="cursor-pointer p-2 rounded-full flex items-center justify-center bg-black">
-                    <FaTrashAlt className=" text-red-500" />
+                <div onClick={() => setOpen(!open)} className="cursor-pointer p-1 rounded-full flex items-center justify-center bg-black">
+                    <TiDeleteOutline className="text-2xl text-red-500" />
                 </div>
                 <AlertDialogContent className="py-10">
                     <div>

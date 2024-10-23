@@ -3,7 +3,7 @@ import { useUser } from "../../context/UserProvider";
 import axiosRequest from "../../../lib/axiosRequest";
 
 
-export const useGetCustomersData = () => {
+export const useGetUserssData = () => {
   const { user } = useUser();
   return useQuery({
     queryKey: [`api_customers`],

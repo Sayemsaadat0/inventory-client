@@ -13,8 +13,10 @@
 // export default Users
 
 import { fakseUserData } from "../../../../data/dummy.data";
+import DeleteAction from "../../../shared/DeleteAction";
 import SharedTable from "../../../shared/table/SharedTable";
 import Title from "../../../shared/Title";
+import UsersForm from "./UsersForm";
 const Users = () => {
     const columns = [
         {
@@ -81,8 +83,8 @@ const Users = () => {
             ),
         },
         {
-            title: "Action",
-            dataKey: "action",
+            title: "Total Price",
+            dataKey: "total_price",
             row: (data: any) => (
                 <div className="flex justify-end">
                     <TableAction data={data} />
@@ -92,10 +94,20 @@ const Users = () => {
     ];
 
     const TableAction = ({ data }: { data: any }) => {
+        // const { mutateAsync: handleUpdateData } = useUpdateCompany(data?.id);
+        // const { mutateAsync: handleDeleteData, isLoading } = useDeleteCompany(data?.id);
         console.log(data)
         return (
-            <div>
-                {/* <UsersForm handleFormSubmit={() => undefined} isLoading={false} /> */}
+            <div className="flex gap-1 ">
+                <div>
+                    <UsersForm
+                        instance={'sd'}
+                        handleFormSubmit={() => undefined}
+                    />
+                </div>
+                <div>
+                    <DeleteAction isLoading={false} handleDeleteSubmit={() => undefined} />
+                </div>
             </div>
         );
     };
@@ -104,7 +116,7 @@ const Users = () => {
         <div className="space-y-5">
             <div className="flex justify-between">
                 <Title title={`All Users (${fakseUserData?.length || 0})`} />
-                {/* <UsersForm handleFormSubmit={() => undefined} isLoading={false} /> */}
+                <UsersForm handleFormSubmit={() => undefined}  />
             </div>
             <div>
                 <SharedTable

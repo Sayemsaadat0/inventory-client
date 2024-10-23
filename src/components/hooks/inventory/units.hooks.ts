@@ -3,63 +3,63 @@ import { useUser } from "../../context/UserProvider";
 import axiosRequest from "../../../lib/axiosRequest";
 
 
-export const useGetCustomersData = () => {
+export const useGetUnitsData = () => {
   const { user } = useUser();
   return useQuery({
-    queryKey: [`api_customers`],
+    queryKey: [`api_unit_lists`],
     queryFn: () =>
       axiosRequest({
-        url: `/customers/all/${user?.workspace_id}`,
+        url: `/units/all/${user?.workspace_id}`,
         method: "get",
       }),
   });
 };
 
-export const usePostCustomersData = () => {
+export const usePostUnitsData = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (postData: any) =>
       axiosRequest({
-        url: "/customers",
+        url: "/units",
         method: "post",
         data: postData,
       }),
     {
-      onSuccess: () => queryClient.invalidateQueries(["api_customers"]),
+      onSuccess: () => queryClient.invalidateQueries(["api_unit_lists"]),
     }
   );
 };
 
-export const useUpdateCustomer = (id: string) => {
+export const useUpdateUnit = (id: string) => {
   const queryClient = useQueryClient();
   return useMutation(
     async (data: any) => {
       await axiosRequest({
-        url: `/customers/${id}`,
+        url: `/units/${id}`,
         method: "put",
         data: data,
       });
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(["api_customers"]);
+        queryClient.invalidateQueries(["api_unit_lists"]);
       },
     }
   );
 };
 
-export const useDeleteCustomer = (id: string) => {
+export const useDeleteUnit = (id: string) => {
   const queryClient = useQueryClient();
   return useMutation(
     async () => {
       await axiosRequest({
-        url: `/customers/${id}`,
+        url: `/units/${id}`,
         method: "delete",
       });
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(["api_customers"]);
+        queryClient.invalidateQueries(["api_unit_lists"]);
       },
     }
   );

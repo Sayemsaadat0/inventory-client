@@ -6,21 +6,20 @@ import { FC } from "react";
 import { useFormik } from "formik";
 import TextInput from "../../../shared/inputs/TextInput";
 import Button from "../../../ui/button";
-import { useUser } from "../../../context/UserProvider";
 import useDynamicData from "../../../hooks/useDynamicData";
-import usePostData from "../../../hooks/usePostData";
+import { useDeleteUnit, usePostUnitsData } from "../../../hooks/inventory/units.hooks";
+import DeleteAction from "../../../shared/DeleteAction";
+import { toast } from "../../../../hooks/use-toast";
+import { useUser } from "../../../context/UserProvider";
 type CompanyFormType = {
   instance?: any;
   handleFormSubmit: Function;
-  isLoading?: boolean;
 };
 const UnitForm: FC<CompanyFormType> = ({
   instance,
-  isLoading,
   handleFormSubmit,
 }) => {
   const { user } = useUser();
-  const postData = usePostData();
   const {
     handleChange,
     values,
@@ -31,58 +30,56 @@ const UnitForm: FC<CompanyFormType> = ({
     resetForm,
   } = useFormik({
     initialValues: {
-      unit_name: instance?.unit_name || "",
+      name: instance?.name || "",
+      workspace_id: user?.workspace_id || "no workspace id found",
     },
     // validationSchema: companyDataValidate,
-    onSubmit: async (data) => {
+    onSubmit: async (data: any) => {
       try {
-        const modifiedData = {
-          unit_name: values.unit_name || "",
-          workspace_id: user?.workspace_id || "no workspace id found",
-        };
-        postData("/units", modifiedData, "refetch", (responseData: any) => {
-          console.log("Response received:", responseData);
-          // Handle the response data here
-        });
+        let form_data = new FormData();
+        form_data.append("name", data.name); // Fixed this line
+        form_data.append("workspace_id", data.workspace_id);
+        await handleFormSubmit(form_data);
         if (instance) {
-          await handleFormSubmit(modifiedData);
-
-          // toast({
-          //     variant: "success",
-          //     description: "Edited Successfully",
-          // });
+          toast({
+            variant: "default",
+            description: "Edited Successfully",
+          });
         } else {
-          await handleFormSubmit(data);
-          // toast({
-          //     variant: "success",
-          //     description: "Added Successfully",
-          // });
-          resetForm();
+          toast({
+            variant: "default",
+            description: "Added Successfully",
+          });
         }
+        resetForm()
       } catch (err: any) {
-        console.log(err);
-        // toast({
-        //     variant: "destructive",
-        //     description: err,
-        // });
+        for (const key of err.errors) {
+          console.log(key);
+          toast({
+            variant: 'destructive',
+            description: `${key?.attr} - ${key?.detail}`,
+          });
+        }
       }
     },
   });
 
   console.log(values);
+
+  console.log(errors)
   return (
     <div>
       <form className=" space-y-5" autoComplete="off" onSubmit={handleSubmit}>
         <TextInput
           className="w-full rounded-[10px]"
-          id="unit_name"
+          id="name"
           label="Add New Unit"
           placeholder="Enter Unit"
-          value={values.unit_name}
+          value={values.name}
           onChange={handleChange}
           type="text"
           error={
-            Boolean(errors.unit_name) && touched.unit_name && errors.unit_name
+            Boolean(errors.name) && touched.name && errors.name
           }
         />
         <div>
@@ -90,7 +87,7 @@ const UnitForm: FC<CompanyFormType> = ({
             type="submit"
             disabled={isSubmitting}
             className="w-full rounded-[10px]"
-            label={isLoading ? "Saving.." : "Save"}
+            label={isSubmitting ? "Saving.." : "Save"}
           />
         </div>
       </form>
@@ -101,12 +98,13 @@ const UnitForm: FC<CompanyFormType> = ({
 //
 const UnitComponent = () => {
   const { user } = useUser();
+
+
   const { data: unitsData, isLoading } = useDynamicData({
     queryKey: "myQueryKey",
     url: `/units/all/${user?.workspace_id}`,
     callback: (responseData) => {
       console.log("Data received later:", responseData);
-      // Perform additional operations with the data
     },
   });
 
@@ -117,21 +115,34 @@ const UnitComponent = () => {
       row: (data: any) => <div className="">{data?.name}</div>,
     },
     {
-      title: "Action",
-      dataKey: "Action",
-      row: () => (
+      title: "Total Price",
+      dataKey: "total_price",
+      row: (data: any) => (
         <div className="flex justify-end">
-          <span className="px-2 bg-red-100 text-red-500  border rounded-full ">
-            X
-          </span>
+          <TableAction data={data} />
         </div>
       ),
     },
   ];
+
+  const TableAction = ({ data }: { data: any }) => {
+    // const { mutateAsync: handleUpdateData } = useUpdateCompany(data?.id);
+    const { mutateAsync: handleDeleteData, isLoading } = useDeleteUnit(data?.id);
+    return (
+      <div className="flex gap-1 ">
+        <div>
+          <DeleteAction isLoading={isLoading} handleDeleteSubmit={handleDeleteData} />
+        </div>
+      </div>
+    );
+  };
+
+  const { mutateAsync } = usePostUnitsData()
+
   return (
     <div className="flex gap-5">
       <div className="p-5 bg-black/50 h-fit rounded-[10px] backdrop-blur-sm">
-        <UnitForm handleFormSubmit={() => undefined} isLoading={false} />
+        <UnitForm handleFormSubmit={mutateAsync} />
       </div>
       <div className="w-full rounded-[10px] overflow-hidden ">
         <SharedTable

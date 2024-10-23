@@ -47,6 +47,8 @@ const StockOverview = () => {
         </div>
     }
 
+
+    
     return (
         <div className="space-y-5">
             <div className="flex justify-end">

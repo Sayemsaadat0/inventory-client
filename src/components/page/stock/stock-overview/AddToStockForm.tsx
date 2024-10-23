@@ -54,10 +54,7 @@ const AddToStockForm: FC<AddToStockFormType> = ({ instance, isLoading, handleFor
 
 
     console.log(values)
-    // Find the selected product based on product_id to set the correct display value
-    // const selectedProduct = fakeProductsData.find(
-    //     (product) => product.id === values.product_id
-    // );
+
 
     return (
         <div>

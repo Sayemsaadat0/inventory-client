@@ -15,7 +15,7 @@ export const fakeCompanyData = [
 
 export const fakeLedgerData = [
     {
-        id: 1,
+        id: 'Ledger021231',
         ledger_name: "AlphaTech Innovations",
         note: "AlphaTech Innovations",
     },

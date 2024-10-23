@@ -29,7 +29,7 @@ const Sidebar = () => {
       label: "Entities",
       icon: <EntityIcon />,
       subRoutes: [
-        { path: "/entity/companies", label: "Initiate Company" },
+        // { path: "/entity/companies", label: "Initiate Company" },
         { path: "/entity/users", label: "Enroll User" },
         { path: "/entity/customers", label: "Register Customer" },
         { path: "/entity/products", label: "Add Products" },

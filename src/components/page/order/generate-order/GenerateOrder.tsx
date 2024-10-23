@@ -12,6 +12,7 @@ import { format } from "date-fns";
 // import { usePostCustomersData } from "../../../hooks/customer.hook";
 import { usePostOrdersData } from "../../../hooks/order/generate-order.hook";
 import { usePostCustomersData } from "../../../hooks/entities/customer.hook";
+import { fakeCustomerData, fakeWarehouses } from "../../../../data/dummy.data";
 
 // import { usePostOrdersData } from "../../../hooks/order/generate-order.hook";
 
@@ -29,28 +30,9 @@ interface SelectOptionType {
   value: string;
   label: string;
 }
-// Sample data for customer options
-const fakeCustomerData = [
-  { id: "1", customer_name: "John Doe" },
-  { id: "2", customer_name: "Jane Smith" },
-];
 
-// Sample data for warehouse options
-const fakeWarehouseData = [
-  { id: "1", warehouse_name: "Warehouse A" },
-  { id: "2", warehouse_name: "Warehouse B" },
-];
 
-// Predefined options for the customer and warehouse data
-const customerOptions = fakeCustomerData.map((i) => ({
-  label: i.customer_name,
-  value: i.id,
-}));
 
-const warehouseOptions = fakeWarehouseData.map((i) => ({
-  label: i.warehouse_name,
-  value: i.warehouse_name,
-}));
 
 const productOptions: SelectOptionType[] = [
   { value: "1", label: "Product A" },
@@ -68,11 +50,9 @@ const GenerateOrderForm: FC<GenerateOrderFormType> = ({
   handleFormSubmit,
 }) => {
   const { user } = useUser();
-  // const postData = usePostData();
   const [products, setProducts] = useState<Product[]>([
     { product_name: "", quantity: 0, unit_price: 0, unit: "" },
   ]);
-  // const date = new Date();
 
   const calculateTotalPrice = (products: Product[]) => {
     return products.reduce(
@@ -85,12 +65,19 @@ const GenerateOrderForm: FC<GenerateOrderFormType> = ({
     useFormik({
       initialValues: {
         issue_date: format(new Date(), "yyyy-MM-dd"),
+        // warehouse
         warehouse_name: "",
-        customer: JSON.stringify({
+        warehouse_id: "",
+
+        // customre
+        customer: {
           customer_name: "",
           customer_id: "",
-        }),
-        products: JSON.stringify([
+          customer_phone: "",
+          customer_address: "",
+        },
+        // product
+        products: [
           {
             product_name: "",
             product_id: "",
@@ -98,7 +85,7 @@ const GenerateOrderForm: FC<GenerateOrderFormType> = ({
             unit_price: 0,
             unit: "",
           },
-        ]),
+        ],
         payment_type: "",
         chalan_date: null,
         settlement_date: null,
@@ -109,10 +96,6 @@ const GenerateOrderForm: FC<GenerateOrderFormType> = ({
       },
       onSubmit: async (data) => {
         try {
-          // postData("/orders", data, "refetch", (responseData: any) => {
-          //   console.log("Response received:", responseData);
-          //   // Handle the response data here
-          // });
           data.grand_total = calculateTotalPrice(products);
           handleFormSubmit(data);
           alert("Submited Successfully");
@@ -156,16 +139,33 @@ const GenerateOrderForm: FC<GenerateOrderFormType> = ({
     setFieldValue("grand_total", calculateTotalPrice(updatedProducts));
   };
 
-  const handleCustomerSelect = (item: { value: string; label: string }) => {
+
+  const warehouseOptions = fakeWarehouses.map((i) => ({
+    label: i.warehouse_name,
+    value: i.id,
+  }));
+
+  const handleWarehouseSelect = (item: any) => {
+    setFieldValue("warehouse_id", item.value);
+    setFieldValue("warehouse_name", item.label);
+  };
+
+
+  const customerOptions = fakeCustomerData.map((i) => ({
+    label: i.customer_name,
+    value: i.id,
+    customer_phone: i.phone_number, 
+    customer_address: i.customer_address, 
+  }));
+
+  const handleCustomerSelect = (item: any) => {
     setFieldValue("customer.customer_id", item.value);
     setFieldValue("customer.customer_name", item.label);
+    setFieldValue("customer.customer_phone", item.customer_phone); 
+    setFieldValue("customer.customer_address", item.customer_address); 
   };
 
-  const handleWarehouseSelect = (item: { value: string }) => {
-    setFieldValue("warehouse_name", item.value); // Set warehouse_name directly
-  };
-
-  console.log(values);
+  console.log(values)
 
   const { mutateAsync: addCustomerFn } = usePostCustomersData();
   return (

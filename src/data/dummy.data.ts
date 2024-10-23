@@ -27,32 +27,32 @@ export const fakeCustomerData = [
     {
         id: "lamsCust260924aa", // Static date (26/09/24) with 'aa' suffix
         customer_name: "John Doe",
-        phone_no: "+1-202-555-0143",
-        location: "1234 Elm Street, San Francisco, USA"
+        phone_number: "+1-202-555-0143",
+        customer_address: "1234 Elm Street, San Francisco, USA"
     },
     {
         id: "lamsCust260924ab", // Static date (26/09/24) with 'ab' suffix
         customer_name: "Jane Smith",
-        phone_no: "+44-20-7946-0958",
-        location: "456 Oak Avenue, London, UK"
+        phone_number: "+44-20-7946-0958",
+        customer_address: "456 Oak Avenue, London, UK"
     },
     {
         id: "lamsCust260924ac", // Static date (26/09/24) with 'ac' suffix
         customer_name: "Alice Johnson",
-        phone_no: "+91-98765-43210",
-        location: "789 Pine Road, Mumbai, India"
+        phone_number: "+91-98765-43210",
+        customer_address: "789 Pine Road, Mumbai, India"
     },
     {
         id: "lamsCust260924ad", // Static date (26/09/24) with 'ad' suffix
         customer_name: "Bob Brown",
-        phone_no: "+61-412-345-678",
-        location: "321 Maple Street, Sydney, Australia"
+        phone_number: "+61-412-345-678",
+        customer_address: "321 Maple Street, Sydney, Australia"
     },
     {
         id: "lamsCust260924ae", // Static date (26/09/24) with 'ae' suffix
         customer_name: "Charlie Davis",
-        phone_no: "+49-30-12345678",
-        location: "654 Birch Lane, Berlin, Germany"
+        phone_number: "+49-30-12345678",
+        customer_address: "654 Birch Lane, Berlin, Germany"
     }
 ];
 
@@ -271,12 +271,12 @@ export const fakeBankData = [
 export const fakeWarehouses = [
     {
         id: 'asdsd',
-        name: "Warehouse Alpha",
+        warehouse_name: "Warehouse Alpha",
         createdAt: "2024-01-15T08:30:00Z",
     },
     {
         id: 'asdsdsd',
-        name: "Central Warehouse",
+        warehouse_name: "Central Warehouse",
         createdAt: "2024-02-10T12:45:00Z",
     },
 ];

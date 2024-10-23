@@ -6,6 +6,7 @@ import SearchSelectInput from "../../../shared/inputs/SearchSelectInput";
 import { FaSearch } from "react-icons/fa";
 import { FaCheck, FaRegFilePdf } from "react-icons/fa6";
 import { MdDelete } from "react-icons/md";
+import Title from "../../../shared/Title";
 
 const Chalan = () => {
     const [selectedInvoice, setSelectedInvoice] = useState<string | null>(null);
@@ -105,16 +106,19 @@ const Chalan = () => {
     ];
 
     return (
-        <div className="space-y-5  p-5  rounded-[10px]">
-            <div className="flex gap-2 justify-end items-center">
-                <FaSearch />
-                <SearchSelectInput
-                    inputClassName="placeholder:text-white bg-white/40 border-0  py-1 w-full rounded-[10px]"
-                    // title="Select Invoice"
-                    data={invoiceOptions} // Pass transformed invoice data
-                    onSelect={handleInvoiceSelect} // Handle invoice selection
-                    placeholder="Search Invoice by ID"
-                />
+        <div className="space-y-5  p-5 bg-black/40 rounded-[10px]">
+            <div className="flex justify-between">
+                <Title className="rounded-[10px]" title="Chalan"/>
+                <div className="flex gap-2 justify-end items-center">
+                    <FaSearch />
+                    <SearchSelectInput
+                        inputClassName="placeholder:text-white bg-white/40 border-0  py-1 w-full rounded-[10px]"
+                        // title="Select Invoice"
+                        data={invoiceOptions} // Pass transformed invoice data
+                        onSelect={handleInvoiceSelect} // Handle invoice selection
+                        placeholder="Search Invoice by ID"
+                    />
+                </div>
             </div>
             <div className="rounded-[10px] overflow-hidden">
                 <SharedTable

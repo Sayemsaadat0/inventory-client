@@ -13,12 +13,14 @@ import { toast } from "../../../../hooks/use-toast";
 type CustomerFormType = {
   instance?: any;
   handleFormSubmit: Function;
+  isOnlyIcon?: boolean
   // isLoading?: boolean;
 };
 
 const CustomerForm: FC<CustomerFormType> = ({
   instance,
   // isLoading,
+  isOnlyIcon,
   handleFormSubmit,
 }) => {
   const { user } = useUser();
@@ -62,6 +64,7 @@ const CustomerForm: FC<CustomerFormType> = ({
           resetForm();
         }
       } catch (err) {
+        console.log(err)
         toast({
           variant: "destructive",
           description: '',
@@ -83,10 +86,10 @@ const CustomerForm: FC<CustomerFormType> = ({
           ) : (
             <div>
               <Button
-                className=""
+                className={isOnlyIcon ? 'border' : ''}
                 reverse
                 icon={<IoMdAdd className="text-xl" />}
-                label="New Customer"
+                label={isOnlyIcon? "" : "New Customer"}
               />
             </div>
           )}

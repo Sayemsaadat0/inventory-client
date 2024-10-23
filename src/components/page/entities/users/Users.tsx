@@ -15,7 +15,6 @@
 import { fakseUserData } from "../../../../data/dummy.data";
 import SharedTable from "../../../shared/table/SharedTable";
 import Title from "../../../shared/Title";
-import UsersForm from "./UsersForm";
 const Users = () => {
     const columns = [
         {

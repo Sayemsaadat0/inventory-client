@@ -15,7 +15,7 @@ const TopNavbar = () => {
   const location = useLocation();
 
   return (
-    <div className="py-3 px-4 flex items-center justify-between text-white">
+    <div className="py-3 px-4 flex items-center justify-between text-white bg-black/30 backdrop-blur-sm">
       <div className="text-white flex items-center justify-center gap-5">
         <div className="space-x-2">
           <button
@@ -32,7 +32,7 @@ const TopNavbar = () => {
           </button>
         </div>
 
-        <div className="text-2xl">
+        <div >
           <motion.div
             key={location?.pathname}
             initial={{ opacity: 0, y: -30 }}
@@ -41,21 +41,22 @@ const TopNavbar = () => {
             // viewport={{ once: false }}  // Ensures the
             className="text-sm"
           >
-            {location?.pathname === "/" && "Home"}
-            {location?.pathname === "/entity/companies" && "Companies"}
-            {location?.pathname === "/entity/users" && "Users"}
-            {location?.pathname === "/entity/customers" && "Customers"}
-            {location?.pathname === "/entity/products" && "Items List"}
-            {location?.pathname === "/entity/payment-type" && "Payment Type"}
-            {location?.pathname === "/entity/ledgers" && "Accounts Head"}
-            {location?.pathname === "/stock-overview/unit-warehouse" &&
-              "Units & Warehouses"}
-            {location?.pathname === "/stock-overview" && "Stock Overview"}
-            {location?.pathname === "/order/generate-order" && "Generate Order"}
-            {location?.pathname === "/order/chalan" && "Chalan"}
-            {location?.pathname === "/order/chalan-settlemenet" &&
-              "Chalan Settlement"}
-            {location?.pathname === "/setting" && "Settings"}
+            <p className="text-3xl italic">
+              {location?.pathname === "/" && "Home"}
+              {location?.pathname === "/entity/companies" && "Companies"}
+              {location?.pathname === "/entity/users" && "Users"}
+              {location?.pathname === "/entity/customers" && "Customers"}
+              {location?.pathname === "/entity/products" && "Items List"}
+              {location?.pathname === "/entity/payment-type" && "Payment Type"}
+              {location?.pathname === "/entity/ledgers" && "Accounts Head"}
+              {location?.pathname === "/stock-overview/unit-warehouse" && "Units & Warehouses"}
+              {location?.pathname === "/stock-overview" && "Stock Overview"}
+              {location?.pathname === "/order/generate-order" && "Generate Order"}
+              {location?.pathname === "/order/chalan" && "Chalan"}
+              {location?.pathname === "/order/chalan-settlemenet" && "Chalan Settlement"}
+              {location?.pathname === "/setting" && "Settings"}
+            </p>
+
           </motion.div>
         </div>
       </div>

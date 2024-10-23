@@ -105,7 +105,7 @@ const Chalan = () => {
     ];
 
     return (
-        <div className="space-y-5 bg-black/20 backdrop-blur-sm p-5  rounded-[10px]">
+        <div className="space-y-5  p-5  rounded-[10px]">
             <div className="flex gap-2 justify-end items-center">
                 <FaSearch />
                 <SearchSelectInput

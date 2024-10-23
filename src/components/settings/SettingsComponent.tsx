@@ -124,7 +124,7 @@ const SettingsComponent = () => {
                     <div className="mt-4 flex justify-between gap-4">
                         <div className="w-full">
                             <ImageUploadField
-                                value={uploadedImage}
+                                value={uploadedImage || ""}
                                 setValue={setUploadedImage}
                                 fieldKey="files"
                             />

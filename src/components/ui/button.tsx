@@ -4,24 +4,24 @@ import { cn } from "../../lib/utils";
 import { IconType } from "../shared/icons/icons";
 
 
-const buttonVariants = cva(
+export const buttonVariants = cva(
   "leading-none  transition-all disabled:bg-slate-300  disabled:text-slate-600",
   {
     variants: {
       variant: {
         roundedBtn:
-          'rounded-[200px] text-xs text-black md:text-[15px] bg-gradient-to-r from-amber-100 to-teal-800/50  px-[18px] py-[12px]  transition-all',
+          'rounded-[200px]  transition-all bg-black/80  text-white px-2 py-2.5 font-normal',
         roundedOutlinedBtn:
-          'rounded-[200px] text-xs text-black md:text-[15px] border border-green-500  px-[18px] py-[12px] ',
+          'rounded-[200px]  text-black md:text-[15px] border border-green-500  px-[18px] py-[12px] ',
         regulerBtn:
-          ' text-xs text-black px-2  transition-all bg-gradient-to-r from-amber-100 to-teal-800/50  py-2.5 ',
+          'transition-all bg-black/80  text-white px-2 py-2.5 font-normal',
         regulerOutlineBtn:
-          ' bg-black/50 text-white text-xs hover:bg-white/20 transition-all border border-white px-[18px] py-[12px] font-semibold ',
+          ' bg-black/50 text-white  hover:bg-white/20 transition-all border border-white px-[18px] py-[12px] font-semibold ',
         iconBtn: 'text-14-regular  p-2 bg-green-500 ',
         profileCardbtn:
-          'rounded-[200px] text-xs px-4 py-1.5 bg-green-200',
+          'rounded-[200px]  px-4 py-1.5 bg-green-200',
         smallBtn:
-          'rounded-[200px] text-xs px-4 py-1 bg-green-200 ',
+          'rounded-[200px]  px-4 py-1 bg-green-200 ',
       },
     },
     defaultVariants: {

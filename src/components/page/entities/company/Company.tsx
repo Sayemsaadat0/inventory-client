@@ -1,6 +1,7 @@
 
 
-import { useGetCompaniesData, usePostCompaniesData, useUpdateCompany } from "../../../hooks/entities/companies.hook";
+import { useDeleteCompany, useGetCompaniesData, usePostCompaniesData, useUpdateCompany } from "../../../hooks/entities/companies.hook";
+import DeleteAction from "../../../shared/DeleteAction";
 import SharedTable from "../../../shared/table/SharedTable";
 import CompanyForm from "./CompanyForm";
 
@@ -37,13 +38,18 @@ const Company = () => {
 
   const TableAction = ({ data }: { data: any }) => {
     const { mutateAsync: handleUpdateData } = useUpdateCompany(data?.id);
+    const { mutateAsync: handleDeleteData, isLoading } = useDeleteCompany(data?.id);
     return (
-      <div>
-        <CompanyForm
-          // refetch={refetch}
-          instance={data}
-          handleFormSubmit={handleUpdateData}
-        />
+      <div className="flex gap-1 ">
+        <div>
+          <CompanyForm
+            instance={data}
+            handleFormSubmit={handleUpdateData}
+          />
+        </div>
+        <div>
+          <DeleteAction isLoading={isLoading} handleDeleteSubmit={handleDeleteData} />
+        </div>
       </div>
     );
   };

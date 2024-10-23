@@ -68,7 +68,7 @@ const Sidebar = () => {
   ];
 
   return (
-    <div className="h-screen backdrop-blur-[5px] bg-black/35 w-full py-4  flex flex-col justify-between">
+    <div className="h-screen backdrop-blur-[5px] bg-black/60 w-full py-4  flex flex-col justify-between">
       <div>
         <div className="flex items-center gap-3 ps-2.5 mt-0.5 ">
           <img className="h-12" src={logo1} alt="Logo" />

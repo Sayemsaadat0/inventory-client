@@ -38,6 +38,7 @@ body {
   display: flex;
   justify-content: end;
   align-items: center;
+  /* border : 0.1px solid rgb(184, 184, 184) */
 }
 
 .marquee {

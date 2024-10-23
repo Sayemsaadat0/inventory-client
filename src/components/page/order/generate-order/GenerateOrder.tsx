@@ -169,12 +169,12 @@ const GenerateOrderForm: FC<GenerateOrderFormType> = ({
 
   const { mutateAsync: addCustomerFn } = usePostCustomersData();
   return (
-    <div className="p-5  bg-black/30 backdrop-blur-sm">
+    <div className="p-5   backdrop-blur-sm bg-black/40">
       <form autoComplete="off" className="relative" onSubmit={handleSubmit}>
         <div className="flex  justify-between gap-10">
           <div className="w-full">
             <TextInput
-              className="w-full  bg-black/20 border-0"
+              className="w-full border bg-black/20"
               label="Issue Date"
               id="issue_date"
               placeholder="issue_date"
@@ -186,8 +186,8 @@ const GenerateOrderForm: FC<GenerateOrderFormType> = ({
           </div>
           <div className="w-full">
             <SearchSelectInput
-              inputClassName="placeholder:text-white  bg-black/20 border-0 py-2 w-full"
-              title="Select Warehouse"
+              inputClassName="placeholder:text-white  bg-black/20 border border-white py-2 w-full"
+              title="Select Warehouse" 
               data={warehouseOptions}
               onSelect={handleWarehouseSelect}
               placeholder="Search Warehouse"
@@ -195,41 +195,42 @@ const GenerateOrderForm: FC<GenerateOrderFormType> = ({
           </div>
           <div className="flex justify-end items-end w-full ">
             <SearchSelectInput
-              inputClassName="placeholder:text-white  border-0  bg-black/20 py-2 w-full"
+              inputClassName="placeholder:text-white border border-white bg-black/20 py-2 w-full"
               title="Customer Information"
               data={customerOptions}
               onSelect={handleCustomerSelect}
               placeholder="Search Customer"
             />
             <div>
-              <CustomerForm handleFormSubmit={addCustomerFn} />
+              <CustomerForm isOnlyIcon handleFormSubmit={addCustomerFn} />
             </div>
           </div>
         </div>
         <div className="h-[0.1px] w-full bg-gray-500 my-5"></div>
         <div>
           <Button
+            type="button"
             className="py-2 px-4"
             onClick={handleAddProduct}
             label="Add More"
           />
           <div className="min-h-[400px] max-h-[400px] overflow-y-auto">
-            <table className="w-full border text-left table-auto font-normal">
-              <thead className="bg-gradient-to-r from-amber-100 to-teal-200 text-black">
-                <tr className="font-normal">
-                  <th className="font-normal text-sm p-2 w-10">Index</th>
-                  <th className="font-normal text-sm py-2 px-4">
+            <table className="w-full  text-left table-auto font-normal">
+              <thead className="bg-black/70 text-white ">
+                <tr className="font-normal ">
+                  <th className="font-normal border  text-sm p-2 w-10">Index</th>
+                  <th className="font-normal border text-sm py-2 px-4">
                     Product Name
                   </th>
-                  <th className="font-normal text-sm py-2 px-4">Unit</th>
-                  <th className="font-normal text-sm py-2 px-4">Quantity</th>
-                  <th className="font-normal text-sm py-2 px-4">Unit Price</th>
-                  <th className="font-normal text-sm py-2 px-4 flex justify-end">
+                  <th className="font-normal border text-sm py-2 px-4">Unit</th>
+                  <th className="font-normal border text-sm py-2 px-4">Quantity</th>
+                  <th className="font-normal border text-sm py-2 px-4">Unit Price</th>
+                  <th className="font-normal border text-sm py-2 px-4 flex justify-end">
                     Action
                   </th>
                 </tr>
               </thead>
-              <tbody className="bg-black/20">
+              <tbody className="bg-black/40">
                 {products.map((product, index) => (
                   <tr key={index} className="border h-auto">
                     <td className="text-center">{index + 1}</td>
@@ -283,10 +284,10 @@ const GenerateOrderForm: FC<GenerateOrderFormType> = ({
                         type="number"
                       />
                     </td>
-                    <td className="border flex justify-end">
+                    <td className="m-1.5 flex justify-end">
                       <button
                         type="button"
-                        className="text-2xl text-red-500 p-2"
+                        className=" text-red-500 bg-black rounded-full p-2"
                         onClick={() => handleRemoveProduct(index)}
                       >
                         <MdOutlineDeleteOutline />
@@ -299,8 +300,8 @@ const GenerateOrderForm: FC<GenerateOrderFormType> = ({
           </div>
         </div>
 
-        <div className="flex justify-end  mt-10">
-          <div className=" backdrop-blur-md bg-black/20 p-2 w-[20%] ">
+        <div className="flex justify-end   mt-10">
+          <div className=" backdrop-blur-md border bg-black/20 p-2 w-[20%] ">
             <div className="border-b grid grid-cols-3 justify-items-start py-3">
               <p>Products </p>
               <p>:</p>

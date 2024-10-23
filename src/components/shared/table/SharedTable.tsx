@@ -15,16 +15,16 @@ export type SharedTableProps = {
 
 const SharedTable: FC<SharedTableProps> = ({ columns, data, isLoading }) => {
     return (
-        <div className="overflow-x-auto max-w-full  ">
+        <div className="overflow-x-auto max-w-full text-[18px] ">
             <div className="w-full">
                 <table className="w-full text-left ">
-                    <thead className="sticky  z-10 top-0 w-full h-fit  bg-gradient-to-r from-amber-100 to-teal-200 text-black ">
+                    <thead className="sticky  z-10 top-0 w-full h-fit bg-black/70">
                         <tr>
                             {columns.map((column, index) => (
                                 <th
                                     key={index}
                                     scope="col"
-                                    className="px-5 py-3  tableAction  text-[14px] "
+                                    className="px-5 py-3 text-[14px] border-r border-black/10 tableAction font-normal"
                                 >
                                     {column.title}
                                 </th>
@@ -39,7 +39,7 @@ const SharedTable: FC<SharedTableProps> = ({ columns, data, isLoading }) => {
                                     {columns.map((column, colIndex) => (
                                         <td
                                             key={colIndex}
-                                            className="px-2 text-[14px] border lg:text-base xl:px-5 py-3 h-fit   break-words"
+                                            className="px-2  border border-black/10  xl:px-5 py-3 h-fit  break-words"
                                         >
                                             {column.row(row)}
                                         </td>
@@ -48,16 +48,18 @@ const SharedTable: FC<SharedTableProps> = ({ columns, data, isLoading }) => {
                             ))}
                     </tbody>
                 </table>
-                {isLoading && (
-                    <div className="flex justify-center items-center h-10 my-6">
-                        <Loader />
-                    </div>
-                )}
-                {!isLoading && data?.length === 0 && (
-                    <div className="flex  justify-center items-center my-6">
-                        <p className="">No Data Available</p>
-                    </div>
-                )}
+                <div className='bg-black/50 backdrop-blur-sm '>
+                    {isLoading && (
+                        <div className="flex justify-center py-3 items-center h-10 my-6">
+                            <Loader />
+                        </div>
+                    )}
+                    {!isLoading && data?.length === 0 && (
+                        <div className="flex  justify-center items-center my-6 py-3">
+                            <p className="">No Data Available</p>
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     );

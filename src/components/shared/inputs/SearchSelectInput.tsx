@@ -1,20 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
-
 interface Item {
-    label: string;
-    value: string;
+    [key: string]: any; // Now it can have any key-value pair
 }
 
 interface SearchProps {
     data: Item[];
     placeholder?: string;
     title?: string;
-    onSelect?: (item: Item) => void;
+    onSelect?: any;
     direction?: 'top' | 'bottom';
-    inputClassName?: string; 
-    suggestionClassName?: string; 
-    suggestionItemClassName?: string; 
+    inputClassName?: string;
+    suggestionClassName?: string;
+    suggestionItemClassName?: string;
 }
 
 const SearchSelectInput: React.FC<SearchProps> = ({
@@ -23,9 +21,9 @@ const SearchSelectInput: React.FC<SearchProps> = ({
     onSelect,
     title,
     direction = 'bottom',
-    inputClassName, 
-    suggestionClassName, 
-    suggestionItemClassName, 
+    inputClassName,
+    suggestionClassName,
+    suggestionItemClassName,
 }) => {
     const [search, setSearch] = useState<string>("");
     const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
@@ -37,13 +35,14 @@ const SearchSelectInput: React.FC<SearchProps> = ({
         setHighlightedIndex(-1);
     };
 
-    const onClickItem = (item: Item) => {
-        setSearch(item.label);
+    const onClickItem = (item: any) => {
+        setSearch(item.label || item.value); // Fallback to value if label is not available
         setShowSuggestions(false);
         if (onSelect) {
-            onSelect(item);
+            onSelect(item); // Pass the entire item object to the onSelect handler
         }
     };
+
 
     const filtered = search.length > 0
         ? data.filter((item) =>
@@ -115,22 +114,21 @@ const SearchSelectInput: React.FC<SearchProps> = ({
                         {filtered.length > 0 ? (
                             filtered.map((item, index) => (
                                 <li
-                                    key={item.value}
-                                    onClick={() => onClickItem(item)}
+                                    key={item.value || index} 
+                                    onClick={() => onClickItem(item)} 
                                     className={clsx(
                                         "p-2 cursor-pointer hover:bg-black/20 transition-all",
-                                        suggestionItemClassName, 
-                                        {
-                                            "bg-white/20": highlightedIndex === index,
-                                        }
+                                        suggestionItemClassName,
+                                        { "bg-white/20": highlightedIndex === index }
                                     )}
                                 >
-                                    {item.label}
+                                    {item.label || item.value} 
                                 </li>
                             ))
                         ) : (
                             <li className="p-2">No data found</li>
                         )}
+
                     </ul>
                 )}
             </div>

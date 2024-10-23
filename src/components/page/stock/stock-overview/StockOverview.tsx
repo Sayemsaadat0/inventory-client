@@ -1,4 +1,5 @@
 import { inventoryFakeData } from "../../../../data/dummy.data";
+import DeleteAction from "../../../shared/DeleteAction";
 import SharedTable from "../../../shared/table/SharedTable";
 import AddToStockForm from "./AddToStockForm";
 
@@ -26,8 +27,8 @@ const StockOverview = () => {
             dataKey: "Unit",
             row: (data: any) => (
                 <div>
-                    <p><span className="opacity-70 italic">Unit : </span>{data.unit}</p>
-                    {/* <p><span className="opacity-70 italic">Warehouse : </span> {data.warehouse}</p> */}
+                    <p><span className="opacity-70 italic"> </span>{data.unit}</p>
+
                 </div>
             ),
         },
@@ -42,8 +43,9 @@ const StockOverview = () => {
     ];
 
     const TableAction = ({ data }: { data: any }) => {
-        return <div>
+        return <div className="flex gap-2 ">
             <AddToStockForm instance={data} handleFormSubmit={() => undefined} isLoading={false} />
+                <DeleteAction handleDeleteSubmit={()=>undefined} isLoading={false}/>
         </div>
     }
 

@@ -3,9 +3,12 @@ import { useFormik } from 'formik';
 import Button from '../../../ui/button';
 import TextInput from '../../../shared/inputs/TextInput';
 import { Dialog, DialogContent } from '../../../ui/dialog';
-import { FaEdit } from "react-icons/fa";
 import { IoMdAdd } from "react-icons/io";
-import { fakeProductsData } from '../../../../data/dummy.data';
+import { fakeProductsData, fakeUnits } from '../../../../data/dummy.data';
+import { toast } from '../../../../hooks/use-toast';
+import SearchSelectInput from '../../../shared/inputs/SearchSelectInput';
+import { useUser } from '../../../context/UserProvider';
+import { RiEditCircleLine } from 'react-icons/ri';
 
 type AddToStockFormType = {
     instance?: any,
@@ -14,6 +17,8 @@ type AddToStockFormType = {
 }
 
 const AddToStockForm: FC<AddToStockFormType> = ({ instance, isLoading, handleFormSubmit }) => {
+    const { user } = useUser();
+
     const {
         handleChange,
         values,
@@ -25,44 +30,82 @@ const AddToStockForm: FC<AddToStockFormType> = ({ instance, isLoading, handleFor
         setFieldValue
     } = useFormik({
         initialValues: {
-            warehouse: instance?.warehouse || "",
-            unit: instance?.unit || "",
-            product_id: instance?.product_id || "", 
+            product_name: instance?.product_name || "",
+            product_id: instance?.product_id || "",
+            product_image: instance?.product_image || "",
+            unit_name: instance?.unit_name || "",
             quantity: instance?.quantity || 0,
             notes: instance?.notes || "",
-            image: null, // Handle image file manually
+            workspace_id: user?.workspace_id || "no workspace id found",
         },
 
-        onSubmit: async (data) => {
+        onSubmit: async (data: any) => {
             try {
-                await handleFormSubmit(data);
-                if (!instance) {
-                    resetForm();
+                let form_data = new FormData();
+                form_data.append("product_name ", data.product_name);
+                form_data.append("product_id", data.product_id);
+                form_data.append("product_image", data.product_image);
+                form_data.append("unit_name", data.unit_name);
+                form_data.append("quantity", data.quantity);
+                form_data.append("notes", data.notes);
+                form_data.append("workspace_id", data.workspace_id);
+                await handleFormSubmit(form_data);
+                if (instance) {
+                    toast({
+                        variant: "default",
+                        description: "Edited Successfully",
+                    });
+                } else {
+                    toast({
+                        variant: "default",
+                        description: "Added Successfully",
+                    });
                 }
+                resetForm()
             } catch (err: any) {
-                console.log(err);
+                for (const key of err.errors) {
+                    console.log(key);
+                    toast({
+                        variant: 'destructive',
+                        description: `${key?.attr} - ${key?.detail}`,
+                    });
+                }
             }
         },
     });
 
     const [open, setOpen] = useState(false);
 
-    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0];
-        setFieldValue('image', file);
+    const productOptions = fakeProductsData.map((i) => ({
+        label: i.item,
+        value: i.id,
+        image: i?.image
+
+    }));
+
+    const unitOptions = fakeUnits.map((i) => ({
+        label: i.name,
+        value: i.id,
+    }));
+
+    const handleUnitSelect = (item: any) => {
+        setFieldValue("unit_name", item.label);
     };
 
+    const handleProductSelect = (item: any) => {
+        setFieldValue("product_id", item.value);
+        setFieldValue("product_name", item.label || "");
+        setFieldValue("product_image", item.image || "");
+    };
 
     console.log(values)
-
-
     return (
         <div>
             <Dialog onOpenChange={() => setOpen(!open)} open={open}>
                 <div className='cursor-pointer' onClick={() => setOpen(!open)}>
                     {instance ? (
-                        <div>
-                            <FaEdit className='text-green-500' />
+                        <div className="bg-black p-[7px]  rounded-full ">
+                            <RiEditCircleLine className=" text-green-500" />
                         </div>
                     ) : (
                         <div>
@@ -80,50 +123,25 @@ const AddToStockForm: FC<AddToStockFormType> = ({ instance, isLoading, handleFor
                             )}
                         </div>
                         <form className="space-y-6" autoComplete="off" onSubmit={handleSubmit}>
-                            <TextInput
-                                className="w-full"
-                                id="warehouse"
-                                label="Warehouse"
-                                placeholder="Enter Warehouse"
-                                value={values.warehouse}
-                                onChange={handleChange}
-                                type="text"
-                                error={Boolean(errors.warehouse) && touched.warehouse && errors.warehouse}
+
+
+                            <SearchSelectInput
+                                inputClassName="placeholder:text-white  bg-black/20 border border-white py-2 w-full"
+                                title="Select Product"
+                                data={productOptions}
+                                onSelect={handleProductSelect}
+                                placeholder="Search Product"
                             />
-                            <TextInput
-                                className="w-full"
-                                id="unit"
-                                label="Unit"
-                                placeholder="Enter Unit (e.g., Pieces)"
-                                value={values.unit}
-                                onChange={handleChange}
-                                type="text"
-                                error={Boolean(errors.unit) && touched.unit && errors.unit}
+
+                            <SearchSelectInput
+                                inputClassName="placeholder:text-white  bg-black/20 border border-white py-2 w-full"
+                                title="Select Unit"
+                                data={unitOptions}
+                                onSelect={handleUnitSelect}
+                                placeholder="Search Product"
                             />
-                            <div className="w-full">
-                                <label className="block text-white px-2 font-medium pb-2">Product</label>
-                                <select
-                                    id="product_name"
-                                    className="py-2 w-full bg-black border"
-                                    value={values.product_id}
-                                    onChange={(e) => {
-                                        const selectedId = e.target.value;
-                                        setFieldValue('product_id', selectedId);
-                                        const selectedProduct = fakeProductsData.find(p => p.id === selectedId);
-                                        setFieldValue('product_name', selectedProduct?.item); // Set product name for display if needed
-                                    }}
-                                >
-                                    <option value="" label="Select product" />
-                                    {fakeProductsData.map(option => (
-                                        <option key={option.id} value={option.id}>
-                                            {option.item}
-                                        </option>
-                                    ))}
-                                </select>
-                                {/* {Boolean(errors.product_id) && touched.product_id && (
-                                    // <p className="mt-2 text-sm text-red-600">{errors.product_id}</p>
-                                )} */}
-                            </div>
+
+
                             <TextInput
                                 className="w-full"
                                 id="quantity"
@@ -134,6 +152,7 @@ const AddToStockForm: FC<AddToStockFormType> = ({ instance, isLoading, handleFor
                                 type="number"
                                 error={Boolean(errors.quantity) && touched.quantity && errors.quantity}
                             />
+
                             <TextInput
                                 className="w-full"
                                 id="notes"
@@ -144,20 +163,6 @@ const AddToStockForm: FC<AddToStockFormType> = ({ instance, isLoading, handleFor
                                 type="text"
                                 error={Boolean(errors.notes) && touched.notes && errors.notes}
                             />
-                            <div className="w-full">
-                                <label htmlFor="image" className="block text-white px-2 font-medium pb-2">Image</label>
-                                <input
-                                    id="image"
-                                    name="image"
-                                    type="file"
-                                    onChange={handleFileChange}
-                                    className="py-2 w-full bg-black border"
-                                />
-                                {Boolean(errors.image) && touched.image && (
-                                    <p className="mt-2 text-sm text-red-600">{errors.image}</p>
-                                )}
-                            </div>
-
                             <div className='w-full flex justify-center'>
                                 <Button
                                     onClick={() => setOpen(!open)}

@@ -187,7 +187,7 @@ const GenerateOrderForm: FC<GenerateOrderFormType> = ({
           <div className="w-full">
             <SearchSelectInput
               inputClassName="placeholder:text-white  bg-black/20 border border-white py-2 w-full"
-              title="Select Warehouse" 
+              title="Select Warehouse"
               data={warehouseOptions}
               onSelect={handleWarehouseSelect}
               placeholder="Search Warehouse"
@@ -238,7 +238,7 @@ const GenerateOrderForm: FC<GenerateOrderFormType> = ({
                       <SearchSelectInput
                         inputClassName="placeholder:text-white py-2 border-none w-full bg-inherit"
                         data={productOptions}
-                        onSelect={(item) =>
+                        onSelect={(item: any) =>
                           handleProductChange(index, "product_name", item.label)
                         }
                         placeholder="Search Product"

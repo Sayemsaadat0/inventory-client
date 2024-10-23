@@ -270,56 +270,33 @@ export const fakeBankData = [
 
 export const fakeWarehouses = [
     {
+        id: 'asdsd',
         name: "Warehouse Alpha",
         createdAt: "2024-01-15T08:30:00Z",
     },
     {
+        id: 'asdsdsd',
         name: "Central Warehouse",
         createdAt: "2024-02-10T12:45:00Z",
-    },
-    {
-        name: "East Coast Storage",
-        createdAt: "2024-03-22T09:15:00Z",
-    },
-    {
-        name: "West Regional Depot",
-        createdAt: "2024-04-18T14:30:00Z",
-    },
-    {
-        name: "South Distribution Hub",
-        createdAt: "2024-05-05T10:20:00Z",
-    },
-    {
-        name: "Northern Logistics Center",
-        createdAt: "2024-06-01T16:50:00Z",
     },
 ];
 
 
 export const fakeUnits = [
     {
+        id: 'asdsdffdfgete',
         name: "Kilograms",
         createdAt: "2023-12-01T09:10:00Z",
     },
     {
+        id: 'asdsd34',
         name: "Liters",
         createdAt: "2023-11-20T14:00:00Z",
     },
     {
+        id: 'asdsdsadd',
         name: "Pallets",
         createdAt: "2023-10-15T11:30:00Z",
-    },
-    {
-        name: "Boxes",
-        createdAt: "2023-09-12T13:40:00Z",
-    },
-    {
-        name: "Units",
-        createdAt: "2023-08-10T07:25:00Z",
-    },
-    {
-        name: "Crates",
-        createdAt: "2023-07-08T18:05:00Z",
     },
 ];
 

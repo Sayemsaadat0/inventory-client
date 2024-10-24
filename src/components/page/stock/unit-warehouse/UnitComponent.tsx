@@ -37,15 +37,19 @@ const UnitForm: FC<CompanyFormType> = ({
     onSubmit: async (data: any) => {
       try {
         let form_data = new FormData();
-        form_data.append("name", data.name); // Fixed this line
+        form_data.append("name", data.name);
         form_data.append("workspace_id", data.workspace_id);
-        await handleFormSubmit(form_data);
+
+        console.log(form_data)
+
         if (instance) {
+          await handleFormSubmit(form_data);
           toast({
             variant: "default",
             description: "Edited Successfully",
           });
         } else {
+          await handleFormSubmit(data);
           toast({
             variant: "default",
             description: "Added Successfully",
@@ -64,8 +68,7 @@ const UnitForm: FC<CompanyFormType> = ({
     },
   });
 
-  console.log(values);
-
+  // console.log(values);
   console.log(errors)
   return (
     <div>
@@ -101,7 +104,7 @@ const UnitComponent = () => {
 
 
   const { data: unitsData, isLoading } = useDynamicData({
-    queryKey: "myQueryKey",
+    queryKey: "api_unit_lists",
     url: `/units/all/${user?.workspace_id}`,
     callback: (responseData) => {
       console.log("Data received later:", responseData);

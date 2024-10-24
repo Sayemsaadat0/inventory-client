@@ -129,7 +129,7 @@ const UnitComponent = () => {
   ];
 
   const TableAction = ({ data }: { data: any }) => {
-    // const { mutateAsync: handleUpdateData } = useUpdateCompany(data?.id);
+  
     const { mutateAsync: handleDeleteData, isLoading } = useDeleteUnit(data?.id);
     return (
       <div className="flex gap-1 ">

@@ -3,63 +3,63 @@ import { useUser } from "../../context/UserProvider";
 import axiosRequest from "../../../lib/axiosRequest";
 
 
-export const useGetCustomersData = () => {
+export const useGetWarehouseData = () => {
   const { user } = useUser();
   return useQuery({
-    queryKey: [`api_customers`],
+    queryKey: [`api_warehouse`],
     queryFn: () =>
       axiosRequest({
-        url: `/customers/all/${user?.workspace_id}`,
+        url: `/warehouses/all/${user?.workspace_id}`,
         method: "get",
       }),
   });
 };
 
-export const usePostCustomersData = () => {
+export const usePostWarehousesData = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (postData: any) =>
       axiosRequest({
-        url: "/customers",
+        url: "/warehouses",
         method: "post",
         data: postData,
       }),
     {
-      onSuccess: () => queryClient.invalidateQueries(["api_customers"]),
+      onSuccess: () => queryClient.invalidateQueries(["api_warehouse"]),
     }
   );
 };
 
-export const useUpdateCustomer = (id: string) => {
+export const useUpdateWarehouse = (id: string) => {
   const queryClient = useQueryClient();
   return useMutation(
     async (data: any) => {
       await axiosRequest({
-        url: `/customers/${id}`,
+        url: `/warehouses/${id}`,
         method: "put",
         data: data,
       });
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(["api_customers"]);
+        queryClient.invalidateQueries(["api_warehouse"]);
       },
     }
   );
 };
 
-export const useDeleteCustomer = (id: string) => {
+export const useDeleteWarehouse = (id: string) => {
   const queryClient = useQueryClient();
   return useMutation(
     async () => {
       await axiosRequest({
-        url: `/customers/${id}`,
+        url: `/warehouses/${id}`,
         method: "delete",
       });
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(["api_customers"]);
+        queryClient.invalidateQueries(["api_warehouse"]);
       },
     }
   );

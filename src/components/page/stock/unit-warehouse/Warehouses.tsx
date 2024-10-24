@@ -7,17 +7,18 @@ import TextInput from "../../../shared/inputs/TextInput";
 import Button from "../../../ui/button";
 import useDynamicData from "../../../hooks/useDynamicData";
 import { useUser } from "../../../context/UserProvider";
-import usePostData from "../../../hooks/usePostData";
+import { useDeleteWarehouse, usePostWarehousesData } from "../../../hooks/inventory/warehouse.hooks";
+import DeleteAction from "../../../shared/DeleteAction";
+// import usePostData from "../../../hooks/usePostData";
 type WarehousesType = {
   handleFormSubmit: Function;
   isLoading?: boolean;
 };
 const WarehousesForm: FC<WarehousesType> = ({
-  isLoading,
   handleFormSubmit,
 }) => {
   const { user } = useUser();
-  const postData = usePostData();
+  // const postData = usePostData();
   const {
     handleChange,
     values,
@@ -28,27 +29,23 @@ const WarehousesForm: FC<WarehousesType> = ({
     resetForm,
   } = useFormik({
     initialValues: {
-      unit_name: "",
+      warehouse_name: "",
     },
     // validationSchema: companyDataValidate,
     onSubmit: async (data) => {
       const modifiedData = {
-        unit_name: values.unit_name || "",
+        warehouse_name: values.warehouse_name || "",
         workspace_id: user?.workspace_id || "no workspace id found",
       };
-      postData("/warehouses", modifiedData, "refetch", (responseData: any) => {
-        console.log("Response received:", responseData);
-        // Handle the response data here
-      });
       try {
-        await handleFormSubmit(data);
+        if (modifiedData) {
+          await handleFormSubmit(modifiedData);
+        } else {
+          await handleFormSubmit(data)
+        }
         resetForm();
       } catch (err: any) {
         console.log(err);
-        // toast({
-        //     variant: "destructive",
-        //     description: err,
-        // });
       }
     },
   });
@@ -56,17 +53,17 @@ const WarehousesForm: FC<WarehousesType> = ({
   console.log(values);
   return (
     <div>
-      <form className=" space-y-5" autoComplete="off" onSubmit={handleSubmit}>
+      <form className="space-y-5" autoComplete="off" onSubmit={handleSubmit}>
         <TextInput
           className="w-full rounded-[10px]"
-          id="unit_name"
+          id="warehouse_name"
           label="Add New Warehouse"
           placeholder="Enter Warehouse"
-          value={values.unit_name}
+          value={values.warehouse_name}
           onChange={handleChange}
           type="text"
           error={
-            Boolean(errors.unit_name) && touched.unit_name && errors.unit_name
+            Boolean(errors.warehouse_name) && touched.warehouse_name && errors.warehouse_name
           }
         />
         <div>
@@ -74,7 +71,7 @@ const WarehousesForm: FC<WarehousesType> = ({
             type="submit"
             disabled={isSubmitting}
             className="w-full rounded-[10px]"
-            label={isLoading ? "Saving.." : "Save"}
+            label={isSubmitting ? "Saving.." : "Save"}
           />
         </div>
       </form>
@@ -86,35 +83,46 @@ const WarehousesForm: FC<WarehousesType> = ({
 const Warehouses = () => {
   const { user } = useUser();
   const { data: warehouseData, isLoading } = useDynamicData({
-    queryKey: "myQueryKey",
-    url: `/units/all/${user?.workspace_id}`,
+    queryKey: "api_warehouse",
+    url: `/warehouses/all/${user?.workspace_id}`,
     callback: (responseData) => {
       console.log("Data received later:", responseData);
-      // Perform additional operations with the data
     },
   });
   const unitColumnr: SharedTableColumn[] = [
     {
-      title: "Unit",
-      dataKey: "events",
-      row: (data: any) => <div className="">{data?.name}</div>,
+      title: "Warehouse",
+      dataKey: "warehouse_name",
+      row: (data: any) => <div className="">{data?.warehouse_name}</div>,
     },
     {
-      title: "Action",
-      dataKey: "Action",
-      row: () => (
+      title: "Total Price",
+      dataKey: "total_price",
+      row: (data: any) => (
         <div className="flex justify-end">
-          <span className="px-2 bg-red-100 text-red-500  border rounded-full ">
-            X
-          </span>
+          <TableAction data={data} />
         </div>
       ),
     },
   ];
+
+  const TableAction = ({ data }: { data: any }) => {
+
+    const { mutateAsync: handleDeleteData, isLoading } = useDeleteWarehouse(data?.id);
+    return (
+      <div className="flex gap-1 ">
+        <div>
+          <DeleteAction isLoading={isLoading} handleDeleteSubmit={handleDeleteData} />
+        </div>
+      </div>
+    );
+  };
+  const { mutateAsync: addFormFn } = usePostWarehousesData()
+
   return (
     <div className="flex gap-5">
       <div className="p-5 h-fit bg-black/50 rounded-[10px] backdrop-blur-sm">
-        <WarehousesForm handleFormSubmit={() => undefined} isLoading={false} />
+        <WarehousesForm handleFormSubmit={addFormFn} isLoading={false} />
       </div>
       <div className="w-full rounded-[10px] overflow-hidden ">
         <SharedTable

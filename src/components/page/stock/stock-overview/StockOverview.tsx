@@ -54,7 +54,6 @@ const StockOverview = () => {
     return (
         <div className="space-y-5">
             <div className="flex justify-end">
-                {/* <Title title="Sotck Overview" /> */}
                 <AddToStockForm handleFormSubmit={() => undefined} isLoading={false} />
             </div>
             <div>

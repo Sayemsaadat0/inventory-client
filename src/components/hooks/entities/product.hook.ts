@@ -3,63 +3,63 @@ import { useUser } from "../../context/UserProvider";
 import axiosRequest from "../../../lib/axiosRequest";
 
 
-export const useGetCustomersData = () => {
+export const useGetproductsData = () => {
   const { user } = useUser();
   return useQuery({
-    queryKey: [`api_customers`],
+    queryKey: [`all_items`],
     queryFn: () =>
       axiosRequest({
-        url: `/customers/all/${user?.workspace_id}`,
+        url: `/products/all/${user?.workspace_id}`,
         method: "get",
       }),
   });
 };
 
-export const usePostCustomersData = () => {
+export const usePostproductsData = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (postData: any) =>
       axiosRequest({
-        url: "/customers",
+        url: "/products",
         method: "post",
         data: postData,
       }),
     {
-      onSuccess: () => queryClient.invalidateQueries(["api_customers"]),
+      onSuccess: () => queryClient.invalidateQueries(["all_items"]),
     }
   );
 };
 
-export const useUpdateCustomer = (id: string) => {
+export const useUpdateproduct = (id: string) => {
   const queryClient = useQueryClient();
   return useMutation(
     async (data: any) => {
       await axiosRequest({
-        url: `/customers/${id}`,
+        url: `/products/${id}`,
         method: "put",
         data: data,
       });
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(["api_customers"]);
+        queryClient.invalidateQueries(["all_items"]);
       },
     }
   );
 };
 
-export const useDeleteCustomer = (id: string) => {
+export const useDeleteproduct = (id: string) => {
   const queryClient = useQueryClient();
   return useMutation(
     async () => {
       await axiosRequest({
-        url: `/customers/${id}`,
+        url: `/products/${id}`,
         method: "delete",
       });
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(["api_customers"]);
+        queryClient.invalidateQueries(["all_items"]);
       },
     }
   );

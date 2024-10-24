@@ -1,4 +1,4 @@
-import { fakeProductsData } from "../../../../data/dummy.data";
+import { useGetproductsData, usePostproductsData } from "../../../hooks/entities/product.hook";
 import SharedTable from "../../../shared/table/SharedTable";
 import Title from "../../../shared/Title";
 import ProductForm from "./ProductForm";
@@ -7,21 +7,27 @@ const Products = () => {
 
   const columns = [
     {
-      title: "Items",
-      dataKey: "item",
+      title: "Image",
+      dataKey: "product_image",
       row: (data: any) => <div className="flex items-center gap-5">
-        <img className="w-12 rounded-full inset-0 shrink-0 aspect-square object-cover " src={data?.image ? data?.image : '/Logo.png'} alt={'Img'} />
-        {data.item}</div>,
+        <img className="w-12 rounded-full inset-0 shrink-0 aspect-square object-cover " src={data?.product_image ? data?.product_image : '/Logo.png'} alt={'Img'} /></div>,
     },
     {
-      title: "Added Date",
-      dataKey: "Added Date",
-      row: (data: any) => (
-        <div>
-          <p>{data.created_at}</p>
-        </div>
-      ),
+      title: "Name",
+      dataKey: "product_name",
+      row: (data: any) => <div className="flex items-center gap-5">
+        {data.product_name}
+      </div>,
     },
+    // {
+    //   title: "Added Date",
+    //   dataKey: "Added Date",
+    //   row: (data: any) => (
+    //     <div>
+    //       <p>{data.created_at}</p>
+    //     </div>
+    //   ),
+    // },
     {
       title: "Action",
       dataKey: "action",
@@ -33,21 +39,26 @@ const Products = () => {
 
   const TableAction = ({ data }: { data: any }) => {
     return <div>
-      <ProductForm instance={data} handleFormSubmit={() => undefined} isLoading={false} />
+      <ProductForm instance={data} handleFormSubmit={() => undefined}  />
     </div>
   }
-  console.log(fakeProductsData)
+
+
+  const { data: ItemsData, isLoading: isItemsLoading } = useGetproductsData()
+
+  const { mutateAsync: formSubmitFn } = usePostproductsData()
+
   return (
     <div className="space-y-5">
       <div className="flex justify-between">
-        <Title title={`All Products (${fakeProductsData?.length})`} />
-        <ProductForm handleFormSubmit={() => undefined} isLoading={false} />
+        <Title title={`All Items (${ItemsData?.length})`} />
+        <ProductForm handleFormSubmit={formSubmitFn}  />
       </div>
       <div>
         <SharedTable
           columns={columns}
-          isLoading={false}
-          data={fakeProductsData || []}
+          isLoading={isItemsLoading}
+          data={ItemsData || []}
         />
       </div>
     </div>

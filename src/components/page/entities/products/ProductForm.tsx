@@ -11,17 +11,20 @@ import { IoMdAdd } from "react-icons/io";
 import { useState } from 'react';
 import ImageUploadField from '../../../shared/inputs/ImageUploadField';
 import { RiEditCircleLine } from 'react-icons/ri';
+import { toast } from '../../../../hooks/use-toast';
+import { useUser } from '../../../context/UserProvider';
 
 
 type ProductFormType = {
     instance?: any,
     handleFormSubmit: Function,
-    isLoading?: boolean,
 }
 
 
 
-const ProductForm: FC<ProductFormType> = ({ instance, isLoading, handleFormSubmit, }) => {
+const ProductForm: FC<ProductFormType> = ({ instance, handleFormSubmit, }) => {
+    const [open, setOpen] = useState(false)
+    const { user } = useUser();
     const {
         handleChange,
         values,
@@ -33,32 +36,34 @@ const ProductForm: FC<ProductFormType> = ({ instance, isLoading, handleFormSubmi
         setFieldValue
     } = useFormik({
         initialValues: {
-            item: instance?.ledger_name || "",
-            image: instance?.image || "",
+            product_name: instance?.product_name || "",
+            product_image: instance?.product_image || "",
+            workspace_id: user?.workspace_id || "",
         },
         // validationSchema: companyDataValidate,
         onSubmit: async (data) => {
             try {
                 const modifiedData = {
-                    item: values.item || "",
-                    image: values.image || "",
+                    product_name: values.product_name || "",
+                    product_image: values.product_image || "",
+                    workspace_id: user?.workspace_id || "",
                 };
                 if (instance) {
                     await handleFormSubmit(modifiedData);
                     // setOpen(!open);
-                    // toast({
-                    //     variant: "success",
-                    //     description: "Edited Successfully",
-                    // });
+                    toast({
+                        variant: "default",
+                        description: "Edited Successfully",
+                    });
                 } else {
                     await handleFormSubmit(data);
-                    // toast({
-                    //     variant: "success",
-                    //     description: "Added Successfully",
-                    // });
-                    resetForm();
+                    toast({
+                        variant: "default",
+                        description: "Added Successfully",
+                    });
                     // setOpen(!open);
                 }
+                resetForm();
             } catch (err: any) {
                 console.log(err)
                 // toast({
@@ -69,9 +74,10 @@ const ProductForm: FC<ProductFormType> = ({ instance, isLoading, handleFormSubmi
         },
     });
 
-    console.log(values)
-    const [open, setOpen] = useState(false)
 
+
+    console.log(values)
+    console.log(errors)
 
     return (
         <div>
@@ -80,7 +86,7 @@ const ProductForm: FC<ProductFormType> = ({ instance, isLoading, handleFormSubmi
                     {instance ? <div className="bg-black p-[7px]  rounded-full ">
                         <RiEditCircleLine className=" text-green-500" />
                     </div> : <div>
-                        <Button reverse icon={<IoMdAdd className='text-xl' />} label='Add New Product' />
+                        <Button reverse icon={<IoMdAdd className='text-xl' />} label=' New Item' />
                     </div>}
                 </div>
                 <DialogContent>
@@ -91,37 +97,37 @@ const ProductForm: FC<ProductFormType> = ({ instance, isLoading, handleFormSubmi
                         <form className="space-y-6" autoComplete="off" onSubmit={handleSubmit}>
                             <TextInput
                                 className="w-full"
-                                id="item"
-                                label='Item Name'
-                                placeholder="Item Name"
-                                value={values.item}
+                                id="product_name"
+                                label='product_name Name'
+                                placeholder="product_name Name"
+                                value={values.product_name}
                                 onChange={handleChange}
                                 type="text"
                                 error={
-                                    Boolean(errors.item) &&
-                                    touched.item &&
-                                    errors.item
+                                    Boolean(errors.product_name) &&
+                                    touched.product_name &&
+                                    errors.product_name
                                 }
                             />
                             <ImageUploadField
                                 error={
-                                    Boolean(errors.image) &&
-                                    touched.image &&
-                                    errors.image
+                                    Boolean(errors.product_image) &&
+                                    touched.product_image &&
+                                    errors.product_image
                                 }
-                                setValue={(x: string) => setFieldValue("image", x)}
-                                fieldKey={"image"}
-                                value={values.image}
+                                setValue={(x: string) => setFieldValue("product_image", x)}
+                                fieldKey={"product_image"}
+                                value={values.product_image}
                             />
 
                             <div className='w-full flex justify-center'>
                                 <Button
-                                    onClick={() => setOpen(!open)}
+                                    // onClick={() => setOpen(!open)}
                                     type='submit'
                                     disabled={isSubmitting}
                                     className="w-full"
                                     variant={'regulerOutlineBtn'}
-                                    label={isLoading ? 'Saving..' : 'Save'}
+                                    label={isSubmitting ? 'Saving..' : 'Save'}
                                 />
                             </div>
                         </form>

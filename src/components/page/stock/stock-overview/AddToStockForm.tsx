@@ -49,13 +49,15 @@ const AddToStockForm: FC<AddToStockFormType> = ({ instance, isLoading, handleFor
                 form_data.append("quantity", data.quantity);
                 form_data.append("notes", data.notes);
                 form_data.append("workspace_id", data.workspace_id);
-                await handleFormSubmit(form_data);
+
                 if (instance) {
+                    await handleFormSubmit(form_data);
                     toast({
                         variant: "default",
                         description: "Edited Successfully",
                     });
                 } else {
+                    await handleFormSubmit(data);
                     toast({
                         variant: "default",
                         description: "Added Successfully",
@@ -98,7 +100,6 @@ const AddToStockForm: FC<AddToStockFormType> = ({ instance, isLoading, handleFor
         setFieldValue("product_image", item.image || "");
     };
 
-    console.log(values)
     return (
         <div>
             <Dialog onOpenChange={() => setOpen(!open)} open={open}>

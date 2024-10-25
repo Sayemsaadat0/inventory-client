@@ -48,7 +48,7 @@ export const useUpdateLedger = (id: string) => {
   );
 };
 
-export const useDeleteCustomer = (id: string) => {
+export const useDeleteLedger = (id: string) => {
   const queryClient = useQueryClient();
   return useMutation(
     async () => {

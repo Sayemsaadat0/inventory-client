@@ -1,6 +1,7 @@
 import { useUser } from "../../../context/UserProvider";
-import { usePostledgersData, useUpdateLedger } from "../../../hooks/entities/ledger.hook";
+import { useDeleteLedger, usePostledgersData, useUpdateLedger } from "../../../hooks/entities/ledger.hook";
 import useDynamicData from "../../../hooks/useDynamicData";
+import DeleteAction from "../../../shared/DeleteAction";
 import SharedTable from "../../../shared/table/SharedTable";
 import LedgersForm from "./LedgersForm";
 
@@ -44,14 +45,20 @@ const Ledgers = () => {
   const TableAction = ({ data }: { data: any }) => {
     const { mutateAsync: handleUpdateData } =
       useUpdateLedger(data?.id);
+    const { mutateAsync: handleDeleteFn, isLoading } =
+      useDeleteLedger(data?.id);
 
     return (
-      <div>
-        <LedgersForm
-          instance={data}
-          handleFormSubmit={handleUpdateData}
-        // isLoading={false}
-        />
+      <div className="flex items-center gap-2">
+        <div>
+          <LedgersForm
+            instance={data}
+            handleFormSubmit={handleUpdateData}
+          />
+        </div>
+        <div>
+          <DeleteAction handleDeleteSubmit={handleDeleteFn} isLoading={isLoading} />
+        </div>
       </div>
     );
   };

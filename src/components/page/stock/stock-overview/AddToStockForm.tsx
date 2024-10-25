@@ -2,23 +2,28 @@ import { FC, useState } from 'react';
 import { useFormik } from 'formik';
 import Button from '../../../ui/button';
 import TextInput from '../../../shared/inputs/TextInput';
-import { Dialog, DialogContent } from '../../../ui/dialog';
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from '../../../ui/dialog';
 import { IoMdAdd } from "react-icons/io";
-import { fakeProductsData, fakeUnits } from '../../../../data/dummy.data';
 import { toast } from '../../../../hooks/use-toast';
 import SearchSelectInput from '../../../shared/inputs/SearchSelectInput';
 import { useUser } from '../../../context/UserProvider';
 import { RiEditCircleLine } from 'react-icons/ri';
+import { useGetproductsData } from '../../../hooks/entities/product.hook';
+import { useGetUnitsData } from '../../../hooks/inventory/units.hooks';
+import { useGetWarehouseData } from '../../../hooks/inventory/warehouse.hooks';
 
 type AddToStockFormType = {
     instance?: any,
     handleFormSubmit: Function,
-    isLoading?: boolean,
 }
 
-const AddToStockForm: FC<AddToStockFormType> = ({ instance, isLoading, handleFormSubmit }) => {
+const AddToStockForm: FC<AddToStockFormType> = ({ instance, handleFormSubmit }) => {
     const { user } = useUser();
+    const [open, setOpen] = useState(false);
 
+    const { data: productData, isLoading: isProductLoading } = useGetproductsData()
+    const { data: unitData, isLoading: isUnitLoading } = useGetUnitsData()
+    const { data: warehouseData, isLoading: isWarehouseLoading } = useGetWarehouseData()
     const {
         handleChange,
         values,
@@ -34,6 +39,7 @@ const AddToStockForm: FC<AddToStockFormType> = ({ instance, isLoading, handleFor
             product_id: instance?.product_id || "",
             product_image: instance?.product_image || "",
             unit_name: instance?.unit_name || "",
+            warehouse_name: instance?.warehouse_name || "",
             quantity: instance?.quantity || 0,
             notes: instance?.notes || "",
             workspace_id: user?.workspace_id || "no workspace id found",
@@ -45,7 +51,9 @@ const AddToStockForm: FC<AddToStockFormType> = ({ instance, isLoading, handleFor
                 form_data.append("product_name ", data.product_name);
                 form_data.append("product_id", data.product_id);
                 form_data.append("product_image", data.product_image);
+
                 form_data.append("unit_name", data.unit_name);
+                form_data.append("warehouse_name", data.warehouse_name);
                 form_data.append("quantity", data.quantity);
                 form_data.append("notes", data.notes);
                 form_data.append("workspace_id", data.workspace_id);
@@ -65,8 +73,8 @@ const AddToStockForm: FC<AddToStockFormType> = ({ instance, isLoading, handleFor
                 }
                 resetForm()
             } catch (err: any) {
+                console.log(err);
                 for (const key of err.errors) {
-                    console.log(key);
                     toast({
                         variant: 'destructive',
                         description: `${key?.attr} - ${key?.detail}`,
@@ -76,16 +84,23 @@ const AddToStockForm: FC<AddToStockFormType> = ({ instance, isLoading, handleFor
         },
     });
 
-    const [open, setOpen] = useState(false);
 
-    const productOptions = fakeProductsData.map((i) => ({
-        label: i.item,
+    // product option
+    const productOptions = !isProductLoading && productData && productData.map((i: any) => ({
+        label: i.product_name,
         value: i.id,
-        image: i?.image
+        image: i?.product_image
 
     }));
 
-    const unitOptions = fakeUnits.map((i) => ({
+    const handleProductSelect = (item: any) => {
+        setFieldValue("product_id", item.value);
+        setFieldValue("product_name", item.label || "");
+        setFieldValue("product_image", item.image || "");
+    };
+
+    // unit option
+    const unitOptions = !isUnitLoading && unitData && unitData.map((i: any) => ({
         label: i.name,
         value: i.id,
     }));
@@ -94,19 +109,28 @@ const AddToStockForm: FC<AddToStockFormType> = ({ instance, isLoading, handleFor
         setFieldValue("unit_name", item.label);
     };
 
-    const handleProductSelect = (item: any) => {
-        setFieldValue("product_id", item.value);
-        setFieldValue("product_name", item.label || "");
-        setFieldValue("product_image", item.image || "");
+    // warehouse
+    const warehouseOptions = !isWarehouseLoading && warehouseData && warehouseData.map((i: any) => ({
+        label: i.warehouse_name,
+        value: i.id,
+    }));
+
+    const handleWarehouseSelect = (item: any) => {
+        setFieldValue("warehouse_name", item.label);
     };
+
+
+
+    console.log('values', values)
+    console.log('error', errors)
 
     return (
         <div>
             <Dialog onOpenChange={() => setOpen(!open)} open={open}>
                 <div className='cursor-pointer' onClick={() => setOpen(!open)}>
                     {instance ? (
-                        <div className="bg-black p-[7px]  rounded-full ">
-                            <RiEditCircleLine className=" text-green-500" />
+                        <div className="bg-black p-[7px] rounded-full">
+                            <RiEditCircleLine className="text-green-500" />
                         </div>
                     ) : (
                         <div>
@@ -114,7 +138,10 @@ const AddToStockForm: FC<AddToStockFormType> = ({ instance, isLoading, handleFor
                         </div>
                     )}
                 </div>
+
                 <DialogContent className='max-h-[80%] overflow-y-auto'>
+                    <DialogTitle></DialogTitle>
+                    <DialogDescription></DialogDescription>
                     <div className='p-5 md:p-10 space-y-5'>
                         <div>
                             {instance ? (
@@ -125,7 +152,6 @@ const AddToStockForm: FC<AddToStockFormType> = ({ instance, isLoading, handleFor
                         </div>
                         <form className="space-y-6" autoComplete="off" onSubmit={handleSubmit}>
 
-
                             <SearchSelectInput
                                 inputClassName="placeholder:text-white  bg-black/20 border border-white py-2 w-full"
                                 title="Select Product"
@@ -134,15 +160,25 @@ const AddToStockForm: FC<AddToStockFormType> = ({ instance, isLoading, handleFor
                                 placeholder="Search Product"
                             />
 
-                            <SearchSelectInput
-                                inputClassName="placeholder:text-white  bg-black/20 border border-white py-2 w-full"
-                                title="Select Unit"
-                                data={unitOptions}
-                                onSelect={handleUnitSelect}
-                                placeholder="Search Product"
-                            />
+                            <div className='flex gap-4'>
+                                <SearchSelectInput
+                                    inputClassName="placeholder:text-white  bg-black/20 border border-white py-2 w-full"
+                                    title="Select Unit"
+                                    data={unitOptions}
+                                    onSelect={handleUnitSelect}
+                                    placeholder="Search Unit"
+                                />
 
 
+                                <SearchSelectInput
+                                    inputClassName="placeholder:text-white  bg-black/20 border border-white py-2 w-full"
+                                    title="Select warehouse"
+                                    data={warehouseOptions}
+                                    onSelect={handleWarehouseSelect}
+                                    placeholder="Search warehouse"
+                                />
+
+                            </div>
                             <TextInput
                                 className="w-full"
                                 id="quantity"
@@ -153,7 +189,6 @@ const AddToStockForm: FC<AddToStockFormType> = ({ instance, isLoading, handleFor
                                 type="number"
                                 error={Boolean(errors.quantity) && touched.quantity && errors.quantity}
                             />
-
                             <TextInput
                                 className="w-full"
                                 id="notes"
@@ -164,6 +199,7 @@ const AddToStockForm: FC<AddToStockFormType> = ({ instance, isLoading, handleFor
                                 type="text"
                                 error={Boolean(errors.notes) && touched.notes && errors.notes}
                             />
+
                             <div className='w-full flex justify-center'>
                                 <Button
                                     onClick={() => setOpen(!open)}
@@ -171,7 +207,7 @@ const AddToStockForm: FC<AddToStockFormType> = ({ instance, isLoading, handleFor
                                     disabled={isSubmitting}
                                     className="w-full"
                                     variant={'regulerOutlineBtn'}
-                                    label={isLoading ? 'Saving..' : 'Save'}
+                                    label={isSubmitting ? 'Saving..' : 'Save'}
                                 />
                             </div>
                         </form>
@@ -179,6 +215,7 @@ const AddToStockForm: FC<AddToStockFormType> = ({ instance, isLoading, handleFor
                 </DialogContent>
             </Dialog>
         </div>
+
     );
 };
 

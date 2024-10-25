@@ -309,7 +309,7 @@ export const inventoryFakeData = [
         product_id: "lampsSep24aa01",
         quantity: 150,
         notes: "New arrival, good for study rooms",
-        image: "https://example.com/images/desk-lamp.jpg", // Replace with the actual image URL
+        product_image: "/Logo.png", // Replace with the actual image URL
 
 
         history: [
@@ -341,7 +341,7 @@ export const inventoryFakeData = [
         product_id: "lampsSep24bb02",
         quantity: 80,
         notes: "Suitable for living rooms",
-        image: "https://example.com/images/floor-lamp.jpg", // Replace with the actual image URL
+        product_image: "https://example.com/images/floor-lamp.jpg", // Replace with the actual image URL
         history: [
             {
                 customer: "Alice Brown",
@@ -371,7 +371,7 @@ export const inventoryFakeData = [
         product_id: "lampsSep24cc03",
         quantity: 200,
         notes: "Energy efficient and stylish",
-        image: "https://example.com/images/table-lamp.jpg", // Replace with the actual image URL
+        product_image: "https://example.com/images/table-lamp.jpg", // Replace with the actual image URL
         history: [
             {
                 customer: "Charlie Green",

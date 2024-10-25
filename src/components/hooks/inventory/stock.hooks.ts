@@ -3,13 +3,13 @@ import { useUser } from "../../context/UserProvider";
 import axiosRequest from "../../../lib/axiosRequest";
 
 
-export const useGetCustomersData = () => {
+export const useGetstocksData = () => {
   const { user } = useUser();
   return useQuery({
-    queryKey: [`api_customers`],
+    queryKey: [`api_stocks`],
     queryFn: () =>
       axiosRequest({
-        url: `/customers/all/${user?.workspace_id}`,
+        url: `/stocks/all/${user?.workspace_id}`,
         method: "get",
       }),
   });
@@ -19,51 +19,51 @@ export const useGetCustomersData = () => {
 
 
 
-export const usePostCustomersData = () => {
+export const usePoststocksData = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (postData: any) =>
       axiosRequest({
-        url: "/customers",
+        url: "/stocks",
         method: "post",
         data: postData,
       }),
     {
-      onSuccess: () => queryClient.invalidateQueries(["api_customers"]),
+      onSuccess: () => queryClient.invalidateQueries(["api_stocks"]),
     }
   );
 };
 
-export const useUpdateCustomer = (id: string) => {
+export const useUpdatestock = (id: string) => {
   const queryClient = useQueryClient();
   return useMutation(
     async (data: any) => {
       await axiosRequest({
-        url: `/customers/${id}`,
+        url: `/stocks/${id}`,
         method: "put",
         data: data,
       });
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(["api_customers"]);
+        queryClient.invalidateQueries(["api_stocks"]);
       },
     }
   );
 };
 
-export const useDeleteCustomer = (id: string) => {
+export const useDeletestock = (id: string) => {
   const queryClient = useQueryClient();
   return useMutation(
     async () => {
       await axiosRequest({
-        url: `/customers/${id}`,
+        url: `/stocks/${id}`,
         method: "delete",
       });
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(["api_customers"]);
+        queryClient.invalidateQueries(["api_stocks"]);
       },
     }
   );

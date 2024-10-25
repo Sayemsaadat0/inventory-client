@@ -1,34 +1,45 @@
 import { useState } from "react";
 import SharedTable from "../../../shared/table/SharedTable";
-import { chalanDataFake } from "../../../../data/dummy.data";
 import { Link } from "react-router-dom";
 import SearchSelectInput from "../../../shared/inputs/SearchSelectInput";
 import { FaSearch } from "react-icons/fa";
 import { FaCheck, FaRegFilePdf } from "react-icons/fa6";
 import { MdDelete } from "react-icons/md";
 import Title from "../../../shared/Title";
+import { useGetOrdersData } from "../../../hooks/order/generate-order.hook";
+import { formatTimestamp } from "../../../../lib/timeStamp";
 
 const Chalan = () => {
     const [selectedInvoice, setSelectedInvoice] = useState<string | null>(null);
 
-    // Filtered data based on isIssedChalan
-    const filteredData = chalanDataFake.filter((invoice) => !invoice.isIssedChalan);
 
-    // Transform data for SearchSelectInput
-    const invoiceOptions = filteredData.map((invoice) => ({
-        label: invoice.invoice_id,
-        value: invoice.invoice_id,
+    const { data, isLoading } = useGetOrdersData()
+    console.log(data)
+
+
+
+
+
+
+    const filteredData = !isLoading && data && data.filter((i: any) => i.isChalan === 0);
+
+    const invoiceOptions = filteredData.map((i: any) => ({
+        label: i.invoice_id,
+        value: i.invoice_id,
     }));
 
-    // Handle selection from SearchSelectInput
     const handleInvoiceSelect = (selectedItem: { label: string; value: string }) => {
         setSelectedInvoice(selectedItem.value);
     };
 
-    // Filter data based on selected invoice
     const filteredBySelectedInvoice = selectedInvoice
-        ? filteredData.filter((invoice) => invoice.invoice_id === selectedInvoice)
+        ? filteredData.filter((i: any) => i.invoice_id === selectedInvoice)
         : filteredData;
+
+
+
+
+
 
     const columns = [
         {
@@ -37,24 +48,19 @@ const Chalan = () => {
             row: (data: any) => <div className="font-semibold text-lg text-gray-300">{data.invoice_id}</div>,
         },
         {
-            title: "Customer Info",
+            title: "Customer",
             dataKey: "customer",
             row: (data: any) => (
                 <div>
-                    <p className="">{data.customer_name}</p>
-                    <p className="text-sm text-gray-200 italic">Id: {data.customer_id}</p>
+                    <p className="">{data?.customer.customer_name}</p>
+                    {/* <p className="text-sm text-gray-200 italic">Id: {data.customer_id}</p> */}
                 </div>
             ),
         },
         {
             title: "Order Date",
             dataKey: "date",
-            row: (data: any) => <div>{data.issued_date}</div>,
-        },
-        {
-            title: "Warehouse",
-            dataKey: "warehouse",
-            row: (data: any) => <div>{data.warehouse_name}</div>,
+            row: (data: any) => <div>{formatTimestamp(data.issue_date)}</div>,
         },
         {
             title: "Products",
@@ -67,10 +73,6 @@ const Chalan = () => {
                         {productsToShow.map((product: any, index: number) => (
                             <div key={index} className="mb-1 ">
                                 <p className="text-sm   w-fit px-1 rounded-full bg-amber-50 text-black">{product.product_name}</p>
-
-                                {/* <p className="text-sm text-gray-500">
-                                    Quantity: {product.quantity}, Price: ${product.unit_price}
-                                </p> */}
                             </div>
 
                         ))}
@@ -83,11 +85,11 @@ const Chalan = () => {
                 );
             },
         },
-        // {
-        //     title: "Grand Total",
-        //     dataKey: "total_price",
-        //     row: (data: any) => <div>${data.total_price}</div>,
-        // },
+        {
+            title: "Order Created",
+            dataKey: "date",
+            row: (data: any) => <div>{formatTimestamp(data.created_at)}</div>,
+        },
         {
             title: "Action",
             dataKey: "action",
@@ -108,14 +110,13 @@ const Chalan = () => {
     return (
         <div className="space-y-5  p-5 bg-black/40 rounded-[10px]">
             <div className="flex justify-between">
-                <Title className="rounded-[10px]" title="Chalan"/>
+                <Title className="rounded-[10px]" title="Chalan" />
                 <div className="flex gap-2 justify-end items-center">
                     <FaSearch />
                     <SearchSelectInput
                         inputClassName="placeholder:text-white bg-white/40 border-0  py-1 w-full rounded-[10px]"
-                        // title="Select Invoice"
-                        data={invoiceOptions} // Pass transformed invoice data
-                        onSelect={handleInvoiceSelect} // Handle invoice selection
+                        data={invoiceOptions}
+                        onSelect={handleInvoiceSelect}
                         placeholder="Search Invoice by ID"
                     />
                 </div>
@@ -123,7 +124,7 @@ const Chalan = () => {
             <div className="rounded-[10px] overflow-hidden">
                 <SharedTable
                     columns={columns}
-                    isLoading={false}
+                    isLoading={isLoading}
                     data={filteredBySelectedInvoice || []}
                 />
             </div>

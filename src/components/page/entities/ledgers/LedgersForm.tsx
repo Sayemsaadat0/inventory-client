@@ -4,25 +4,23 @@ import Button from "../../../ui/button";
 import TextInput from "../../../shared/inputs/TextInput";
 // import { companyDataValidate } from '../../../../validation/CompanyValidate';
 import { Dialog, DialogContent } from "../../../ui/dialog";
-import { FaEdit } from "react-icons/fa";
 import { IoMdAdd } from "react-icons/io";
 import { useState } from "react";
-import usePostData from "../../../hooks/usePostData";
 import { useUser } from "../../../context/UserProvider";
+import { toast } from "../../../../hooks/use-toast";
+import { RiEditCircleLine } from "react-icons/ri";
 
 type LedgersFormType = {
   instance?: any;
   handleFormSubmit: Function;
-  isLoading?: boolean;
 };
 
 const LedgersForm: FC<LedgersFormType> = ({
   instance,
-  isLoading,
   handleFormSubmit,
 }) => {
-  const postData = usePostData();
   const { user } = useUser();
+  const [open, setOpen] = useState(false);
 
   const {
     handleChange,
@@ -31,11 +29,11 @@ const LedgersForm: FC<LedgersFormType> = ({
     errors,
     handleSubmit,
     isSubmitting,
-    resetForm,
   } = useFormik({
     initialValues: {
       ledger_name: instance?.ledger_name || "",
       note: instance?.note || "",
+      workspace_id: user?.workspace_id || "no workspace id found",
     },
     // validationSchema: companyDataValidate,
     onSubmit: async (data) => {
@@ -45,53 +43,47 @@ const LedgersForm: FC<LedgersFormType> = ({
           note: values.note || "",
           workspace_id: user?.workspace_id || "no workspace id found",
         };
-        postData("/ledgers", modifiedData, "refetch", (responseData: any) => {
-          console.log("Response received:", responseData);
-          // Handle the response data here
-        });
         if (instance) {
           await handleFormSubmit(modifiedData);
-          // setOpen(!open);
-          // toast({
-          //     variant: "success",
-          //     description: "Edited Successfully",
-          // });
+          toast({
+            variant: "default",
+            description: "Edited Successfully",
+          });
         } else {
           await handleFormSubmit(data);
-          // toast({
-          //     variant: "success",
-          //     description: "Added Successfully",
-          // });
-          resetForm();
-          // setOpen(!open);
+          toast({
+            variant: "default",
+            description: "Added Successfully",
+          });
         }
+        // resetForm();
+        // setOpen(!open);
       } catch (err: any) {
         console.log(err);
-        // toast({
-        //     variant: "destructive",
-        //     description: err,
-        // });
+        toast({
+          variant: "destructive",
+          description: err?.error,
+        });
       }
     },
   });
 
   console.log(values);
-  const [open, setOpen] = useState(false);
 
   return (
     <div>
       <Dialog onOpenChange={() => setOpen(!open)} open={open}>
         <div className="cursor-pointer" onClick={() => setOpen(!open)}>
           {instance ? (
-            <div>
-              <FaEdit className="text-green-500" />
+            <div className="bg-black p-[7px]  rounded-full ">
+              <RiEditCircleLine className=" text-green-500" />
             </div>
           ) : (
             <div>
               <Button
                 reverse
                 icon={<IoMdAdd className="text-xl" />}
-                label="Create New Ledger"
+                label="Setup Ledger"
               />
             </div>
           )}
@@ -142,7 +134,7 @@ const LedgersForm: FC<LedgersFormType> = ({
                   disabled={isSubmitting}
                   className="w-full"
                   variant={"regulerOutlineBtn"}
-                  label={isLoading ? "Saving.." : "Save"}
+                  label={isSubmitting ? "Saving.." : "Save"}
                 />
               </div>
             </form>

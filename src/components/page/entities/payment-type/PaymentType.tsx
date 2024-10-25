@@ -1,5 +1,7 @@
 // import PaymentTypeForm from "./PaymentTypeForm"
 
+import { format } from "date-fns";
+import { useDeletePaymentType, useGetPaymentTypeData, usePostPaymentTypeData } from "../../../hooks/entities/payment-type.hook";
 import DeleteAction from "../../../shared/DeleteAction";
 import SharedTable from "../../../shared/table/SharedTable";
 import PaymentTypeForm from "./PaymentTypeForm";
@@ -19,54 +21,41 @@ const PaymentType = () => {
       dataKey: "Added Date",
       row: (data: any) => (
         <div>
-          <p>{data.createdAt}</p>
+          <p>{format(new Date(data.createdAt), "MM-dd-yyyy")}</p>
         </div>
       ),
     },
     {
       title: "Action",
       dataKey: "action",
-      row: () => <div className="flex justify-end">
-        <TableAction />
+      row: (data: any) => <div className="flex justify-end">
+        <TableAction data={data} />
       </div>,
     },
   ];
 
-  const TableAction = () => {
+  const TableAction = ({ data }: { data: any }) => {
+    const { mutateAsync, isLoading } = useDeletePaymentType(data?.id)
     return <div>
-      <DeleteAction handleDeleteSubmit={() => undefined} isLoading={false} />
+      <DeleteAction handleDeleteSubmit={mutateAsync} isLoading={isLoading} />
     </div>
   }
 
-  const paymentType = [
-    {
-      payment_type: 'Bank',
-      createdAt: '10-20-40'
-    },
-    {
-      payment_type: 'Bank',
-      createdAt: '10-20-40'
-    },
-    {
-      payment_type: 'Bank',
-      createdAt: '10-20-40'
-    },
-    {
-      payment_type: 'Bank',
-      createdAt: '10-20-40'
-    }
-  ]
+
+
+  const { mutateAsync: formSubmitFn } = usePostPaymentTypeData()
+  const { data: paymentTypeData } = useGetPaymentTypeData()
   return (
     <div className="  p-3">
       <div className="flex  gap-10 ">
         <div className="bg-black/40 backdrop-blur-sm p-5 h-fit">
-          <PaymentTypeForm handleFormSubmit={() => undefined} />
+          <PaymentTypeForm handleFormSubmit={formSubmitFn} />
         </div>
         <div className="flex-1">
           <SharedTable
             columns={columns}
             isLoading={false}
-            data={paymentType || []}
+            data={paymentTypeData || []}
           />
         </div>
       </div>

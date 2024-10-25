@@ -3,6 +3,7 @@ import { AiFillWarning } from "react-icons/ai";
 import { TiDeleteOutline } from "react-icons/ti";
 import { AlertDialog, AlertDialogContent } from "../ui/alert-dialog";
 import Button from "../ui/button";
+import { toast } from "../../hooks/use-toast";
 
 interface DeleteActionProps {
     handleDeleteSubmit: Function;
@@ -15,18 +16,19 @@ const DeleteAction: React.FC<DeleteActionProps> = ({ handleDeleteSubmit, isLoadi
     const handleDelete = useCallback(async () => {
         try {
             await handleDeleteSubmit();
-            //   toast({
-            //     description: `Deleted Successfully!`,
-            //   });
+            toast({
+                variant: "default",
+                description: `Deleted Successfully!`,
+            });
             setOpen(false);
         } catch (err: any) {
             console.log(err)
-            // Assuming `err.errors` is an array of objects with `attr` and `detail` properties
-            //   for (let key of err.errors) {
-            //     toast({
-            //       description: `${key?.attr} - ${key?.detail}`,
-            //     });
-            //   }
+            for (let key of err.errors) {
+                toast({
+                    variant: 'destructive',
+                    description: `${key?.attr} - ${key?.detail}`,
+                });
+            }
         }
     }, [handleDeleteSubmit]);
 
@@ -43,18 +45,20 @@ const DeleteAction: React.FC<DeleteActionProps> = ({ handleDeleteSubmit, isLoadi
                                 <AiFillWarning className="text-red-500 text-7xl" />
                             </p>
                         </div>
-                        <h3 className="text-2xl font-semibold text-center">Confirm Delete</h3>
+                        <h3 className="text-4xl font-semibold text-center">Confirm Delete!</h3>
                         <p className="text-center py-2">
                             Are you sure you want to <br /> delete this file?
                         </p>
                     </div>
                     <div className="flex justify-center gap-8">
                         <Button
+                            className="bg-red-100 text-black"
                             onClick={() => setOpen(false)}
                             label={"Cancel"}
                         //   variant={"outlineBtn"}
                         />
                         <Button
+                            className="border"
                             disabled={isLoading}
                             label={`${isLoading ? "Deleting" : "Delete"}`}
                             onClick={handleDelete}

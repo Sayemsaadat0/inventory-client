@@ -1,4 +1,5 @@
 import { useUser } from "../../../context/UserProvider";
+import { usePostledgersData, useUpdateLedger } from "../../../hooks/entities/ledger.hook";
 import useDynamicData from "../../../hooks/useDynamicData";
 import SharedTable from "../../../shared/table/SharedTable";
 import LedgersForm from "./LedgersForm";
@@ -6,11 +7,10 @@ import LedgersForm from "./LedgersForm";
 const Ledgers = () => {
   const { user } = useUser();
   const { data: ledgersData, isLoading } = useDynamicData({
-    queryKey: "myQueryKey",
+    queryKey: "api_ledgers",
     url: `/ledgers/all/${user?.workspace_id}`,
     callback: (responseData) => {
       console.log("Data received later:", responseData);
-      // Perform additional operations with the data
     },
   });
 
@@ -42,22 +42,27 @@ const Ledgers = () => {
   ];
 
   const TableAction = ({ data }: { data: any }) => {
+    const { mutateAsync: handleUpdateData } =
+      useUpdateLedger(data?.id);
+
     return (
       <div>
         <LedgersForm
           instance={data}
-          handleFormSubmit={() => undefined}
-          isLoading={false}
+          handleFormSubmit={handleUpdateData}
+        // isLoading={false}
         />
       </div>
     );
   };
 
+
+  const { mutateAsync: formSubmitFn } = usePostledgersData()
   return (
     <div className="space-y-5">
       <div className="flex justify-end">
         {/* <Title title="List of Customers" /> */}
-        <LedgersForm handleFormSubmit={() => undefined} isLoading={false} />
+        <LedgersForm handleFormSubmit={formSubmitFn} />
       </div>
       <div>
         <SharedTable

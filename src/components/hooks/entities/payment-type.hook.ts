@@ -3,63 +3,63 @@ import { useUser } from "../../context/UserProvider";
 import axiosRequest from "../../../lib/axiosRequest";
 
 
-export const useGetCustomersData = () => {
+export const useGetPaymentTypeData = () => {
   const { user } = useUser();
   return useQuery({
-    queryKey: [`api_customers`],
+    queryKey: [`api_payment_type`],
     queryFn: () =>
       axiosRequest({
-        url: `/customers/all/${user?.workspace_id}`,
+        url: `/payment-type/all/${user?.workspace_id}`,
         method: "get",
       }),
   });
 };
 
-export const usePostCustomersData = () => {
+export const usePostPaymentTypeData = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (postData: any) =>
       axiosRequest({
-        url: "/customers",
+        url: "/payment-type",
         method: "post",
         data: postData,
       }),
     {
-      onSuccess: () => queryClient.invalidateQueries(["api_customers"]),
+      onSuccess: () => queryClient.invalidateQueries(["api_payment_type"]),
     }
   );
 };
 
-export const useUpdateCustomer = (id: string) => {
+export const useUpdatePaymentType = (id: string) => {
   const queryClient = useQueryClient();
   return useMutation(
     async (data: any) => {
       await axiosRequest({
-        url: `/customers/${id}`,
+        url: `/payment-type/${id}`,
         method: "put",
         data: data,
       });
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(["api_customers"]);
+        queryClient.invalidateQueries(["api_payment_type"]);
       },
     }
   );
 };
 
-export const useDeleteCustomer = (id: string) => {
+export const useDeletePaymentType = (id: string) => {
   const queryClient = useQueryClient();
   return useMutation(
     async () => {
       await axiosRequest({
-        url: `/customers/${id}`,
+        url: `/payment-type/${id}`,
         method: "delete",
       });
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(["api_customers"]);
+        queryClient.invalidateQueries(["api_payment_type"]);
       },
     }
   );

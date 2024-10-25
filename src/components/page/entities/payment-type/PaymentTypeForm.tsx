@@ -1,18 +1,15 @@
 
 import { FC } from 'react';
 import { useFormik } from 'formik';
-import * as Yup from 'yup';
+// import * as Yup from 'yup';
 import Button from '../../../ui/button';
 import TextInput from '../../../shared/inputs/TextInput';
+import { useUser } from '../../../context/UserProvider';
+import { toast } from '../../../../hooks/use-toast';
 
 
 // Validation schema
-const validationSchema = Yup.object({
-    name: Yup.string().required('Name is required'),
-    email: Yup.string().required('Email is required'),
-    password: Yup.string().required('Password is required'),
-    confirm_password: Yup.string().required('Password is required'),
-});
+
 
 
 type PaymentTypeFormType = {
@@ -22,6 +19,7 @@ type PaymentTypeFormType = {
 
 
 const PaymentTypeForm: FC<PaymentTypeFormType> = ({ handleFormSubmit }) => {
+    const { user } = useUser()
     const {
         handleChange,
         values,
@@ -32,19 +30,24 @@ const PaymentTypeForm: FC<PaymentTypeFormType> = ({ handleFormSubmit }) => {
     } = useFormik({
         initialValues: {
             payment_type: '',
+            workspace_id: user?.workspace_id || ""
         },
-        validationSchema,
         onSubmit: async (data) => {
             try {
                 await handleFormSubmit(data)
-                console.log(data)
-            } catch (err) {
-                console.log(err)
+                toast({
+                    variant: 'default',
+                    description: 'Payment-Type Created!'
+                })
+            } catch (err: any) {
+                toast({
+                    variant: 'destructive',
+                    description: `${err?.error}`
+                })
             }
         },
     });
 
-    console.log(values)
 
     return (
         <div className=''>
@@ -69,11 +72,10 @@ const PaymentTypeForm: FC<PaymentTypeFormType> = ({ handleFormSubmit }) => {
                         type='submit'
                         disabled={isSubmitting}
                         className="w-full"
-                        label={isSubmitting ? 'Saving..' : 'Saving'}
+                        label={isSubmitting ? 'Saving..' : 'Save'}
                     />
                 </div>
             </form>
-
         </div>
     );
 };

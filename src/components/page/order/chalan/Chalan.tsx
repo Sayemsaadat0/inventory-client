@@ -15,7 +15,6 @@ const Chalan = () => {
 
 
     const { data, isLoading } = useGetOrdersData()
-    console.log(data)
 
 
 

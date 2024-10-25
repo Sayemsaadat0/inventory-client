@@ -3,11 +3,12 @@ import SharedTable from "../../../shared/table/SharedTable";
 import { Link } from "react-router-dom";
 import SearchSelectInput from "../../../shared/inputs/SearchSelectInput";
 import { FaSearch } from "react-icons/fa";
-import { FaCheck, FaRegFilePdf } from "react-icons/fa6";
+import {  FaRegFilePdf } from "react-icons/fa6";
 import { MdDelete } from "react-icons/md";
 import Title from "../../../shared/Title";
-import { useGetOrdersData } from "../../../hooks/order/generate-order.hook";
+import { useConfirmChalan, useGetOrdersData } from "../../../hooks/order/generate-order.hook";
 import { formatTimestamp } from "../../../../lib/timeStamp";
+import ChalanAction from "../../../shared/ChalanAction";
 
 const Chalan = () => {
     const [selectedInvoice, setSelectedInvoice] = useState<string | null>(null);
@@ -23,7 +24,7 @@ const Chalan = () => {
 
     const filteredData = !isLoading && data && data.filter((i: any) => i.isChalan === 0);
 
-    const invoiceOptions = filteredData.map((i: any) => ({
+    const invoiceOptions = filteredData && filteredData.map((i: any) => ({
         label: i.invoice_id,
         value: i.invoice_id,
     }));
@@ -94,18 +95,30 @@ const Chalan = () => {
             title: "Action",
             dataKey: "action",
             row: (data: any) => (
-                <div className="flex justify-end gap-2">
-                    <div className=" "><FaCheck className="bg-green-100 text-green-800 text-3xl w-fit  rounded-[5px] cursor-pointer p-2" /></div>
-                    <div className=" "><MdDelete className="bg-red-100 text-red-800 text-3xl w-fit  rounded-[5px] cursor-pointer p-2" /></div>
-                    <div>
-                        <Link className="" to={`/order/chalan/download/${data?.invoice_id}`}>
-                            <FaRegFilePdf className="text-3xl p-1 bg-white text-black rounded-[5px] border" />
-                        </Link>
-                    </div>
-                </div>
+                <div> <TableAction data={data} /></div>
+
             ),
         },
     ];
+
+
+
+    const TableAction = ({ data }: { data: any }) => {
+
+        const { mutateAsync , isLoading } = useConfirmChalan(data?.id)
+        return (
+            <div className="flex justify-end gap-2">
+                <ChalanAction handleConfirmChalan={mutateAsync} isLoading={isLoading}/>
+                {/* <div onClick={() => mutateAsync()} className=" "><FaCheck className="bg-green-100 text-green-800 text-3xl w-fit  rounded-[5px] cursor-pointer p-2" /></div> */}
+                <div className=" "><MdDelete className="bg-red-100 text-red-800 text-3xl w-fit  rounded-[5px] cursor-pointer p-2" /></div>
+                <div>
+                    <Link className="" to={`/order/chalan/download/${data?.invoice_id}`}>
+                        <FaRegFilePdf className="text-3xl p-1 bg-white text-black rounded-[5px] border" />
+                    </Link>
+                </div>
+            </div>
+        );
+    };
 
     return (
         <div className="space-y-5  p-5 bg-black/40 rounded-[10px]">

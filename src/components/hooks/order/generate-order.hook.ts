@@ -18,15 +18,6 @@ export const useGetOrdersData = () => {
 
 
 
-
-
-
-
-
-
-
-
-
 export const usePostOrdersData = () => {
   const queryClient = useQueryClient();
   return useMutation(
@@ -38,6 +29,25 @@ export const usePostOrdersData = () => {
       }),
     {
       onSuccess: () => queryClient.invalidateQueries(["api_order_list"]),
+    }
+  );
+};
+
+// chalan
+
+export const useConfirmChalan = (id: string) => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    async () => {
+      await axiosRequest({
+        url: `/orders/done-chalan/${id}`,
+        method: "PATCH",
+      });
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["api_order_list"]);
+      },
     }
   );
 };

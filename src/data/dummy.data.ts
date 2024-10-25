@@ -111,62 +111,6 @@ export const fakseUserData = [
     }
 ]
 
-/*
-  history: [
-            {
-                date: "2024-09-26",
-                customer: "Bob Brown",
-                quantity: 5,
-                unit: "piece",
-                unitPrice: 24.99,
-                totalPrice: 124.95,
-                invoiceId: "inv26092024aa04" // Invoice ID format
-            }
-        ]
-        history: [
-            {
-                date: "2024-09-26",
-                customer: "Alice Johnson",
-                quantity: 3,
-                unit: "piece",
-                unitPrice: 199.99,
-                totalPrice: 599.97,
-                invoiceId: "inv26092024aa03" // Invoice ID format
-            }
-        ]      
-   history: [
-            {
-                date: "2024-09-26",
-                customer: "Charlie Davis",
-                quantity: 10,
-                unit: "piece",
-                unitPrice: 19.99,
-                totalPrice: 199.90,
-                invoiceId: "inv26092024aa05" // Invoice ID format
-            }
-        ]
-    history: [
-            {
-                date: "2024-09-26",
-                customer: "John Doe",
-                quantity: 2,
-                unit: "piece",
-                unitPrice: 49.99,
-                totalPrice: 99.98,
-                invoiceId: "inv26092024aa01" // Invoice ID format
-            },
-            {
-                date: "2024-09-25",
-                customer: "Jane Smith",
-                quantity: 6,
-                unit: "piece",
-                unitPrice: 29.99,
-                totalPrice: 179.94, // Updated total price
-                invoiceId: "inv26092024aa02" // Invoice ID format
-            }
-        ]
-*/
-
 
 export const fakeAccountHeadData = [
     {
@@ -722,3 +666,25 @@ export const chalanDataFake = [
         }
     }
 ];
+
+
+export const dummyStockData = [
+    { 
+        product_name: "Fantastic Rubber Ball",
+        product_id: "0def-gh12-34567890ijkl",
+        product_image: "https://via.placeholder.com/640x480",
+        unit_name: "kg",
+        warehouse_name: "Springfield",
+        quantity: 57,
+        notes: "This product is suitable for outdoor play."
+    },
+    {
+        product_name: "Rubber Ball",
+        product_id: "a1234567-bc89-0def-gh12-34567890ijkl",
+        product_image: "https://via.placeholder.com/640x480",
+        unit_name: "kg",
+        warehouse_name: "Springfield",
+        quantity: 98,
+        notes: "This product is suitable for outdoor play."
+    }
+]

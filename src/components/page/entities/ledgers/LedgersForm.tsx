@@ -3,7 +3,7 @@ import { useFormik } from "formik";
 import Button from "../../../ui/button";
 import TextInput from "../../../shared/inputs/TextInput";
 // import { companyDataValidate } from '../../../../validation/CompanyValidate';
-import { Dialog, DialogContent } from "../../../ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from "../../../ui/dialog";
 import { IoMdAdd } from "react-icons/io";
 import { useState } from "react";
 import { useUser } from "../../../context/UserProvider";
@@ -13,11 +13,13 @@ import { RiEditCircleLine } from "react-icons/ri";
 type LedgersFormType = {
   instance?: any;
   handleFormSubmit: Function;
+  isOnlyIcon?: boolean
 };
 
 const LedgersForm: FC<LedgersFormType> = ({
   instance,
   handleFormSubmit,
+  isOnlyIcon,
 }) => {
   const { user } = useUser();
   const [open, setOpen] = useState(false);
@@ -29,6 +31,7 @@ const LedgersForm: FC<LedgersFormType> = ({
     errors,
     handleSubmit,
     isSubmitting,
+    resetForm,
   } = useFormik({
     initialValues: {
       ledger_name: instance?.ledger_name || "",
@@ -56,8 +59,7 @@ const LedgersForm: FC<LedgersFormType> = ({
             description: "Added Successfully",
           });
         }
-        // resetForm();
-        // setOpen(!open);
+        resetForm();
       } catch (err: any) {
         console.log(err);
         toast({
@@ -68,7 +70,6 @@ const LedgersForm: FC<LedgersFormType> = ({
     },
   });
 
-  console.log(values);
 
   return (
     <div>
@@ -81,14 +82,18 @@ const LedgersForm: FC<LedgersFormType> = ({
           ) : (
             <div>
               <Button
+                type="button"
+                className={isOnlyIcon ? 'border' : ''}
                 reverse
                 icon={<IoMdAdd className="text-xl" />}
-                label="Setup Ledger"
+                label={isOnlyIcon ? "" : "Setup Ledger"}
               />
             </div>
           )}
         </div>
         <DialogContent>
+          <DialogTitle></DialogTitle>
+          <DialogDescription></DialogDescription>
           <div className="p-5 md:p-10 space-y-5">
             <div className="">
               {instance ? (

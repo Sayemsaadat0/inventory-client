@@ -121,8 +121,6 @@ const AddToStockForm: FC<AddToStockFormType> = ({ instance, handleFormSubmit }) 
 
 
 
-    console.log('values', values)
-    console.log('error', errors)
 
     return (
         <div>

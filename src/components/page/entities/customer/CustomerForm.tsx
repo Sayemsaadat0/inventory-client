@@ -3,7 +3,7 @@ import { useFormik } from "formik";
 import Button from "../../../ui/button";
 import TextInput from "../../../shared/inputs/TextInput";
 import { Dialog, DialogContent } from "../../../ui/dialog";
-import { RiEditCircleLine } from "react-icons/ri"; 
+import { RiEditCircleLine } from "react-icons/ri";
 
 import { IoMdAdd } from "react-icons/io";
 import { useState } from "react";
@@ -81,16 +81,17 @@ const CustomerForm: FC<CustomerFormType> = ({
       <Dialog onOpenChange={() => setOpen(!open)} open={open}>
         <div className="cursor-pointer" onClick={() => setOpen(!open)}>
           {instance ? (
-           <div className="bg-black p-[7px]  rounded-full ">
-           <RiEditCircleLine className=" text-green-500" />
-       </div>
+            <div className="bg-black p-[7px]  rounded-full ">
+              <RiEditCircleLine className=" text-green-500" />
+            </div>
           ) : (
             <div>
               <Button
+                type="button"
                 className={isOnlyIcon ? 'border' : ''}
                 reverse
                 icon={<IoMdAdd className="text-xl" />}
-                label={isOnlyIcon? "" : "New Customer"}
+                label={isOnlyIcon ? "" : "New Customer"}
               />
             </div>
           )}

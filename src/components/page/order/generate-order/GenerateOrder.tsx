@@ -10,7 +10,7 @@ import { useUser } from "../../../context/UserProvider";
 
 import { format } from "date-fns";
 
-import { usePostOrdersData } from "../../../hooks/order/generate-order.hook";
+import { useCreateOrdersData } from "../../../hooks/order/order.hook";
 import { useGetCustomersData, usePostCustomersData } from "../../../hooks/entities/customer.hook";
 
 import { useGetledgersData, usePostledgersData } from "../../../hooks/entities/ledger.hook";
@@ -381,8 +381,8 @@ const GenerateOrderForm: FC<GenerateOrderFormType> = ({
   );
 };
 const GenerateOrder = () => {
-  // const { mutateAsync } = usePostOrdersData();
-  const { mutateAsync } = usePostOrdersData();
+  // const { mutateAsync } = useCreateOrdersData();
+  const { mutateAsync } = useCreateOrdersData();
 
   return (
     <div className="relative">

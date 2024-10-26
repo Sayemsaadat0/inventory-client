@@ -6,7 +6,7 @@ import { FaSearch } from "react-icons/fa";
 import {  FaRegFilePdf } from "react-icons/fa6";
 import { MdDelete } from "react-icons/md";
 import Title from "../../../shared/Title";
-import { useConfirmChalan, useGetOrdersData } from "../../../hooks/order/generate-order.hook";
+import { useConfirmChalan, useGetOrdersData } from "../../../hooks/order/order.hook";
 import { formatTimestamp } from "../../../../lib/timeStamp";
 import ChalanAction from "../../../shared/ChalanAction";
 

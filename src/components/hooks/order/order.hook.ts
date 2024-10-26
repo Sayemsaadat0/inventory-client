@@ -18,7 +18,7 @@ export const useGetOrdersData = () => {
 
 
 
-export const usePostOrdersData = () => {
+export const useCreateOrdersData = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (postData: any) =>
@@ -47,6 +47,27 @@ export const useConfirmChalan = (id: string) => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["api_order_list"]);
+      },
+    }
+  );
+};
+
+
+
+
+export const useUpdateOrder = (id: string) => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    async (data: any) => {
+      await axiosRequest({
+        url: `/orders/${id}`,
+        method: "put",
+        data: data,
+      });
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["api_ledgers"]);
       },
     }
   );

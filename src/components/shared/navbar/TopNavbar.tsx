@@ -1,10 +1,32 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { IoChevronBack } from "react-icons/io5";
 import { motion } from "framer-motion";
 import "./TopNavbar.css";
+import { useUser } from "../../context/UserProvider";
+import { useEffect } from "react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../../ui/dropdown-menu";
 
 const TopNavbar = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const { user, logout } = useUser();
+
+  useEffect(() => {
+    // console.log("Navbar: user or loading state updated:", { user, loading });
+  }, [user]);
+
+  
+
+  if (!user) {
+    return <div>No user data found. Please try logging in again.</div>;
+  }
+  const {
+    email,
+    username,
+    user_image,
+  } = user;
+
   const handleBack = () => {
     navigate(-1);
   };
@@ -12,7 +34,8 @@ const TopNavbar = () => {
     navigate(1);
   };
 
-  const location = useLocation();
+
+
 
   return (
     <div className="py-3 px-4 flex items-center justify-between text-white bg-black/30 backdrop-blur-sm">
@@ -61,7 +84,48 @@ const TopNavbar = () => {
         </div>
       </div>
       <div>
-        <img className="h-12" src={"/LAMS_Logo.png"} alt="Logo" />
+      <DropdownMenu>
+          <DropdownMenuTrigger>
+            <div className="flex gap-2 items-center">
+              <div>
+                <img
+                  className="w-10 h-10 object-cover mx-1 rounded-full"
+                  src={user_image || "/user1.png"}
+                  alt="user-imahge"
+                />
+              </div>
+              <div className="text-black  text-left">
+                <p className="font-semibold  capitalize text-xl">
+                  {username ? username : "Unknown User"}
+                </p>
+                <p className="opacity-75 text-xs -mt-0.5">
+                  {email ? email : "Unknown User"}
+                </p>
+                {/* <p className="">
+                  {!isUsersLoading && lastUser
+                    ? lastUser.email
+                    : "Unknown User"}
+                </p> */}
+              </div>
+            </div>
+          </DropdownMenuTrigger>
+
+          <DropdownMenuContent className="min-w-60">
+            <DropdownMenuItem>
+              <Link className="text-sm w-full" to={"/profile"}>
+                Profile
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem className="hover:bg-gray-200 w-full">
+              <div
+                onClick={logout}
+                className="single_content text-sm w-full"
+              >
+                Log out
+              </div>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </div>
   );

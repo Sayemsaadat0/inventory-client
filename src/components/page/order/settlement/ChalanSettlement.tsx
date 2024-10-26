@@ -5,7 +5,7 @@ import SearchSelectInput from "../../../shared/inputs/SearchSelectInput";
 import { MdDelete } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { FaRegFilePdf } from "react-icons/fa6";
-import { useGetOrdersData } from "../../../hooks/order/generate-order.hook";
+import { useGetOrdersData } from "../../../hooks/order/order.hook";
 import { formatTimestamp } from "../../../../lib/timeStamp";
 
 const ChalanSettlement = () => {

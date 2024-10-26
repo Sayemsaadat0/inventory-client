@@ -7,10 +7,9 @@ import Dashboard from "../components/page/dashboard/Dashboard";
 // import Inventory from "../components/page/inventory/Inventory";
 import Chalan from "../components/page/order/chalan/Chalan";
 import GenerateOrder from "../components/page/order/generate-order/GenerateOrder";
-import ChalanSettlement from "../components/page/order/settlement/ChalanSettlement";
 import StockOverview from "../components/page/stock/stock-overview/StockOverview";
 import Company from "../components/page/entities/company/Company";
-import Users from "../components/page/entities/users/Users";
+import Users from "../components/page/admin/users/Users";
 import Customers from "../components/page/entities/customer/Customers";
 import Products from "../components/page/entities/products/Products";
 import PaymentType from "../components/page/entities/payment-type/PaymentType";
@@ -19,6 +18,8 @@ import DownloadChalan from "../components/page/order/chalan/DownloadChalan";
 import UnitComponent from "../components/page/stock/unit-warehouse/UnitComponent";
 import Warehouses from "../components/page/stock/unit-warehouse/Warehouses";
 import PrivateRoute from "../components/shared/PrivateRoute";
+import SmsPage from "../components/page/sms/SmsPage";
+import CollectBill from "../components/page/admin/bill/CollectBill";
 // import PrivateRoute from "../components/shared/";
 
 const router = createBrowserRouter([
@@ -53,8 +54,12 @@ const router = createBrowserRouter([
         element: <Company />,
       },
       {
-        path: "/entity/users",
+        path: "/admin/users",
         element: <Users />,
+      },
+      {
+        path: "/admin/collect-bill",
+        element: <CollectBill />,
       },
       {
         path: "/entity/customers",
@@ -81,16 +86,18 @@ const router = createBrowserRouter([
         path: "/order/chalan",
         element: <Chalan />,
       },
+      // order
+      {
+        path: "/send-message",
+        element: <SmsPage />,
+      },
       {
         path: "/order/chalan/download/:id",
         loader: ({ params }) =>
           fetch(`/order/chalan/download/${params.invoice_id}`),
         element: <DownloadChalan />,
       },
-      {
-        path: "/order/chalan-settlemenet",
-        element: <ChalanSettlement />,
-      },
+
       // report
       // settings
       // {

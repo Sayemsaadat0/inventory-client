@@ -60,16 +60,7 @@ const WeatherInfo = () => {
 const Dashboard = () => {
   const { user } = useUser();
 
-  // const fruits = [
-  //     { label: "Apple", value: "asdsd" },
-  //     { label: "Banana", value: "68758423" },
-  //     { label: "Cherry", value: "6875842354" },
-  //     { label: "Berry", value: "68758423897" }
-  // ];
-  // const handleSelect = (item: { label: string; value: string }) => {
-  //     console.log(`Selected item: ${item.label}`);
-  //     console.log(`Selected item: ${item.value}`);
-  // };
+
 
   return (
     <div className=" space-y-10 ">

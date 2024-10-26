@@ -5,7 +5,11 @@ import DashboardIcon from "../icons/DashboardIcon";
 // import AccountsIcon from "../icons/AccountsIcon";
 import InventoryIcon from "../icons/InventoryIcon";
 import SalesIcon from "../icons/SalesIcon";
-import ReportsIcon from "../icons/ReportsIcon";
+// import ReportsIcon from "../icons/ReportsIcon";
+import { MdOutlineAdminPanelSettings } from "react-icons/md";
+import { LuMessageSquare } from "react-icons/lu";
+
+
 // import SettingsIcon from "../icons/SeetingIcon";
 import {
   Accordion,
@@ -26,11 +30,19 @@ const Sidebar = () => {
       icon: <DashboardIcon />,
     },
     {
+      label: "Admin",
+      icon: <MdOutlineAdminPanelSettings className="text-2xl" />,
+      subRoutes: [
+        // { path: "/entity/companies", label: "Initiate Company" },
+        { path: "/admin/users", label: "Enroll User" },
+        { path: "/admin/collect-bill", label: "Collect Bill" },
+      ],
+    },
+    {
       label: "Entities",
       icon: <EntityIcon />,
       subRoutes: [
         // { path: "/entity/companies", label: "Initiate Company" },
-        { path: "/entity/users", label: "Enroll User" },
         { path: "/entity/customers", label: "Register Customer" },
         { path: "/entity/products", label: "Add Products" },
         { path: "/entity/payment-type", label: "Payment Type" },
@@ -50,15 +62,15 @@ const Sidebar = () => {
       label: "Order",
       icon: <SalesIcon />,
       subRoutes: [
-        { path: "/order/generate-order", label: "Generate Order" },
+        { path: "/order/generate-order", label: "Generate Sales" },
         { path: "/order/chalan", label: "Issue Chalan" },
-        { path: "/order/chalan-settlemenet", label: "Chalan Settlement" },
+
       ],
     },
     {
-      path: "/reports",
-      label: "Reports",
-      icon: <ReportsIcon />,
+      path: "/send-message",
+      label: "Message",
+      icon: <LuMessageSquare className="text-xl"/>,
     },
     // {
     //   path: "/setting",

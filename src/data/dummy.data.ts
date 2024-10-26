@@ -669,7 +669,7 @@ export const chalanDataFake = [
 
 
 export const dummyStockData = [
-    { 
+    {
         product_name: "Fantastic Rubber Ball",
         product_id: "0def-gh12-34567890ijkl",
         product_image: "https://via.placeholder.com/640x480",
@@ -686,5 +686,14 @@ export const dummyStockData = [
         warehouse_name: "Springfield",
         quantity: 98,
         notes: "This product is suitable for outdoor play."
+    }
+]
+
+
+
+export const smsFakeData = [
+    {
+        title: 'Title To get the sms Shortly',
+        message: `Your bill Has Been generated`,
     }
 ]

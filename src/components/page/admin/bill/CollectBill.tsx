@@ -1,14 +1,15 @@
 import { useState } from "react";
-import { FaCheck, FaSearch } from "react-icons/fa";
+import { FaSearch } from "react-icons/fa";
 import SharedTable from "../../../shared/table/SharedTable";
 import SearchSelectInput from "../../../shared/inputs/SearchSelectInput";
-import { MdDelete } from "react-icons/md";
 import { Link } from "react-router-dom";
-import { FaRegFilePdf } from "react-icons/fa6";
-import { useGetOrdersData } from "../../../hooks/order/order.hook";
+import { GrCloudDownload } from "react-icons/gr";
+import { useGetOrdersData, useUpdateOrder } from "../../../hooks/order/order.hook";
 import { formatTimestamp } from "../../../../lib/timeStamp";
+import CollectBillPaymentForm from "./CollectBillPaymentForm";
+import DeleteAction from "../../../shared/DeleteAction";
 
-const ChalanSettlement = () => {
+const CollectBill = () => {
   const [searchInvoiceId, setSearchInvoiceId] = useState<string>("");
 
 
@@ -88,35 +89,71 @@ const ChalanSettlement = () => {
     {
       title: "Payment Type",
       dataKey: "payment_type",
-      row: (data: any) => <div>{data.payment_type || 'Not Paid yet'}</div>,
+      row: (data: any) => <div className="text-[14px] text-black  ">{data.payment_type === null ? <p className="rounded-full  w-fit bg-orange-400 px-2 ">Not Paid</p> : <p className="bg-cyan-400 px-2 rounded-full  w-fit">
+        {data?.payment_type}
+      </p>} </div>,
     },
 
     {
       title: "Status",
       dataKey: "total_price",
-      row: (data: any) => <div className={`px-1 ${data.isPaid === "INCOMPLETE" ? 'bg-red-300' : 'bg-green-300'} text-center text-[10px] rounded-[5px]  text-black`}>{data.isPaid == "INCOMPLETE" ? 'Incomplete' : 'Complete'}</div>,
+      row: (data: any) => <div className={`px-1 ${data.isPaid === "INCOMPLETE" ? 'bg-red-300' : 'bg-green-300'} text-center text-[14px] rounded-full text-black`}>{data.isPaid == "INCOMPLETE" ? 'Incomplete' : 'Complete'}</div>,
     },
     {
-      title: "Total Price",
-      dataKey: "total_price",
-      row: (data: any) => <div>{`${data.total_price ? data.total_price : "N/A" } $`}</div>,
+      title: "Grand Total",
+      dataKey: "grand_total",
+      row: (data: any) => <div>{`${data.grand_total ? data.grand_total : "N/A"} $`}</div>,
+    },
+    {
+      title: "Clearance Date",
+      dataKey: "grand_total",
+      row: (data: any) => <div>{`${data.settlement_date ? formatTimestamp(data.settlement_date) : "N/A"} `}</div>,
     },
     {
       title: "Action",
-      dataKey: "action",
+      dataKey: "total_price",
       row: (data: any) => (
-        <div className="flex justify-end gap-2">
-          <div title='Confirm Payment' className=" "><FaCheck className="bg-green-100 text-green-800 text-3xl w-fit  rounded-[5px] cursor-pointer p-2" /></div>
-          <div className=" "><MdDelete className="bg-red-100 text-red-800 text-3xl w-fit  rounded-[5px] cursor-pointer p-2" /></div>
-          <div>
-            <Link className="" to={`/order/chalan/download/${data?.invoice_id}`}>
-              <FaRegFilePdf className="text-3xl p-1 bg-white text-black rounded-[5px] border" />
-            </Link>
-          </div>
+        <div className="flex justify-end">
+          <TableAction data={data} />
         </div>
       ),
     },
   ];
+
+  const TableAction = ({ data }: { data: any }) => {
+    const { mutateAsync } = useUpdateOrder(data?.id)
+    return (
+      <div className="flex justify-end gap-2">
+        <div >
+          <CollectBillPaymentForm instance={data} handleFormSubmit={mutateAsync} />
+        </div>
+        <div className=" ">
+          <DeleteAction handleDeleteSubmit={() => undefined} isLoading={false} />
+        </div>
+        <div className="bg-white text-black rounded-full p-1.5 border flex items-center">
+          <Link className="" to={`/order/chalan/download/${data?.invoice_id}`}>
+            <GrCloudDownload className="" />
+          </Link>
+        </div>
+      </div>
+    );
+  };
+  //   {
+  //     title: "Action",
+  //     dataKey: "action",
+  //     row: (data: any) => (
+  // <div className="flex justify-end gap-2">
+  //   <div title='Confirm Payment' className=" "><FaCheck className="bg-green-100 text-green-800 text-3xl w-fit  rounded-[5px] cursor-pointer p-2" /></div>
+  //   <div className=" "><MdDelete className="bg-red-100 text-red-800 text-3xl w-fit  rounded-[5px] cursor-pointer p-2" /></div>
+  //   <div>
+  //     <Link className="" to={`/order/chalan/download/${data?.invoice_id}`}>
+  //       <FaRegFilePdf className="text-3xl p-1 bg-white text-black rounded-[5px] border" />
+  //     </Link>
+  //   </div>
+  // </div>
+  //     ),
+  //   },
+  // ];
 
 
   console.log(filteredData)
@@ -133,7 +170,7 @@ const ChalanSettlement = () => {
         />
       </div>
       {/* Table */}
-      <div>
+      <div className="">
         <SharedTable
           columns={columns}
           isLoading={false}
@@ -145,4 +182,4 @@ const ChalanSettlement = () => {
   );
 };
 
-export default ChalanSettlement;
+export default CollectBill;

@@ -67,7 +67,7 @@ export const useUpdateOrder = (id: string) => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(["api_ledgers"]);
+        queryClient.invalidateQueries(["api_order_list"]);
       },
     }
   );

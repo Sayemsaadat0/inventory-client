@@ -65,8 +65,8 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     };
 
     loadUser();
-     // Add event listener for `localStorage` changes
-     window.addEventListener("storage", (event) => {
+    // Add event listener for `localStorage` changes
+    window.addEventListener("storage", (event) => {
       if (event.key === "user") {
         loadUser(); // Reload the user when localStorage is updated
       }
@@ -75,7 +75,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     return () => {
       window.removeEventListener("storage", loadUser);
     };
-    
+
   }, []);
 
   const logout = () => {

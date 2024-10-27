@@ -1,31 +1,34 @@
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { IoChevronBack } from "react-icons/io5";
 import { motion } from "framer-motion";
 import "./TopNavbar.css";
+import { IoLogOut } from "react-icons/io5";
+
 import { useUser } from "../../context/UserProvider";
-import { useEffect } from "react";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../../ui/dropdown-menu";
+// import { useUser } from "../../context/UserProvider";
+// import { useEffect } from "react";
+// import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../../ui/dropdown-menu";
 
 const TopNavbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { user, logout } = useUser();
+  const { logout } = useUser();
 
-  useEffect(() => {
-    // console.log("Navbar: user or loading state updated:", { user, loading });
-  }, [user]);
+  // useEffect(() => {
+  //   // console.log("Navbar: user or loading state updated:", { user, loading });
+  // }, [user]);
 
-  
 
-  if (!user) {
-    return <div>No user data found. Please try logging in again.</div>;
-  }
-  const {
-    email,
-    username,
-    user_image,
-  } = user;
+
+  // if (!user) {
+  //   return <div>No user data found. Please try logging in again.</div>;
+  // }
+  // const {
+  //   email,
+  //   username,
+  //   user_image,
+  // } = user;
 
   const handleBack = () => {
     navigate(-1);
@@ -84,9 +87,23 @@ const TopNavbar = () => {
         </div>
       </div>
       <div>
-      <DropdownMenu>
+        <div
+          onClick={logout}
+          className="flex items-center gap-2 w-full cursor-pointer duration-300 transition-all hover:-translate-y-1"
+        >
+          Sign out <IoLogOut className="text-2xl"></IoLogOut>
+        </div>
+
+      </div>
+    </div>
+  );
+};
+
+export default TopNavbar;
+
+{/* <DropdownMenu>
           <DropdownMenuTrigger>
-            <div className="flex gap-2 items-center">
+            <div className="flex gap-2 items-center ">
               <div>
                 <img
                   className="w-10 h-10 object-cover mx-1 rounded-full"
@@ -94,18 +111,13 @@ const TopNavbar = () => {
                   alt="user-imahge"
                 />
               </div>
-              <div className="text-black  text-left">
+              <div className="text-white text-left">
                 <p className="font-semibold  capitalize text-xl">
                   {username ? username : "Unknown User"}
                 </p>
-                <p className="opacity-75 text-xs -mt-0.5">
+                <p className="opacity-75 text-xs -mt-0.5 ">
                   {email ? email : "Unknown User"}
                 </p>
-                {/* <p className="">
-                  {!isUsersLoading && lastUser
-                    ? lastUser.email
-                    : "Unknown User"}
-                </p> */}
               </div>
             </div>
           </DropdownMenuTrigger>
@@ -117,18 +129,7 @@ const TopNavbar = () => {
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem className="hover:bg-gray-200 w-full">
-              <div
-                onClick={logout}
-                className="single_content text-sm w-full"
-              >
-                Log out
-              </div>
+
             </DropdownMenuItem>
           </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
-    </div>
-  );
-};
-
-export default TopNavbar;
+        </DropdownMenu> */}

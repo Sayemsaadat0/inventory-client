@@ -1,7 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { IoChevronBack } from "react-icons/io5";
 import { motion } from "framer-motion";
-import "./TopNavbar.css";
 import { IoLogOut } from "react-icons/io5";
 
 import { useUser } from "../../context/UserProvider";

@@ -20,6 +20,7 @@ import Warehouses from "../components/page/stock/unit-warehouse/Warehouses";
 import PrivateRoute from "../components/shared/PrivateRoute";
 import SmsPage from "../components/page/sms/SmsPage";
 import CollectBill from "../components/page/admin/bill/CollectBill";
+import NotFoundContainer from "../components/NotFoundContainer";
 // import PrivateRoute from "../components/shared/";
 
 const router = createBrowserRouter([
@@ -30,6 +31,7 @@ const router = createBrowserRouter([
         <DashboardLayout />
       </PrivateRoute>
     ),
+    errorElement : <><NotFoundContainer /></>,
     children: [
       {
         path: "/",

@@ -15,15 +15,22 @@ import { useGetWarehouseData } from '../../../hooks/inventory/warehouse.hooks';
 type AddToStockFormType = {
     instance?: any,
     handleFormSubmit: Function,
+    stockData?: any
 }
 
-const AddToStockForm: FC<AddToStockFormType> = ({ instance, handleFormSubmit }) => {
+const AddToStockForm: FC<AddToStockFormType> = ({ instance, handleFormSubmit, stockData }) => {
+    if (!stockData) return null;
+     // This will skip hooks
     const { user } = useUser();
     const [open, setOpen] = useState(false);
 
     const { data: productData, isLoading: isProductLoading } = useGetproductsData()
     const { data: unitData, isLoading: isUnitLoading } = useGetUnitsData()
     const { data: warehouseData, isLoading: isWarehouseLoading } = useGetWarehouseData()
+
+
+    console.log(stockData)
+
     const {
         handleChange,
         values,
@@ -74,24 +81,21 @@ const AddToStockForm: FC<AddToStockFormType> = ({ instance, handleFormSubmit }) 
                 resetForm()
             } catch (err: any) {
                 console.log(err);
-                for (const key of err.errors) {
-                    toast({
-                        variant: 'destructive',
-                        description: `${key?.attr} - ${key?.detail}`,
-                    });
-                }
             }
         },
     });
 
 
-    // product option
-    const productOptions = !isProductLoading && productData && productData.map((i: any) => ({
-        label: i.product_name,
-        value: i.id,
-        image: i?.product_image
+    const stockProductIds = stockData?.map((item: any) => item.product_id) || [];
+    const productOptions = !isProductLoading && productData && productData
+        .filter((product: any) => !stockProductIds.includes(product.id)) // Exclude already stocked products
+        .map((i: any) => ({
+            label: i.product_name,
+            value: i.id,
+            image: i?.product_image
+        }));
 
-    }));
+
 
     const handleProductSelect = (item: any) => {
         setFieldValue("product_id", item.value);
@@ -119,8 +123,7 @@ const AddToStockForm: FC<AddToStockFormType> = ({ instance, handleFormSubmit }) 
         setFieldValue("warehouse_name", item.label);
     };
 
-
-
+    console.log(values)
 
     return (
         <div>

@@ -68,3 +68,24 @@ export const useDeletestock = (id: string) => {
     }
   );
 };
+
+
+
+
+export const useIncreaseStock = (id: string) => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    async (data: any) => {
+      await axiosRequest({
+        url: `/stocks/history/${id}`,
+        method: "patch",
+        data: data,
+      });
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["api_stocks"]);
+      },
+    }
+  );
+};

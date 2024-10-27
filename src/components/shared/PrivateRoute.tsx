@@ -1,4 +1,4 @@
-import PropTypes from "prop-types";
+
 import React from "react";
 
 import { Navigate, useLocation } from "react-router-dom";
@@ -15,6 +15,3 @@ function PrivateRoute({ children }: { children: React.ReactNode }) {
 }
 
 export default PrivateRoute;
-PrivateRoute.propTypes = {
-  children: PropTypes.node,
-};

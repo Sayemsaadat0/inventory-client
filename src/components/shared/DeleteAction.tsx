@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import { AiFillWarning } from "react-icons/ai";
 import { TiDeleteOutline } from "react-icons/ti";
-import { AlertDialog, AlertDialogContent } from "../ui/alert-dialog";
+import { AlertDialog, AlertDialogContent, AlertDialogTitle } from "../ui/alert-dialog";
 import Button from "../ui/button";
 import { toast } from "../../hooks/use-toast";
 
@@ -39,6 +39,7 @@ const DeleteAction: React.FC<DeleteActionProps> = ({ handleDeleteSubmit, isLoadi
                     <TiDeleteOutline className="text-2xl text-red-500" />
                 </div>
                 <AlertDialogContent className="py-10">
+                    <AlertDialogTitle></AlertDialogTitle>
                     <div>
                         <div className="flex justify-center pb-3">
                             <p>

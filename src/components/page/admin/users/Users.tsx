@@ -12,7 +12,7 @@
 
 // export default Users
 
-import { fakseUserData } from "../../../../data/dummy.data";
+import { useCreateUser, useDeleteUser, useGetUsers, useUpdateUser } from "../../../hooks/entities/user.hook";
 import DeleteAction from "../../../shared/DeleteAction";
 import SharedTable from "../../../shared/table/SharedTable";
 import Title from "../../../shared/Title";
@@ -94,34 +94,37 @@ const Users = () => {
     ];
 
     const TableAction = ({ data }: { data: any }) => {
-        // const { mutateAsync: handleUpdateData } = useUpdateCompany(data?.id);
-        // const { mutateAsync: handleDeleteData, isLoading } = useDeleteCompany(data?.id);
+        const { mutateAsync: handleUpdateData } = useUpdateUser(data?.id);
+        const { mutateAsync: handleDeleteData, isLoading } = useDeleteUser(data?.id);
         return (
             <div className="flex gap-1 ">
                 <div>
                     <UsersForm
                         instance={data || ''}
-                        handleFormSubmit={() => undefined}
+                        handleFormSubmit={handleUpdateData}
                     />
                 </div>
                 <div>
-                    <DeleteAction isLoading={false} handleDeleteSubmit={() => undefined} />
+                    <DeleteAction isLoading={isLoading} handleDeleteSubmit={handleDeleteData} />
                 </div>
             </div>
         );
     };
 
+
+    const { mutateAsync } = useCreateUser()
+    const { data: usersData } = useGetUsers()
     return (
         <div className="space-y-5 bg-black/40 backdrop-blur-sm  p-3">
             <div className="flex justify-between">
-                <Title title={`All Users (${fakseUserData?.length || 0})`} />
-                <UsersForm handleFormSubmit={() => undefined} />
+                <Title title={`All Users (${usersData?.length || 0})`} />
+                <UsersForm handleFormSubmit={mutateAsync} />
             </div>
             <div>
                 <SharedTable
                     columns={columns}
                     isLoading={false}
-                    data={fakseUserData || []}
+                    data={usersData || []}
                 />
             </div>
         </div>

@@ -3,63 +3,86 @@ import { useUser } from "../../context/UserProvider";
 import axiosRequest from "../../../lib/axiosRequest";
 
 
-export const useGetUserssData = () => {
+
+
+
+
+export const useCreateUser = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    (postData: any) =>
+      axiosRequest({
+        url: "/users",
+        method: "post",
+        data: postData,
+      }),
+    {
+      onSuccess: () => queryClient.invalidateQueries(["api_users"]),
+    }
+  );
+};
+
+
+
+
+
+
+
+
+export const useGetUsers = () => {
   const { user } = useUser();
   return useQuery({
-    queryKey: [`api_customers`],
+    queryKey: [`api_users`],
     queryFn: () =>
       axiosRequest({
-        url: `/customers/all/${user?.workspace_id}`,
+        url: `/users/all/${user?.workspace_id}`,
         method: "get",
       }),
   });
 };
 
-export const usePostCustomersData = () => {
-  const queryClient = useQueryClient();
-  return useMutation(
-    (postData: any) =>
-      axiosRequest({
-        url: "/customers",
-        method: "post",
-        data: postData,
-      }),
-    {
-      onSuccess: () => queryClient.invalidateQueries(["api_customers"]),
-    }
-  );
-};
 
-export const useUpdateCustomer = (id: string) => {
-  const queryClient = useQueryClient();
-  return useMutation(
-    async (data: any) => {
-      await axiosRequest({
-        url: `/customers/${id}`,
-        method: "put",
-        data: data,
-      });
-    },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["api_customers"]);
-      },
-    }
-  );
-};
 
-export const useDeleteCustomer = (id: string) => {
+
+export const useDeleteUser = (id: string) => {
   const queryClient = useQueryClient();
   return useMutation(
     async () => {
       await axiosRequest({
-        url: `/customers/${id}`,
+        url: `/users/${id}`,
         method: "delete",
       });
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(["api_customers"]);
+        queryClient.invalidateQueries(["api_users"]);
+      },
+    }
+  );
+};
+
+
+
+
+
+
+
+
+
+
+export const useUpdateUser = (id: string) => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    async (data: any) => {
+      await axiosRequest({
+        url: `/users/${id}`,
+        method: "PATCH",
+        data: data,
+      });
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["api_users"]);
       },
     }
   );

@@ -22,7 +22,8 @@ interface User {
 // Define the shape of the context
 interface UserContextType {
   user: User | null;
-  logout: () => void;
+  logout: Function;
+  setUser: Function
 }
 
 // Create the context with the correct typing
@@ -44,8 +45,8 @@ interface UserProviderProps {
 
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true); 
-  
+  const [loading, setLoading] = useState(true);
+
 
   useEffect(() => {
     const loadUser = async () => {
@@ -67,7 +68,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     loadUser();
     window.addEventListener("storage", (event) => {
       if (event.key === "user") {
-        loadUser(); 
+        loadUser();
       }
     });
 
@@ -94,7 +95,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   }
 
   return (
-    <UserContext.Provider value={{ user, logout }}>
+    <UserContext.Provider value={{ user, logout, setUser }}>
       {children}
     </UserContext.Provider>
   );

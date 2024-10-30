@@ -59,7 +59,7 @@ const DashboardLayout: React.FC = () => {
   const { displayedBackground } = useBackground1();
   return (
     <div
-      className="min-h-screen relative"
+      className="min-h-screen  relative"
       style={{
         backgroundImage: `url("${displayedBackground}")`,
         backgroundSize: "cover",
@@ -72,7 +72,7 @@ const DashboardLayout: React.FC = () => {
         <SettingsComponent />
       </div>
       <div className="flex">
-        <div className="fixed w-[230px] ">
+        <div className="fixed w-[230px] overflow-auto custom-scroll backdrop-blur-[5px] bg-black/60 ">
           <Sidebar />
         </div>
         <div className="flex-1 ml-[230px] ">

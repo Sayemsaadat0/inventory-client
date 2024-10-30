@@ -49,7 +49,7 @@ const Products = () => {
   const { mutateAsync: formSubmitFn } = usePostproductsData()
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-5 bg-black/40 backdrop-blur-sm  p-3">
       <div className="flex justify-between">
         <Title title={`All Items (${ItemsData?.length})`} />
         <ProductForm handleFormSubmit={formSubmitFn}  />

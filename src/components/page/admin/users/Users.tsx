@@ -112,7 +112,7 @@ const Users = () => {
     };
 
     return (
-        <div className="space-y-5">
+        <div className="space-y-5 bg-black/40 backdrop-blur-sm  p-3">
             <div className="flex justify-between">
                 <Title title={`All Users (${fakseUserData?.length || 0})`} />
                 <UsersForm handleFormSubmit={() => undefined} />

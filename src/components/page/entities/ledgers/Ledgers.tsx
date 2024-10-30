@@ -66,7 +66,7 @@ const Ledgers = () => {
 
   const { mutateAsync: formSubmitFn } = usePostledgersData()
   return (
-    <div className="space-y-5">
+    <div className="space-y-5 bg-black/40 backdrop-blur-sm  p-3">
       <div className="flex justify-end">
         {/* <Title title="List of Customers" /> */}
         <LedgersForm handleFormSubmit={formSubmitFn} />

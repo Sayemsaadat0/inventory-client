@@ -1,15 +1,16 @@
 import { useState } from "react";
-// import backgroundImage from "../../assets/backgrounds/background.png";
 import BAMSLogo from "../../assets/BAMSLogo.svg";
 import useAxios from "../hooks/useAxios";
 
 import { useNavigate } from "react-router-dom";
+import { useUser } from "../context/UserProvider";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const axiosPost = useAxios();
   const navigate = useNavigate();
+  const { setUser } = useUser(); 
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -24,12 +25,9 @@ const Login: React.FC = () => {
 
     try {
       const response = await axiosPost.post("/auth/login", { email, password });
-      console.log("Login response data:", response.data); // Debugging line
-
-      // Store user data in localStorage
+      console.log("Login response data:", response.data); 
       localStorage.setItem("user", JSON.stringify(response.data.user));
-
-      // Redirect to the dashboard after storing user data
+      setUser(response.data.user);
       navigate("/");
     } catch (error: any) {
       console.log("Error logging in:", error.message);

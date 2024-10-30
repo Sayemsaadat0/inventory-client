@@ -159,7 +159,7 @@ const CollectBill = () => {
   console.log(filteredData)
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-5 bg-black/40 backdrop-blur-sm  p-3">
       <div className="flex gap-2 justify-end items-center ">
         <FaSearch />
         <SearchSelectInput

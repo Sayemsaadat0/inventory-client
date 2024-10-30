@@ -1,17 +1,27 @@
+import React, { useEffect, useState } from 'react'
+import { Navigate, useLocation } from 'react-router-dom'
 
-import React from "react";
+const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
+  const [loading, setLoading] = useState(true)
+  const isAuthenticated = localStorage.getItem("user")
+  const location = useLocation()
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 2000)
+    return () => clearTimeout(timer)
+  }, [])
 
-import { Navigate, useLocation } from "react-router-dom";
-
-function PrivateRoute({ children }: { children: React.ReactNode }) {
-  const isAuthenticated = localStorage.getItem("user");
-
-  const location = useLocation();
-
-  if (isAuthenticated) {
-    return children;
+  if (loading) {
+    return <div className='min-h-[calc(100vh-100px)] flex items-center justify-center text-black'>
+      <img className="animate-bounce mx-auto w-[10%]" src={'/public/LAMS_Logo.png'} alt="Logo" />
+    </div>
   }
-  return <Navigate state={location.pathname} to={"/login"}></Navigate>;
+  if (isAuthenticated) {
+    return <>{children}</>
+  }
+
+  return <Navigate state={{ from: location }} to="/login" />;
 }
 
 export default PrivateRoute;

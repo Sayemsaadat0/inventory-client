@@ -37,7 +37,10 @@ const TopNavbar = () => {
   };
 
 
-
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
 
   return (
     <div className="py-3 px-4 flex items-center justify-between text-white bg-black/30 backdrop-blur-sm">
@@ -87,7 +90,7 @@ const TopNavbar = () => {
       </div>
       <div>
         <div
-          onClick={logout}
+          onClick={handleLogout}
           className="flex items-center gap-2 w-full cursor-pointer duration-300 transition-all hover:-translate-y-1"
         >
           Sign out <IoLogOut className="text-2xl"></IoLogOut>

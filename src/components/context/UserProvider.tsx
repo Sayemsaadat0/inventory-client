@@ -6,7 +6,6 @@ import React, {
   ReactNode,
 } from "react";
 
-// Define the shape of your user object
 interface User {
   company_logo: string;
   company_name: string;
@@ -45,7 +44,8 @@ interface UserProviderProps {
 
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true); 
+  
 
   useEffect(() => {
     const loadUser = async () => {
@@ -65,10 +65,9 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     };
 
     loadUser();
-    // Add event listener for `localStorage` changes
     window.addEventListener("storage", (event) => {
       if (event.key === "user") {
-        loadUser(); // Reload the user when localStorage is updated
+        loadUser(); 
       }
     });
 

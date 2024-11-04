@@ -53,7 +53,6 @@ const Chalan = () => {
             row: (data: any) => (
                 <div>
                     <p className="">{data?.customer.customer_name}</p>
-                    {/* <p className="text-sm text-gray-200 italic">Id: {data.customer_id}</p> */}
                 </div>
             ),
         },
@@ -111,7 +110,7 @@ const Chalan = () => {
                 {/* <div onClick={() => mutateAsync()} className=" "><FaCheck className="bg-green-100 text-green-800 text-3xl w-fit  rounded-[5px] cursor-pointer p-2" /></div> */}
                 <div className=" "><MdDelete className="bg-red-100 text-red-800 text-3xl w-fit  rounded-[5px] cursor-pointer p-2" /></div>
                 <div>
-                    <Link className="" to={`/order/chalan/download/${data?.invoice_id}`}>
+                    <Link className="" to={`/order/chalan/download/${data?.id}`}>
                         <FaRegFilePdf className="text-3xl p-1 bg-white text-black rounded-[5px] border" />
                     </Link>
                 </div>

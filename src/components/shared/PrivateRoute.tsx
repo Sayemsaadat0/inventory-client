@@ -14,7 +14,7 @@ const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
 
   if (loading) {
     return <div className='min-h-[calc(100vh-100px)] flex items-center justify-center text-black'>
-      <img className="animate-bounce mx-auto w-[10%]" src={'/public/LAMS_Logo.png'} alt="Logo" />
+      <img className="animate-bounce mx-auto w-[10%]" src={'/LAMS_Logo.png'} alt="Logo" />
     </div>
   }
   if (isAuthenticated) {

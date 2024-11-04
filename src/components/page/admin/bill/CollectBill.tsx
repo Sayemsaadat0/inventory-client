@@ -122,6 +122,7 @@ const CollectBill = () => {
 
   const TableAction = ({ data }: { data: any }) => {
     const { mutateAsync } = useUpdateOrder(data?.id)
+
     return (
       <div className="flex justify-end gap-2">
         <div >
@@ -130,8 +131,9 @@ const CollectBill = () => {
         <div className=" ">
           <DeleteAction handleDeleteSubmit={() => undefined} isLoading={false} />
         </div>
+       {data?.id}
         <div className="bg-white text-black rounded-full p-1.5 border flex items-center">
-          <Link className="" to={`/order/chalan/download/${data?.invoice_id}`}>
+          <Link className="" to={`/order/chalan/download/${data?.id}`}>
             <GrCloudDownload className="" />
           </Link>
         </div>

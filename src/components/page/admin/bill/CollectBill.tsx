@@ -14,22 +14,18 @@ const CollectBill = () => {
 
 
   const { data, isLoading } = useGetOrdersData()
-  console.log(data)
 
-  // Prepare invoice options, showing only invoices that are isIssedChalan === true
   const invoiceOptions = !isLoading && data && data
-    .filter((i: any) => i.isChalan === 1) // Filter only issued invoices
+    .filter((i: any) => i.isChalan === 1) 
     .map((i: any) => ({
       label: i.invoice_id,
       value: i.invoice_id,
     }));
 
-  // Handle invoice selection
   const handleInvoiceSelect = (selectedOption: any) => {
     setSearchInvoiceId(selectedOption?.value || "");
   };
 
-  // Filtered data based on isIssedChalan and searchInvoiceId
   const filteredData = !isLoading && data && data.filter((i: any) => {
     const matchesIssuedChalan = i.isChalan === 1;
     const matchesInvoiceId = searchInvoiceId
@@ -158,7 +154,7 @@ const CollectBill = () => {
   // ];
 
 
-  console.log(filteredData)
+  // console.log(filteredData)
 
   return (
     <div className="space-y-5 bg-black/40 backdrop-blur-sm  p-3">

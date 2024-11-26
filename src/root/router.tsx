@@ -21,6 +21,7 @@ import PrivateRoute from "../components/shared/PrivateRoute";
 import SmsPage from "../components/page/sms/SmsPage";
 import CollectBill from "../components/page/admin/bill/CollectBill";
 import NotFoundContainer from "../components/NotFoundContainer";
+import StockOverviewDetails from "../components/page/stock/stock-overview/StockOverviewDetails";
 // import PrivateRoute from "../components/shared/";
 
 const router = createBrowserRouter([
@@ -31,7 +32,7 @@ const router = createBrowserRouter([
         <DashboardLayout />
       </PrivateRoute>
     ),
-    errorElement : <><NotFoundContainer /></>,
+    errorElement: <><NotFoundContainer /></>,
     children: [
       {
         path: "/",
@@ -49,6 +50,12 @@ const router = createBrowserRouter([
       {
         path: "/stock-overview",
         element: <StockOverview />,
+      },
+      {
+        path: "/stock-overview/:id",
+        loader: ({ params }: any) =>
+          fetch(`/stock-overview/${params.id}`),
+        element: <StockOverviewDetails />,
       },
       // entities
       {
@@ -95,7 +102,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/order/chalan/download/:id",
-        loader: ({ params }) =>
+        loader: ({ params }: any) =>
           fetch(`/order/chalan/download/${params.invoice_id}`),
         element: <DownloadChalan />,
       },

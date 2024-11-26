@@ -25,7 +25,7 @@ const Login: React.FC = () => {
 
     try {
       const response = await axiosPost.post("/auth/login", { email, password });
-      console.log("Login response data:", response.data); 
+      // console.log("Login response data:", response.data); 
       localStorage.setItem("user", JSON.stringify(response.data.user));
       setUser(response.data.user);
       navigate("/");

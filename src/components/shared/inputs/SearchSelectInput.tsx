@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import clsx from 'clsx';
+
 interface Item {
-    [key: string]: any; // Now it can have any key-value pair
+    [key: string]: any;
 }
 
 interface SearchProps {
@@ -29,6 +30,8 @@ const SearchSelectInput: React.FC<SearchProps> = ({
     const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
     const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
 
+    const inputRef = useRef<HTMLInputElement>(null);
+
     const onSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearch(e.target.value);
         setShowSuggestions(true);
@@ -36,13 +39,12 @@ const SearchSelectInput: React.FC<SearchProps> = ({
     };
 
     const onClickItem = (item: any) => {
-        setSearch(item.label || item.value); // Fallback to value if label is not available
+        setSearch(item.label || item.value);
         setShowSuggestions(false);
         if (onSelect) {
-            onSelect(item); // Pass the entire item object to the onSelect handler
+            onSelect(item);
         }
     };
-
 
     const filtered = search.length > 0
         ? data.filter((item) =>
@@ -60,6 +62,7 @@ const SearchSelectInput: React.FC<SearchProps> = ({
                 prevIndex > 0 ? prevIndex - 1 : prevIndex
             );
         } else if (e.key === "Enter") {
+            // When Enter is pressed, select the highlighted item
             if (highlightedIndex >= 0 && highlightedIndex < filtered.length) {
                 onClickItem(filtered[highlightedIndex]);
             }
@@ -68,6 +71,13 @@ const SearchSelectInput: React.FC<SearchProps> = ({
         }
     };
 
+    useEffect(() => {
+        // Set the input value to the highlighted suggestion when index changes
+        if (highlightedIndex >= 0 && highlightedIndex < filtered.length) {
+            setSearch(filtered[highlightedIndex].label || filtered[highlightedIndex].value);
+        }
+    }, [highlightedIndex, filtered]);
+
     const handleFocus = () => {
         setShowSuggestions(true);
         setHighlightedIndex(-1);
@@ -75,19 +85,18 @@ const SearchSelectInput: React.FC<SearchProps> = ({
 
     const handleBlur = () => {
         setTimeout(() => {
-            setShowSuggestions(false);
+            if (!inputRef.current || !inputRef.current.contains(document.activeElement)) {
+                setShowSuggestions(false);
+            }
         }, 100);
     };
-
-    useEffect(() => {
-        setHighlightedIndex(-1);
-    }, [showSuggestions]);
 
     return (
         <div>
             {title && <p className="py-1">{title}</p>}
             <div className="relative">
                 <input
+                    ref={inputRef}
                     type="text"
                     value={search}
                     placeholder={placeholder}
@@ -97,14 +106,14 @@ const SearchSelectInput: React.FC<SearchProps> = ({
                     onBlur={handleBlur}
                     className={clsx(
                         "w-full px-2 py-1 bg-black+/20 border border-gray-700 focus:outline-none text-white",
-                        inputClassName // Apply custom input class
+                        inputClassName
                     )}
                 />
                 {showSuggestions && (
                     <ul
                         className={clsx(
-                            "absolute z-50 w-full rounded-md max-h-60 overflow-auto bg-white text-black border border-gray-300 ",
-                            suggestionClassName, // Apply custom suggestion class
+                            "absolute z-50 w-full rounded-md max-h-60 overflow-auto bg-white text-black border border-gray-300",
+                            suggestionClassName,
                             {
                                 "bottom-full mb-1": direction === "top",
                                 "top-full mt-1 max-h-[calc(50vh)]": direction === "bottom",
@@ -114,21 +123,23 @@ const SearchSelectInput: React.FC<SearchProps> = ({
                         {filtered.length > 0 ? (
                             filtered.map((item, index) => (
                                 <li
-                                    key={item.value || index} 
-                                    onClick={() => onClickItem(item)} 
+                                    key={item.value || index}
+                                    onClick={() => onClickItem(item)}
                                     className={clsx(
                                         "p-2 cursor-pointer hover:bg-black/20 transition-all",
                                         suggestionItemClassName,
-                                        { "bg-white/20": highlightedIndex === index }
+                                        {
+                                            "bg-blue-500 text-white": highlightedIndex === index,
+                                            "bg-white/20": highlightedIndex !== index,
+                                        }
                                     )}
                                 >
-                                    {item.label || item.value} 
+                                    {item.label || item.value}
                                 </li>
                             ))
                         ) : (
                             <li className="p-2">No data found</li>
                         )}
-
                     </ul>
                 )}
             </div>

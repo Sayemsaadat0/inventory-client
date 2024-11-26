@@ -1,10 +1,11 @@
-import { FC } from 'react';
+import React, { FC, ReactNode } from 'react';
 import Loader from '../Loader';
+import EmptyIcon from '../icons/EmptyIcon';
 
 export type SharedTableColumn = {
     title: string;
     dataKey: string;
-    row: (data: any) => React.ReactNode;
+    row: (data: any) => ReactNode;
 };
 
 export type SharedTableProps = {
@@ -13,56 +14,70 @@ export type SharedTableProps = {
     isLoading: boolean;
 };
 
-const SharedTable: FC<SharedTableProps> = ({ columns, data, isLoading }) => {
-    return (
-        <div className="overflow-x-auto max-w-full text-[18px] ">
-            <div className="w-full">
-                <table className="w-full text-left ">
-                    <thead className="sticky  z-10 top-0 w-full h-fit bg-black/70">
-                        <tr>
-                            {columns.map((column, index) => (
-                                <th
-                                    key={index}
-                                    scope="col"
-                                    className="px-5 py-3 text-[14px] border-r border-black/10 tableAction font-normal"
-                                >
-                                    {column.title}
-                                </th>
-                            ))}
-                        </tr>
-                    </thead>
-                    <tbody className="w-full backdrop-blur-md bg-black/50">
-                        {!isLoading &&
-                            data &&
-                            data.map((row, rowIndex) => (
-                                <tr key={rowIndex} className="">
-                                    {columns.map((column, colIndex) => (
-                                        <td
-                                            key={colIndex}
-                                            className="px-2  border border-black/10  xl:px-5 py-3 h-fit  break-words"
-                                        >
-                                            {column.row(row)}
-                                        </td>
-                                    ))}
-                                </tr>
-                            ))}
-                    </tbody>
-                </table>
-                <div className='bg-black/50 backdrop-blur-sm '>
-                    {isLoading && (
-                        <div className="flex justify-center py-3 items-center h-10 my-6">
-                            <Loader />
-                        </div>
-                    )}
-                    {!isLoading && data?.length === 0 && (
-                        <div className="flex  justify-center items-center my-6 py-3">
-                            <p className="">No Data Available</p>
-                        </div>
-                    )}
-                </div>
+const MemoizedRow: FC<{ row: any; columns: SharedTableColumn[] }> = React.memo(
+  ({ row, columns }) => (
+    <tr>
+      {columns.map((column, colIndex) => (
+        <td
+          key={colIndex}
+          className="px-2 border border-black/10 xl:px-5 py-3 h-fit break-words"
+        >
+          {column.row(row)}
+        </td>
+      ))}
+    </tr>
+  )
+);
+
+const SharedTable: FC<SharedTableProps> = ({
+  columns = [],
+  data = [],
+  isLoading = false,
+}) => {
+  // Ensure data is always an array, even when empty
+  const hasData = data && data.length > 0;
+
+  return (
+    <div className="overflow-x-auto max-w-full text-[18px]">
+      <div className="w-full">
+        <table className="w-full text-left">
+          <thead className="sticky z-10 top-0 w-full h-fit bg-black/70">
+            <tr>
+              {columns.map((column, index) => (
+                <th
+                  key={column.dataKey || index} // Use dataKey or index if missing
+                  scope="col"
+                  className="px-5 py-3 text-[14px] border-r border-black/10 tableAction font-normal"
+                >
+                  {column.title}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody className="w-full backdrop-blur-md bg-black/50">
+            {!isLoading &&
+              hasData &&
+              data.map((row, rowIndex) => (
+                <MemoizedRow key={rowIndex} row={row} columns={columns} />
+              ))}
+          </tbody>
+        </table>
+        <div className="bg-black/50 backdrop-blur-sm">
+          {isLoading && (
+            <div className="flex justify-center py-3 items-center h-10 my-6">
+              <Loader />
             </div>
+          )}
+          {!isLoading && !hasData && (
+            <div className="flex gap-5 justify-center items-center my-6 py-3">
+              <p className="">No Data Available</p>
+              <EmptyIcon />
+            </div>
+          )}
         </div>
-    );
+      </div>
+    </div>
+  );
 };
 
 export default SharedTable;

@@ -86,7 +86,7 @@ const UsersForm: FC<UsersFormType> = ({ instance, handleFormSubmit }) => {
                 }
             } catch (err: any) {
                 for (const key of err.errors) {
-                    console.log(key);
+                    // console.log(key);
                     toast({
                         variant: 'destructive',
                         description: `${key?.attr} - ${key?.detail}`,
@@ -96,8 +96,8 @@ const UsersForm: FC<UsersFormType> = ({ instance, handleFormSubmit }) => {
         },
     });
 
-    console.log(values)
-    console.log(errors)
+    // console.log(values)
+    // console.log(errors)
 
     return (
         <Dialog onOpenChange={() => setOpen(!open)} open={open}>

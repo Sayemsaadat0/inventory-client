@@ -1,6 +1,7 @@
 
 
-import { useGetCustomersData, usePostCustomersData } from "../../../hooks/entities/customer.hook";
+import { useDeleteCustomer, useGetCustomersData, usePostCustomersData, useUpdateCustomer } from "../../../hooks/entities/customer.hook";
+import DeleteAction from "../../../shared/DeleteAction";
 import SharedTable from "../../../shared/table/SharedTable";
 import CustomerForm from "./CustomerForm";
 
@@ -22,7 +23,7 @@ const Customers = () => {
       dataKey: "phone_no",
       row: (data: any) => (
         <div>
-          <p>Phone No : {data?.phone_no}</p>{" "}
+          <p>{data?.phone_no}</p>{" "}
         </div>
       ),
     },
@@ -32,7 +33,7 @@ const Customers = () => {
       dataKey: "location",
       row: (data: any) => (
         <div>
-          <p>Address : {data.location}</p>
+          <p>{data.location}</p>
         </div>
       ),
     },
@@ -48,16 +49,18 @@ const Customers = () => {
   ];
 
   const TableAction = ({ data }: { data: any }) => {
-    //     const { mutateAsync: handleUpdateData, isLoading: isDataUpdating } =
-    // useUpdateCustomer(data?.id);
+    const { mutateAsync: handleUpdateData } =
+      useUpdateCustomer(data?.id);
+
+    const { mutateAsync, isLoading } = useDeleteCustomer(data?.id)
 
     return (
-      <div>
+      <div className="flex gap-2">
         <CustomerForm
           instance={data}
-          handleFormSubmit={() => undefined}
-          // isLoading={false}
+          handleFormSubmit={handleUpdateData}
         />
+        <DeleteAction handleDeleteSubmit={mutateAsync} isLoading={isLoading} />
       </div>
     );
   };

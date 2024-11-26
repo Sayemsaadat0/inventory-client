@@ -1,4 +1,5 @@
-import { useGetproductsData, usePostproductsData } from "../../../hooks/entities/product.hook";
+import { useDeleteproduct, useGetproductsData, usePostproductsData, useUpdateproduct } from "../../../hooks/entities/product.hook";
+import DeleteAction from "../../../shared/DeleteAction";
 import SharedTable from "../../../shared/table/SharedTable";
 import Title from "../../../shared/Title";
 import ProductForm from "./ProductForm";
@@ -38,8 +39,11 @@ const Products = () => {
   ];
 
   const TableAction = ({ data }: { data: any }) => {
-    return <div>
-      <ProductForm instance={data} handleFormSubmit={() => undefined}  />
+    const { mutateAsync } = useUpdateproduct(data?.id)
+    const { mutateAsync: handleDeleteFn, isLoading } = useDeleteproduct(data?.id)
+    return <div className="flex items-center gap-2">
+      <ProductForm instance={data} handleFormSubmit={mutateAsync} />
+      <DeleteAction isLoading={isLoading} handleDeleteSubmit={handleDeleteFn} />
     </div>
   }
 
@@ -52,7 +56,7 @@ const Products = () => {
     <div className="space-y-5 bg-black/40 backdrop-blur-sm  p-3">
       <div className="flex justify-between">
         <Title title={`All Items (${ItemsData?.length})`} />
-        <ProductForm handleFormSubmit={formSubmitFn}  />
+        <ProductForm handleFormSubmit={formSubmitFn} />
       </div>
       <div>
         <SharedTable

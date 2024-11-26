@@ -2,7 +2,7 @@ import { FC } from "react";
 import { useFormik } from "formik";
 import Button from "../../../ui/button";
 import TextInput from "../../../shared/inputs/TextInput";
-import { Dialog, DialogContent } from "../../../ui/dialog";
+import { Dialog, DialogContent, DialogTitle } from "../../../ui/dialog";
 import { RiEditCircleLine } from "react-icons/ri";
 
 import { IoMdAdd } from "react-icons/io";
@@ -97,6 +97,7 @@ const CustomerForm: FC<CustomerFormType> = ({
           )}
         </div>
         <DialogContent>
+          <DialogTitle></DialogTitle>
           <div className="p-5 md:p-10 space-y-5">
             <div className="">
               {instance ? (

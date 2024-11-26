@@ -56,7 +56,7 @@ const Company = () => {
 
   const { mutateAsync: handleAddData } = usePostCompaniesData();
 
-  console.log(companiesData);
+  // console.log(companiesData);
 
   return (
     <div className="space-y-5">

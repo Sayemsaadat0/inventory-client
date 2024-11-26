@@ -5,7 +5,8 @@ import Button from '../../../ui/button';
 import TextInput from '../../../shared/inputs/TextInput';
 // import { companyDataValidate } from '../../../../validation/CompanyValidate';
 import {
-    Dialog, DialogContent
+    Dialog, DialogContent,
+    DialogTitle
 } from '../../../ui/dialog';
 import { IoMdAdd } from "react-icons/io";
 import { useState } from 'react';
@@ -50,7 +51,7 @@ const ProductForm: FC<ProductFormType> = ({ instance, handleFormSubmit, }) => {
                 };
                 if (instance) {
                     await handleFormSubmit(modifiedData);
-                    // setOpen(!open);
+                    setOpen(!open);
                     toast({
                         variant: "default",
                         description: "Edited Successfully",
@@ -61,23 +62,19 @@ const ProductForm: FC<ProductFormType> = ({ instance, handleFormSubmit, }) => {
                         variant: "default",
                         description: "Added Successfully",
                     });
-                    // setOpen(!open);
+                    setOpen(!open);
                 }
                 resetForm();
             } catch (err: any) {
-                console.log(err)
-                // toast({
-                //     variant: "destructive",
-                //     description: err,
-                // });
+                // console.log(err)
+                toast({
+                    variant: "destructive",
+                    description: err.error,
+                });
             }
         },
     });
 
-
-
-    console.log(values)
-    console.log(errors)
 
     return (
         <div>
@@ -90,6 +87,7 @@ const ProductForm: FC<ProductFormType> = ({ instance, handleFormSubmit, }) => {
                     </div>}
                 </div>
                 <DialogContent>
+                <DialogTitle></DialogTitle>
                     <div className='p-5 md:p-10 space-y-5'>
                         <div className=''>
                             {instance ? <p className='text-xl font-semibold'>Edit Information</p> : <p className='text-xl font-semibold'>Add New Product</p>}

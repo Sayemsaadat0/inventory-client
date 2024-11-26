@@ -61,7 +61,7 @@ const LedgersForm: FC<LedgersFormType> = ({
         }
         resetForm();
       } catch (err: any) {
-        console.log(err);
+        // console.log(err);
         toast({
           variant: "destructive",
           description: err?.error,

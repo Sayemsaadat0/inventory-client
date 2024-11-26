@@ -40,7 +40,7 @@ const UnitForm: FC<CompanyFormType> = ({
         form_data.append("name", data.name);
         form_data.append("workspace_id", data.workspace_id);
 
-        console.log(form_data)
+        // console.log(form_data)
 
         if (instance) {
           await handleFormSubmit(form_data);
@@ -58,7 +58,7 @@ const UnitForm: FC<CompanyFormType> = ({
         resetForm()
       } catch (err: any) {
         for (const key of err.errors) {
-          console.log(key);
+          // console.log(key);
           toast({
             variant: 'destructive',
             description: `${key?.attr} - ${key?.detail}`,
@@ -69,7 +69,7 @@ const UnitForm: FC<CompanyFormType> = ({
   });
 
   // console.log(values);
-  console.log(errors)
+  // console.log(errors)
   return (
     <div>
       <form className=" space-y-5" autoComplete="off" onSubmit={handleSubmit}>

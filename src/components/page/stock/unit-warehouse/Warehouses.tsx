@@ -50,7 +50,7 @@ const WarehousesForm: FC<WarehousesType> = ({
     },
   });
 
-  console.log(values);
+  // console.log(values);
   return (
     <div>
       <form className="space-y-5" autoComplete="off" onSubmit={handleSubmit}>

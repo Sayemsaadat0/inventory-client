@@ -41,11 +41,11 @@ const CollectBillPaymentForm: FC<CollectBillPaymentFormType> = ({
                     description: "Bill Collected Successfully",
                 });
                 resetForm()
-            } catch (err) {
-                console.log(err)
+            } catch (err :any) {
+                // console.log(err)
                 toast({
                     variant: "destructive",
-                    description: 'AN  ERROR ',
+                    description:err.error,
                 });
             }
         },

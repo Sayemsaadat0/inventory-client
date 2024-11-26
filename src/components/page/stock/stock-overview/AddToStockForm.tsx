@@ -5,12 +5,14 @@ import TextInput from '../../../shared/inputs/TextInput';
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '../../../ui/dialog';
 import { IoMdAdd } from "react-icons/io";
 import { toast } from '../../../../hooks/use-toast';
-import SearchSelectInput from '../../../shared/inputs/SearchSelectInput';
+// import SearchSelectInput from '../../../shared/inputs/SearchSelectInput';
 import { useUser } from '../../../context/UserProvider';
 import { RiEditCircleLine } from 'react-icons/ri';
 import { useGetproductsData } from '../../../hooks/entities/product.hook';
 import { useGetUnitsData } from '../../../hooks/inventory/units.hooks';
 import { useGetWarehouseData } from '../../../hooks/inventory/warehouse.hooks';
+import Select from "react-dropdown-select";
+import { StockValidation } from '../../../../validation/Validations';
 
 type AddToStockFormType = {
     instance?: any,
@@ -18,18 +20,20 @@ type AddToStockFormType = {
     stockData?: any
 }
 
+
+
 const AddToStockForm: FC<AddToStockFormType> = ({ instance, handleFormSubmit, stockData }) => {
+
     if (!stockData) return null;
-     // This will skip hooks
+
+
+    // This will skip hooks
     const { user } = useUser();
     const [open, setOpen] = useState(false);
 
     const { data: productData, isLoading: isProductLoading } = useGetproductsData()
-    const { data: unitData, isLoading: isUnitLoading } = useGetUnitsData()
-    const { data: warehouseData, isLoading: isWarehouseLoading } = useGetWarehouseData()
-
-
-    console.log(stockData)
+    const { data: unitData } = useGetUnitsData()
+    const { data: warehouseData } = useGetWarehouseData()
 
     const {
         handleChange,
@@ -51,7 +55,7 @@ const AddToStockForm: FC<AddToStockFormType> = ({ instance, handleFormSubmit, st
             notes: instance?.notes || "",
             workspace_id: user?.workspace_id || "no workspace id found",
         },
-
+        validationSchema: StockValidation,
         onSubmit: async (data: any) => {
             try {
                 let form_data = new FormData();
@@ -78,52 +82,47 @@ const AddToStockForm: FC<AddToStockFormType> = ({ instance, handleFormSubmit, st
                         description: "Added Successfully",
                     });
                 }
+
                 resetForm()
             } catch (err: any) {
-                console.log(err);
+                for (const key of err.errors) {
+                    toast({
+                        variant: "destructive",
+                        description: `${key?.attr}- ${key?.detail}`,
+                    });
+                }
             }
         },
     });
 
 
+
+
     const stockProductIds = stockData?.map((item: any) => item.product_id) || [];
+
     const productOptions = !isProductLoading && productData && productData
-        .filter((product: any) => !stockProductIds.includes(product.id)) // Exclude already stocked products
-        .map((i: any) => ({
-            label: i.product_name,
-            value: i.id,
-            image: i?.product_image
-        }));
+        .filter((product: any) => !stockProductIds.includes(product.id));
 
 
 
-    const handleProductSelect = (item: any) => {
-        setFieldValue("product_id", item.value);
-        setFieldValue("product_name", item.label || "");
-        setFieldValue("product_image", item.image || "");
+    const handleProductSelect = (selected: any) => {
+        if (selected && selected.length > 0) {
+            const selectedProduct = selected[0];
+            setFieldValue("product_id", selectedProduct.id);
+            setFieldValue("product_name", selectedProduct.product_name || "");
+            setFieldValue("product_image", selectedProduct.product_image || "");
+        }
     };
 
-    // unit option
-    const unitOptions = !isUnitLoading && unitData && unitData.map((i: any) => ({
-        label: i.name,
-        value: i.id,
-    }));
 
-    const handleUnitSelect = (item: any) => {
-        setFieldValue("unit_name", item.label);
+    const handleWarehouseSelect = (selected: any) => {
+        setFieldValue('warehouse_name', selected[0]?.warehouse_name || '');
     };
 
-    // warehouse
-    const warehouseOptions = !isWarehouseLoading && warehouseData && warehouseData.map((i: any) => ({
-        label: i.warehouse_name,
-        value: i.id,
-    }));
-
-    const handleWarehouseSelect = (item: any) => {
-        setFieldValue("warehouse_name", item.label);
+    const handleUnitSelect = (selected: any) => {
+        setFieldValue('unit_name', selected[0]?.name || '');
     };
 
-    console.log(values)
 
     return (
         <div>
@@ -152,65 +151,86 @@ const AddToStockForm: FC<AddToStockFormType> = ({ instance, handleFormSubmit, st
                             )}
                         </div>
                         <form className="space-y-6" autoComplete="off" onSubmit={handleSubmit}>
-
-                            <SearchSelectInput
-                                inputClassName="placeholder:text-white  bg-black/20 border border-white py-2 w-full"
-                                title="Select Product"
-                                data={productOptions}
-                                onSelect={handleProductSelect}
-                                placeholder="Search Product"
-                            />
-
-                            <div className='flex gap-4'>
-                                <SearchSelectInput
-                                    inputClassName="placeholder:text-white  bg-black/20 border border-white py-2 w-full"
-                                    title="Select Unit"
-                                    data={unitOptions}
-                                    onSelect={handleUnitSelect}
-                                    placeholder="Search Unit"
+                            <div className="relative  w-full space-y-2">
+                                <label htmlFor="products">Select Unit</label>
+                                <Select
+                                    className="products"
+                                    values={[]}
+                                    labelField="product_name"
+                                    valueField="product_name"
+                                    placeholder="Select Products"
+                                    options={productOptions}
+                                    onChange={handleProductSelect}
                                 />
-
-
-                                <SearchSelectInput
-                                    inputClassName="placeholder:text-white  bg-black/20 border border-white py-2 w-full"
-                                    title="Select warehouse"
-                                    data={warehouseOptions}
-                                    onSelect={handleWarehouseSelect}
-                                    placeholder="Search warehouse"
-                                />
-
+                                {touched.product_name && errors.product_name && (
+                                    <div className="text-red-500 text-[12px]">{String(errors.product_name)}</div>
+                                )}
                             </div>
-                            <TextInput
-                                className="w-full"
-                                id="quantity"
-                                label="Quantity"
-                                placeholder="Enter Quantity"
-                                value={values.quantity}
-                                onChange={handleChange}
-                                type="number"
-                                error={Boolean(errors.quantity) && touched.quantity && errors.quantity}
-                            />
-                            <TextInput
-                                className="w-full"
-                                id="notes"
-                                label="Notes"
-                                placeholder="Enter Notes"
-                                value={values.notes}
-                                onChange={handleChange}
-                                type="text"
-                                error={Boolean(errors.notes) && touched.notes && errors.notes}
-                            />
 
-                            <div className='w-full flex justify-center'>
-                                <Button
-                                    onClick={() => setOpen(!open)}
-                                    type='submit'
-                                    disabled={isSubmitting}
+                            <div className='flex gap-4 '>
+                                <div className="relative  w-full space-y-2">
+                                    <label htmlFor="unit_name">Select Unit</label>
+                                    <Select
+                                        className="unit_name"
+                                        values={values?.unit_name ? [{ unit_name: values.unit_name }] : []}
+                                        labelField="name"
+                                        valueField="name"
+                                        placeholder="Select Unit"
+                                        options={unitData}
+                                        onChange={handleUnitSelect}
+                                    />
+                                    {touched.unit_name && errors.unit_name && (
+                                        <div className="text-red-500 text-[12px]">{String(errors.unit_name)}</div>
+                                    )}
+                                </div>
+                                <div className="relative  w-full space-y-2">
+                                    <label htmlFor="warehouse_name">Select Warehouse</label>
+                                    <Select
+                                        className="!w-full"
+                                        values={values?.warehouse_name ? [{ warehouse_name: values.warehouse_name }] : []}
+                                        labelField="warehouse_name"
+                                        valueField="warehouse_name"
+                                        placeholder="Select Warehouse"
+                                        options={warehouseData}
+                                        onChange={handleWarehouseSelect}
+                                    />
+                                    {touched.product_name && errors.product_name && (
+                                        <div className="text-red-500 text-[12px]">{String(errors.product_name)}</div>
+                                    )}
+                                </div>
+                                </div>
+                                <TextInput
                                     className="w-full"
-                                    variant={'regulerOutlineBtn'}
-                                    label={isSubmitting ? 'Saving..' : 'Save'}
+                                    id="quantity"
+                                    label="Quantity"
+                                    placeholder="Enter Quantity"
+                                    value={values.quantity}
+                                    onChange={handleChange}
+                                    type="number"
+                                    error={Boolean(errors.quantity) && touched.quantity && errors.quantity}
                                 />
-                            </div>
+                                <TextInput
+                                    className="w-full"
+                                    id="notes"
+                                    label="Notes"
+                                    placeholder="Enter Notes"
+                                    value={values.notes}
+                                    onChange={handleChange}
+                                    type="text"
+                                    error={Boolean(errors.notes) && touched.notes && errors.notes}
+                                />
+
+                                <div className='w-full flex justify-center'>
+                                    <Button
+                                        // onClick={() => setOpen(!open)}
+                                        type='submit'
+                                        disabled={isSubmitting}
+                                        className="w-full"
+                                        variant={'regulerOutlineBtn'}
+                                        label={isSubmitting ? 'Saving..' : 'Save'}
+                                    />
+                                </div>
+                       
                         </form>
                     </div>
                 </DialogContent>
@@ -221,3 +241,4 @@ const AddToStockForm: FC<AddToStockFormType> = ({ instance, handleFormSubmit, st
 };
 
 export default AddToStockForm;
+

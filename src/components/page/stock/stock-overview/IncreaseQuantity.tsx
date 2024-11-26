@@ -47,7 +47,7 @@ const IncreaseQuantity: FC<IncreaseQuantityType> = ({
     });
 
     const [open, setOpen] = useState(false);
-    console.log(values)
+    // console.log(values)
     return (
         <div>
             <Dialog onOpenChange={() => setOpen(!open)} open={open}>

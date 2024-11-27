@@ -23,7 +23,7 @@ const SettingsComponent = () => {
     const [uploadedImage, setUploadedImage] = useState<string | null>(null); // State for the uploaded image
 
     // Define the static fallback image URL
-    const staticImage = "https://i.ibb.co.com/x8LvNX0/Background-1.gif"; // Replace this with your static image URL
+    const staticImage = "/Background.png"; // Replace this with your static image URL
 
     useEffect(() => {
         const savedImage = localStorage.getItem("selectedImage");
@@ -31,7 +31,7 @@ const SettingsComponent = () => {
 
         if (savedImages) {
             setImageArray(JSON.parse(savedImages)); // Parse saved images from local storage
-        } 
+        }
 
         // Set selected image from saved image or static image
         const imageToDisplay = savedImage || staticImage;
@@ -49,15 +49,15 @@ const SettingsComponent = () => {
 
     // Auto change effect
     useEffect(() => {
-        let interval: NodeJS.Timeout | undefined; // Declare interval variable
+        let interval: NodeJS.Timeout | undefined;
         if (autoChange && imageArray.length > 0) {
             interval = setInterval(() => {
-                const nextIndex = (imageIndex + 1) % imageArray.length; // Cycle through images
+                const nextIndex = (imageIndex + 1) % imageArray.length;
                 const nextImage = imageArray[nextIndex];
                 setDisplayedBackground(nextImage);
-                localStorage.setItem("selectedImage", nextImage); // Save the current image to local storage
-                setImageIndex(nextIndex); // Update the index for the next iteration
-            }, 3000); // Change every 3 seconds
+                localStorage.setItem("selectedImage", nextImage);
+                setImageIndex(nextIndex);
+            }, 24 * 60 * 60 * 1000);
         }
 
         return () => {
@@ -143,7 +143,7 @@ const SettingsComponent = () => {
                                 onChange={() => setAutoChange(!autoChange)}
                                 className="mr-2"
                             />
-                            Automatic Change
+                            Automatic Change In every 24 Hours
                         </label>
                     </div>
                     <div className="grid grid-cols-2 gap-5 mt-5">
